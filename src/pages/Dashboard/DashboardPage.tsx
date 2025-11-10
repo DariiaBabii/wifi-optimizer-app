@@ -1,19 +1,26 @@
-// src/pages/DashboardPage.tsx
 import { Widget } from '../../components/Widget';
+import { getGreeting } from '../../utils/timeHelpers';
 import './DashboardPage.css'; 
 
 export const DashboardPage = () => {
+  const greeting = getGreeting();
+
   return (
     <div className="dashboard-grid">
 
-      {/* Зона 1: Заголовок */}
+      {/* Header */}
       <Widget className="grid-header">
-        <h3>Good morning, user!</h3>
+        <div>
+        <h3>{greeting}, User!</h3>
         <p>Network status: All is well.</p>
-        {/* тут буде кнопка */}
+        </div>
+
+        <button className="ai-button">
+          AI Assistant
+        </button>
       </Widget>
 
-      {/* Зона 2: Ключові Метрики */}
+      {/* Metrics */}
       <Widget className="grid-stat-1">
         <h4>Поточний Канал</h4>
         <p>6 (2.4 GHz)</p>
@@ -27,7 +34,7 @@ export const DashboardPage = () => {
         <p>-50 dBm</p>
       </Widget>
 
-      {/* Зона 3: Основний Контент */}
+      {/* General Content */}
       <Widget className="grid-main-chart">
         <h4>Огляд Продуктивності</h4>
         {/* Тут буде графік */}

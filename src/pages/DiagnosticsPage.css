@@ -15,7 +15,7 @@
 
 /* Стиль для активної вкладки */
 .tabs a.active {
-  color: #007bff;
+  color: #bb235d;
   border-bottom-color: #007bff;
 }
 

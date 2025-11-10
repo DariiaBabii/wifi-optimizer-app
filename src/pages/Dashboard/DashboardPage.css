@@ -1,7 +1,6 @@
-/* src/pages/DashboardPage.css */
 .dashboard-grid {
   display: grid;
-  /* 12 колонок для гнучкості */
+  /* 12 колонок */
   grid-template-columns: repeat(12, 1fr);
   grid-gap: var(--content-padding);
 
@@ -15,9 +14,141 @@
 
 .grid-header  { 
     grid-area: header;
-    padding: 16px 20px; }
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; }
+.grid-header h3 {
+  margin-bottom: 4px;
+  font-size: 1.1rem;
+}
+
+.grid-header p {
+  margin-bottom: 0;
+  font-size: 0.9rem;
+}    
 .grid-stat-1  { grid-area: stat1; }
 .grid-stat-2  { grid-area: stat2; }
 .grid-stat-3  { grid-area: stat3; }
 .grid-main-chart { grid-area: main; min-height: 400px; /* Дамо йому висоту */ }
 .grid-sidebar { grid-area: sidebar; }
+
+/* --- AI Button --- */
+.ai-button {
+  align-items: center;
+  appearance: none;
+  background-color: #3EB2FD;
+  background-image: linear-gradient(1deg, #4F58FD, #149BF3 99%);
+  background-size: calc(100% + 20px) calc(100% + 20px);
+  border-radius: 100px;
+  border-width: 0;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: CircularStd,sans-serif;
+  font-size: 1rem;
+  height: auto;
+  justify-content: center;
+  line-height: 1.5;
+  padding: 6px 20px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color .2s, background-position .2s, transform 0.2s ease, box-shadow 0.2s ease;  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: top;
+  white-space: nowrap;
+  touch-action: manipulation;
+}
+
+.ai-button:hover {
+  background-position: -20px -20px; 
+  transform: translateY(-2px);
+  transition: background-color .5s, background-position .2s, transform 1s ease;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+.ai-button:before {
+  content: "";
+  background: linear-gradient(
+    45deg,
+    #ff0000,
+    #ff7300,
+    #fffb00,
+    #48ff00,
+    #00ffd5,
+    #002bff,
+    #7a00ff,
+    #ff00c8,
+    #ff0000
+  );
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  background-size: 400%;
+  z-index: -1;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  width: calc(100% + 4px);
+  height: calc(100% + 4px);
+  animation: glowing-ai-button 20s linear infinite;
+  transition: opacity 0.3s ease-in-out;
+  border-radius: 100px;
+}
+
+@keyframes glowing-ai-button {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 200% 50%;
+  }
+}
+
+.ai-button:after {
+  z-index: -1;
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  border-radius: 100px;
+}
+
+
+
+/* --- Status --- */
+.network-status {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+
+/* "лампочка" статусу (зелена, жовта, червона) */
+.network-status::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+/* Варіації статусу*/
+.status-ok::before {
+  background-color: #28a745; /* Зелений */
+  box-shadow: 0 0 5px #28a745;
+}
+
+.status-warning::before {
+  background-color: #ffc107; /* Жовтий */
+  box-shadow: 0 0 5px #ffc107;
+}
+
+.status-danger::before {
+  background-color: #dc3545; /* Червоний */
+  box-shadow: 0 0 5px #dc3545;}

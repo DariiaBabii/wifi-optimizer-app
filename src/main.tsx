@@ -1,4 +1,3 @@
-// src/main.tsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import {
@@ -18,23 +17,21 @@ import { HeatmapPage } from './pages/HeatmapPage';
 import { AssistantPage } from './pages/AssistantPage';
 import { HistoryPage } from './pages/HistoryPage';
 
-// Створюємо маршрутизатор
 const router = createBrowserRouter([
   {
-    // Головний макет, який включає навігацію
     path: '/',
     element: <MainLayout />,
     children: [
       // 1. Dashboard
       {
-        index: true, // "index: true" означає, що це сторінка за замовчуванням для "/"
+        index: true, // "index: true" -> сторінка за замовчуванням для "/"
         element: <DashboardPage />,
       },
-      // 2. Diagnostics (з вкладеними вкладками)
+      // 2. Diagnostics (з вкладками)
       {
         path: 'diagnostics',
         element: <DiagnosticsPage />,
-        // Вкладені маршрути для вкладок Scan та Heatmap
+
         children: [
           {
             path: 'scan',

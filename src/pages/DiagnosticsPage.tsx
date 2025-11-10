@@ -1,6 +1,5 @@
-// src/pages/DiagnosticsPage.tsx
 import { NavLink, Outlet } from 'react-router-dom';
-import './DiagnosticsPage.css'; // Переконайтеся, що цей файл теж створено
+import './DiagnosticsPage.css';
 
 export const DiagnosticsPage = () => {
   return (
