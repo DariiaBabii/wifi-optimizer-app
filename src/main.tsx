@@ -12,7 +12,7 @@ import { MainLayout } from './components/MainLayout';
 
 import { DashboardPage } from './pages/Dashboard/DashboardPage';
 import { DiagnosticsPage } from './pages/DiagnosticsPage';
-import { ScanPage } from './pages/ScanPage';
+import { ScanPage } from './pages/ScanPage/ScanPage';
 import { HeatmapPage } from './pages/HeatmapPage';
 import { AssistantPage } from './pages/AssistantPage';
 import { HistoryPage } from './pages/HistoryPage';
