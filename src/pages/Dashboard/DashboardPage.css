@@ -1,0 +1,23 @@
+/* src/pages/DashboardPage.css */
+.dashboard-grid {
+  display: grid;
+  /* 12 колонок для гнучкості */
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: var(--content-padding);
+
+
+  grid-template-areas:
+    "header   header   header   header   header   header   header   header   header   header   header   header"
+    "stat1    stat1    stat1    stat1    stat2    stat2    stat2    stat2    stat3    stat3    stat3    stat3"
+    "main     main     main     main     main     main     main     main     sidebar  sidebar  sidebar  sidebar"
+    "main     main     main     main     main     main     main     main     sidebar  sidebar  sidebar  sidebar";
+}
+
+.grid-header  { 
+    grid-area: header;
+    padding: 16px 20px; }
+.grid-stat-1  { grid-area: stat1; }
+.grid-stat-2  { grid-area: stat2; }
+.grid-stat-3  { grid-area: stat3; }
+.grid-main-chart { grid-area: main; min-height: 400px; /* Дамо йому висоту */ }
+.grid-sidebar { grid-area: sidebar; }

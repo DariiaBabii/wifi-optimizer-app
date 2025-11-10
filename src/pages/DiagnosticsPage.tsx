@@ -6,7 +6,7 @@ export const DiagnosticsPage = () => {
   return (
     <div className="diagnostics-container">
       <h2>Diagnostics</h2>
-      <p>Аналіз вашого Wi-Fi середовища.</p>
+      <p>Analyze your Wi-Fi environment</p>
       
       {/* Навігація для вкладок */}
       <nav className="tabs">

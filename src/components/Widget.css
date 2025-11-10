@@ -1,0 +1,15 @@
+/* src/components/Widget.css */
+.widget-container {
+  background: rgba(255, 255, 255, 0.6); 
+  backdrop-filter: blur(10px); 
+  -webkit-backdrop-filter: blur(10px); /* Для Safari */
+
+  /* Загальний стиль */
+  border-radius: var(--border-radius-main);  
+  padding: 150px;
+
+  /* Тінь для об'єму */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}

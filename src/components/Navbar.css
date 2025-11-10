@@ -1,0 +1,44 @@
+/* src/components/Navbar.css */
+.main-nav {
+  display: flex;
+  flex-direction: column;
+  width: var(--navbar-width);
+  height: 100vh;
+  background-color: #f4f4f8; 
+  padding: var(--content-padding);
+  border-right: 1px solid #ddd;
+}
+
+.main-nav h2 {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: var(--color-text-primary); 
+}
+
+.main-nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.main-nav li {
+  margin-bottom: 10px;
+}
+
+.main-nav a {
+  text-decoration: none;
+  color: var(--color-text-secondary);
+  display: block;
+  padding: 10px 15px;
+  border-radius: var(--border-radius-small); 
+  font-weight: 500; 
+}
+
+.main-nav a:hover {
+  background-color: #e9e9ee;
+}
+
+.main-nav a.active {
+  background-color: var(--color-accent);
+  color: white;
+  font-weight: 600;
+}

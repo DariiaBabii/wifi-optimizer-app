@@ -5,7 +5,7 @@ import './Navbar.css';
 export const Navbar = () => {
   return (
     <nav className="main-nav">
-      <h2>Wi-Fi Оптимізатор</h2>
+      <h2>Wi‑Fi Advisor</h2>
       <ul>
         <li><NavLink to="/">Dashboard</NavLink></li>
         <li><NavLink to="/diagnostics">Diagnostics</NavLink></li>

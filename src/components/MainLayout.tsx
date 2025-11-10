@@ -1,6 +1,6 @@
 // src/components/MainLayout.tsx
 import { Outlet } from 'react-router-dom';
-import { Navbar } from './Navbar'; // Переконайтеся, що Navbar.tsx також експортується
+import { Navbar } from './Navbar'; 
 
 // Стилі для об'єднання навігації та контенту
 const layoutStyle: React.CSSProperties = {
@@ -11,8 +11,8 @@ const layoutStyle: React.CSSProperties = {
 
 const contentStyle: React.CSSProperties = {
   flex: 1,
-  padding: '20px',
-  overflowY: 'auto', // Додає прокрутку, якщо контент не вміщується
+  padding: 'var(--content-padding)',
+  overflowY: 'auto',
 };
 
 export const MainLayout = () => {
@@ -20,7 +20,7 @@ export const MainLayout = () => {
     <div style={layoutStyle}>
       <Navbar />
       <main style={contentStyle}>
-        {/* Тут будуть рендеритись ваші сторінки */}
+        {/* Тут будуть рендеритись сторінки */}
         <Outlet />
       </main>
     </div>

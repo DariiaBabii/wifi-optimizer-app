@@ -1,68 +1,56 @@
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  /* Шрифти */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  --color-background: #f0f3ff;       /* Світлий фон сторінки */
+  --color-text-primary: #1a1b3a;    /* Темний, майже чорний для заголовків */
+  --color-text-secondary: #4a4b6d; /* Сірий для звичайного тексту */
+  --color-accent: #007bff;          /* Акцентний колір (ми використовували його в Navbar) */
 
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
+  /* Розміри */
+  --navbar-width: 220px;
+  --content-padding: 24px;          /* Зробимо відступ трохи більшим */
+  --border-radius-main: 16px;       /* Основний радіус для віджетів */
+  --border-radius-small: 8px;       /* Для кнопок та ін. */
+}
+
+/* 2. Глобальний скидання стилів та налаштування */
+html {
+  box-sizing: border-box;
+  font-family: var(--font-primary);
+}
+
+*, *:before, *:after {
+  box-sizing: inherit; /* Успадкування box-sizing полегшує розмітку */
+}
+
+/* 3. Стилі для Body */
+body {
+  margin: 0;
+  font-family: var(--font-primary);
+  background-color: var(--color-background); /* Глобальний фон */
+  color: var(--color-text-secondary);     /* Глобальний колір тексту */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* 4. Базові стилі для типографії */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text-primary);
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+p {
+  line-height: 1.6;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
 a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+  color: var(--color-accent);
+  text-decoration: none;
 }

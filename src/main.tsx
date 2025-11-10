@@ -7,11 +7,11 @@ import {
   Navigate,
 } from 'react-router-dom';
 
-import './index.css';
+import "./index.css";
 
 import { MainLayout } from './components/MainLayout';
 
-import { DashboardPage } from './pages/DashboardPage';
+import { DashboardPage } from './pages/Dashboard/DashboardPage';
 import { DiagnosticsPage } from './pages/DiagnosticsPage';
 import { ScanPage } from './pages/ScanPage';
 import { HeatmapPage } from './pages/HeatmapPage';
