@@ -16,6 +16,8 @@ import { ScanPage } from './pages/ScanPage/ScanPage';
 import { HeatmapPage } from './pages/HeatmapPage';
 import { AssistantPage } from './pages/AssistantPage';
 import { HistoryPage } from './pages/HistoryPage';
+import { NotificationsPage } from './pages/Notifications/NotificationsPage';
+import { SettingsPage } from './pages/Settings/SettingsPage';
 
 const router = createBrowserRouter([
   {
@@ -57,6 +59,14 @@ const router = createBrowserRouter([
       {
         path: 'history',
         element: <HistoryPage />,
+      },
+      {
+        path: 'notifications',
+        element: <NotificationsPage />,
+      },
+      {
+        path: 'settings',
+        element: <SettingsPage />,
       },
     ],
   },

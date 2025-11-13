@@ -1,11 +1,20 @@
 .main-nav {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
   width: var(--navbar-width);
-  height: 100vh;
-  background-color: #f4f4f8; 
-  padding: var(--content-padding);
-  border-right: 1px solid #ddd;
+  height: 97vh;
+  background-color: #ffffff; 
+  padding: 20px;
+  margin: 10px;
+  margin-bottom: 20px;
+  border-right: 1px solid #eaeaea;
+  border-radius: var(--border-radius-small); 
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  
 }
 
 .main-nav h2 {
@@ -27,7 +36,7 @@
   text-decoration: none;
   color: var(--color-text-secondary);
   display: block;
-  padding: 10px 15px;
+  padding: 13px 13px;
   border-radius: var(--border-radius-small); 
   font-weight: 500; 
 }
@@ -40,4 +49,104 @@
   background-color: var(--color-accent);
   color: white;
   font-weight: 600;
+}
+
+/* Логотип */
+.nav-logo {
+  margin-bottom: 40px;
+  color: var(--color-accent);
+  background: rgba(115, 174, 237, 0.1);
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px; 
+  width: 100%;
+  align-items: center;
+}
+
+/* Стилі для посилання (кнопки) */
+.nav-link {
+  position: relative; /* для позиціювання тултіпа */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 45px;
+  height: 45px;
+  /* border-radius: 14px; */
+  color: var(--color-text-secondary);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Ефект при наведенні */
+.nav-link:hover {
+  background-color: #f5f7fa;
+  color: var(--color-accent);
+  transform: translateY(-2px); /* Легкий підйом */
+}
+
+/* Активний стан (коли ми на цій сторінці) */
+.nav-link.active {
+  background-color: var(--color-accent);
+  color: white;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3); /* Тінь кольору акценту */
+}
+
+/* --- Тултіп --- */
+.nav-tooltip {
+  position: absolute;
+  left: 65px; /* Зсув вправо від іконки */
+  background-color: #000000; /* Темний фон */
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0; /* Сховано за замовчуванням */
+  visibility: hidden;
+  transform: translateX(-10px); /* Початкова позиція для анімації */
+  transition: all 0.2s ease;
+  pointer-events: none; /* Щоб мишка не чіплялася за тултіп */
+  z-index: 1000;
+}
+
+/* Маленький трикутничок зліва від тултіпа */
+.nav-tooltip::before {
+  content: '';
+  position: absolute;
+  left: -4px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 4px 4px 4px 0;
+  border-style: solid;
+  border-color: transparent #1a1b3a transparent transparent;
+}
+
+/* тултіп при наведенні на посилання */
+.nav-link:hover .nav-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(0.2); 
+}
+
+/* Контейнер для верхніх і нижніх іконок */
+.nav-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.nav-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
