@@ -102,16 +102,17 @@
 .nav-tooltip {
   position: absolute;
   left: 65px; /* Зсув вправо від іконки */
-  background-color: #000000; /* Темний фон */
-  color: white;
+  background-color: #383838; /* Темний фон */
+  color: rgb(245, 252, 255);
   padding: 6px 12px;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 0.85rem;
-  font-weight: 500;
+  font-weight: 400;
   white-space: nowrap;
   opacity: 0; /* Сховано за замовчуванням */
   visibility: hidden;
   transform: translateX(-10px); /* Початкова позиція для анімації */
+  transform: translateY(-30px);
   transition: all 0.2s ease;
   pointer-events: none; /* Щоб мишка не чіплялася за тултіп */
   z-index: 1000;
@@ -123,10 +124,10 @@
   position: absolute;
   left: -4px;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-70%);
   border-width: 4px 4px 4px 0;
   border-style: solid;
-  border-color: transparent #1a1b3a transparent transparent;
+  border-color: transparent #383838 transparent transparent;
 }
 
 /* тултіп при наведенні на посилання */

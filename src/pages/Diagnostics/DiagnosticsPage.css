@@ -1,0 +1,48 @@
+.tabs {
+  background: rgba(212, 212, 212, 0.5); /* напівпрозорий фон */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgb(255, 255, 255); 
+  border-radius: 100px; 
+  
+  display: inline-flex; /* Щоб контейнер облягав кнопки */
+  padding: 8px; 
+  gap: 8px; 
+  margin-bottom: 20px;
+  border-bottom: none;
+}
+
+.tabs a {
+  padding: 8px 24px; /* клікабельна зона */
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 100px; 
+  
+  color: #0e1a43; /* Колір неактивного тексту */
+  transition: all 0.3s ease;
+
+  border-bottom: none;
+}
+
+.tabs a.active {
+  background-color: rgb(246, 246, 246);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  color: #000000; /* активний текст */
+}
+
+.tabs a:not(.active):hover {
+  color: #b3b3b3;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.tab-content {
+  padding-top: 10px;
+}
+
+.diagnostics-container {
+  text-align: center;
+}
+
+.diagnostics-title {
+  text-align: left;
+}
