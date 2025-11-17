@@ -6,17 +6,17 @@
 
   --color-background: #f0f3ff;       /* Світлий фон сторінки */
   --color-text-primary: #1a1b3a;    /* Темний, майже чорний для заголовків */
-  --color-text-secondary: #4a4b6d; /* Сірий для звичайного тексту */
-  --color-accent: #39a0ca;          /* Акцентний колір (ми використовували його в Navbar) */
+  --color-text-secondary: #B2B5E0; /* для звичайного тексту */
+  --color-accent: #B2B5E0;          /* Акцентний колір (в Navbar) */
 
   /* Розміри */
   --navbar-width: 70px;
-  --content-padding: 24px;          /* Зробимо відступ трохи більшим */
+  --content-padding: 24px;         
   --border-radius-main: 16px;       /* Основний радіус для віджетів */
   --border-radius-small: 20px;       /* Для кнопок та sidebar */
 }
 
-/* 2. Глобальний скидання стилів та налаштування */
+/* 2. Глобальне скидання стилів та налаштування */
 html {
   box-sizing: border-box;
   font-family: var(--font-primary);
