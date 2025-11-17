@@ -15,26 +15,56 @@
   background-color: #0056b3; 
 }
 
-.network-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.scan-table-widget {
+  padding: 0;
+  overflow: hidden; /* Щоб межі таблиці гарно вписались */
 }
 
-.network-item {
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  padding: 12px 16px;
-  border-radius: var(--border-radius-small);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+.scan-table-widget h3 {
+  padding: 16px 20px; /* Повертаємо відступи для заголовка */
+  margin: 0;
 }
 
-.network-item strong {
-  color: var(--color-text-primary);
-  font-size: 1rem;
+.table-container {
+  width: 100%;
+  overflow-x: auto; /* Додає горизонтальну прокрутку на малих екранах */
 }
 
-.network-item p {
-  margin-bottom: 0;
+/* --- Стилі для самої таблиці --- */
+.scan-table {
+  width: 100%;
+  border-collapse: collapse; /* Прибирає подвійні рамки */
   font-size: 0.9rem;
+}
+
+.scan-table th,
+.scan-table td {
+  padding: 12px 20px;
+  text-align: left;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05); /* Легка лінія розділення */
+  white-space: nowrap; /* Забороняємо перенос слів у таблиці */
+}
+
+/* Заголовок таблиці */
+.scan-table th {
+  background-color: rgba(245, 247, 250, 0.7); /* Дуже світлий фон для заголовка */
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+/* Рядки таблиці */
+.scan-table tbody tr:hover {
+  background-color: rgba(240, 243, 255, 0.7); /* Світло-синій при наведенні */
+}
+
+.scan-table td {
+  color: var(--color-text-secondary);
+}
+
+/* Стиль для "порожньої" таблиці */
+.scan-table td[colSpan] {
+  text-align: center;
+  color: #999;
+  padding: 30px;
+  white-space: normal;
 }
