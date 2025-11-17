@@ -4,9 +4,10 @@ import './DiagnosticsPage.css';
 export const DiagnosticsPage = () => {
   return (
     <div className="diagnostics-container">
-      <h2>Diagnostics</h2>
-      <p>Analyze your Wi-Fi environment</p>
-      
+      <div className="diagnostics-title">
+      <h2>Analyze your Wi-Fi environment</h2>
+      </div>
+
       {/* Навігація для вкладок */}
       <nav className="tabs">
         <NavLink to="scan">Scan</NavLink>

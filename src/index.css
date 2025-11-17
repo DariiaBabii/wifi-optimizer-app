@@ -1,6 +1,6 @@
 :root {
   /* Шрифти */
-  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-primary: Inter, Lato, Arial, sans-serif;;
     line-height: 1.6;
     font-weight: 400;
 
@@ -30,7 +30,9 @@ html {
 body {
   margin: 0;
   font-family: var(--font-primary);
-  background-color: var(--color-background); /* Глобальний фон */
+  background-image: linear-gradient(135deg, #f0f3ff 10%, #f1faca 100%);
+  background-repeat: no-repeat; /* Забороняємо повторення градієнту */
+  min-height: 100vh; /* Гарантуємо, що градієнт покриє весь екран */  
   color: var(--color-text-secondary);     /* Глобальний колір тексту */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -41,9 +43,8 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-text-primary);
   margin-top: 0;
   margin-bottom: 0.75rem;
-  font-weight: 600;
+  font-weight: 400;
 }
-
 
 p {
   line-height: 1.6;
