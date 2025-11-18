@@ -19,6 +19,8 @@ import { HistoryPage } from './pages/HistoryPage';
 import { NotificationsPage } from './pages/Notifications/NotificationsPage';
 import { SettingsPage } from './pages/Settings/SettingsPage';
 
+import { WifiProvider } from './context/WifiContext';
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -74,6 +76,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <WifiProvider>
+      <RouterProvider router={router} />
+    </WifiProvider>
   </React.StrictMode>
 );

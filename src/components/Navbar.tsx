@@ -17,7 +17,11 @@ export const Navbar = () => {
 
       <div className="nav-top">
         <div className="nav-logo">
-          <Wifi size={28} />
+          <img 
+            src="https://img.icons8.com/fluency-systems-regular/48/242424/smart-home-connection.png" 
+            alt="Wi-Fi Advisor Logo" 
+            className="logo-img"
+          />
         </div>
 
         <ul className="nav-list">

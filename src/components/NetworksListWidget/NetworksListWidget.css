@@ -1,0 +1,124 @@
+.networks-widget {
+  display: flex;
+  flex-direction: column;
+  padding: 0; /* Забираємо паддінг віджета, щоб контролювати його самі */
+  height: 100%;
+}
+
+.widget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 20px 10px 20px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.widget-header h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.badge {
+  background: rgba(0,0,0,0.05);
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.networks-list-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+/* Рядок мережі */
+.network-row {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-radius: 8px;
+  transition: background 0.2s;
+  margin-bottom: 4px;
+}
+
+.network-row:hover {
+  background: rgba(255,255,255, 0.5);
+}
+
+/* Іконка */
+.network-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 12px;
+}
+
+.network-icon.danger {
+  background: rgba(255, 77, 77, 0.1);
+  color: #ff4d4d;
+}
+
+.network-icon.safe {
+  background: rgba(76, 209, 55, 0.1);
+  color: #4cd137;
+}
+
+/* Інфо */
+.network-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.network-ssid {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+}
+
+.network-meta {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+/* Технічний шрифт для цифр */
+.mono-text {
+  font-family: 'JetBrains Mono', 'Roboto Mono', monospace; /* Підключіть цей шрифт */
+  font-variant-numeric: tabular-nums; /* Щоб цифри не скакали */
+}
+
+/* Сигнал */
+.network-signal {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.network-signal span {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+}
+
+.signal-bar-bg {
+  width: 40px;
+  height: 4px;
+  background: rgba(0,0,0,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.signal-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+}

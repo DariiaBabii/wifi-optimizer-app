@@ -62,7 +62,7 @@
   background: conic-gradient(
     from 0deg,
     /* 3/4 кола прозорі */
-    transparent 0deg 270deg,      
+    transparent 0deg 300deg,      
     /* 1/4 кола - це плавний "хвіст" радара */
     rgba(255, 255, 255, 0.1) 271deg, 
     rgba(255, 255, 255, 0.7) 340deg, 
@@ -82,7 +82,7 @@
   cursor: not-allowed;
   box-shadow: none;
 
-  background: rgba(0, 123, 255, 0.4); 
+  background: var(--background-color-hover); 
   
   z-index: 2; 
 }
@@ -103,7 +103,7 @@
 /* 9. анімація під час завантаження */
 .scan-button.loading:before {
   opacity: 0.8;
-  animation: border-rotate 2s linear infinite;
+  animation: border-rotate 1.5s linear infinite;
 }
 
 /* 11. Ефекти наведення */
@@ -188,4 +188,52 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+
+.sortable-th {
+  cursor: pointer;
+  user-select: none; /* Щоб текст не виділявся при подвійному кліку */
+  transition: background-color 0.2s;
+}
+
+.sortable-th:hover {
+  background-color: rgba(230, 235, 245, 0.8); 
+}
+
+.th-content {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Іконка стрілочки */
+.sort-icon {
+  display: flex;
+  align-items: center;
+  color: var(--color-accent);
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+/* Активна іконка (сортування увімкнено) */
+.sort-icon.active {
+  opacity: 1;
+}
+
+/* "Примарна" іконка (з'являється при наведенні на заголовок) */
+.sortable-th:hover .sort-icon {
+  opacity: 0.6; /* Напівпрозора */
+}
+
+.signal-good { color: #28a745; font-weight: 600; }
+.signal-mid { color: #ffc107; font-weight: 600; }
+.signal-bad { color: #dc3545; font-weight: 600; }
+
+/* Повідомлення в таблиці */
+.table-message {
+  text-align: center;
+  padding: 30px;
+  color: #888;
 }

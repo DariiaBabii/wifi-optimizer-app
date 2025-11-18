@@ -1,92 +1,71 @@
-import React, { useState, useEffect } from 'react';
-import { Widget } from '../../components/Widget'; 
-import './ScanPage.css'; 
-import { Wifi } from 'lucide-react';
+import React, { useState, useMemo } from 'react'; 
+import { Widget } from '../../components/Widget';
+import './ScanPage.css';
+import { Wifi, ChevronUp, ChevronDown, Loader2 } from 'lucide-react';
+import { useWifi, type WifiNetwork } from '../../context/WifiContext';
 
-interface WifiNetworkRaw {
-  ssid: string;
-  bssid: string;
-  rssi: number; 
-  channel: number;
-  frequency: number;
-  security: string;
-}
-
-interface WifiNetworkClean {
-  ssid: string;
-  bssid: string;
-  rssi: number;
-  channel: number;
-  band: '2.4 GHz' | '5 GHz' | '6 GHz';
-  security: string;
-}
-
-const adaptNetworkData = (raw: WifiNetworkRaw): WifiNetworkClean => {
-  let band: '2.4 GHz' | '5 GHz' | '6 GHz';
-  
-  if (raw.frequency > 5900) {
-    band = '6 GHz';
-  } else if (raw.frequency > 5000) {
-    band = '5 GHz';
-  } else {
-    band = '2.4 GHz';
-  }
-
-  return {
-    ssid: raw.ssid,
-    bssid: raw.bssid,
-    rssi: raw.rssi,
-    channel: raw.channel,
-    band: band,
-    security: raw.security || 'Open', 
-  };
-};
-
-const STORAGE_KEY = 'wifiScanResults';
+// Тип для ключів, за якими можна сортувати
+type SortKey = keyof WifiNetwork;
 
 export const ScanPage = () => {
-  const [networks, setNetworks] = useState<WifiNetworkClean[]>(() => {
-    try {
-      const storedData = sessionStorage.getItem(STORAGE_KEY);
-      return storedData ? JSON.parse(storedData) : [];
-    } catch (error) {
-      console.error("Failed to parse stored scan data", error);
-      return [];
-    }
+  const { networks, loading, error, scanNetworks } = useWifi();
+
+  // Стан для сортування
+  const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: 'asc' | 'desc' }>({
+    key: 'rssi',
+    direction: 'desc', // Спочатку найсильніші
   });
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(networks));
-  }, [networks]);
+  // Функція для зміни сортування
+  const handleSort = (key: SortKey) => {
+    setSortConfig((current) => ({
+      key,
+      direction: current.key === key && current.direction === 'asc' ? 'desc' : 'asc',
+    }));
+  };
 
-  const handleScan = async () => {
-    setLoading(true);
-    setError(null);
-    //setNetworks([]); 
+  // Сортування списку
+  const sortedNetworks = useMemo(() => {
+    const sorted = [...networks];
+    sorted.sort((a, b) => {
+      const aValue = a[sortConfig.key];
+      const bValue = b[sortConfig.key];
+
+      // Обробка рядків
+      if (typeof aValue === 'string' && typeof bValue === 'string') {
+        return sortConfig.direction === 'asc'
+          ? aValue.localeCompare(bValue)
+          : bValue.localeCompare(aValue);
+      }
+      
+      // Обробка чисел
+      if (typeof aValue === 'number' && typeof bValue === 'number') {
+        return sortConfig.direction === 'asc' 
+          ? aValue - bValue 
+          : bValue - aValue;
+      }
+      return 0;
+    });
+    return sorted;
+  }, [networks, sortConfig]);
+
+  const SortableHeader = ({ label, sortKey }: { label: string; sortKey: SortKey }) => {
+    const isActive = sortConfig.key === sortKey;
     
-    try {
-      const response = await fetch('http://localhost:8000/api/scan');
-      
-      if (!response.ok) {
-        throw new Error(`Помилка HTTP! Статус: ${response.status}`);
-      }
-      
-      const result = await response.json();
-
-      if (result.success) {
-        const adaptedData = result.data.map(adaptNetworkData);
-        setNetworks(adaptedData);
-      } else {
-        throw new Error(result.error || 'Не вдалося відсканувати мережі.');
-      }
-    } catch (err: any) {
-      console.error("Не вдалося отримати дані сканування", err);
-      setError(err.message || 'Перевірте, чи запущено бекенд-сервер на порті 8000.');
-    } finally {
-      setLoading(false);
-    }
+    return (
+      <th onClick={() => handleSort(sortKey)} className="sortable-th">
+        <div className="th-content">
+          {label}
+          <span className={`sort-icon ${isActive ? 'active' : ''}`}>
+            {isActive && sortConfig.direction === 'desc' ? (
+              <ChevronDown size={14} />
+            ) : (
+              <ChevronUp size={14} className={isActive ? '' : 'ghost-icon'} />
+            )}
+          </span>
+        </div>
+      </th>
+    );
   };
 
   return (
@@ -94,63 +73,96 @@ export const ScanPage = () => {
       <div className="scan-button-container">
         <button 
           className={`scan-button ${loading ? 'loading' : ''}`} 
-          onClick={handleScan} 
+          onClick={scanNetworks} 
           disabled={loading}
         >
-          <Wifi className="scan-icon" size={20} /> 
-          <span className="scan-text">
-            {loading ? 'Scanning...' : 'Scan network'}
-          </span>
+          <Wifi className="scan-icon" size={24} />
+          <span className="scan-text">{loading ? 'Scanning...' : 'Scan network'}</span>
         </button>
       </div>
 
-      {/* Повідомлення про помилку */}
       {error && (
-        <div className="scan-error">
-          <strong>Помилка:</strong> {error}
-        </div>
+        <div className="scan-error"><strong>Error:</strong> {error}</div>
       )}
 
       <Widget className="scan-table-widget">
-        <h3>Знайдені мережі ({networks.length})</h3>
+        <h3>Знайдені мережі ({sortedNetworks.length})</h3>
         
         <div className="table-container">
           <table className="scan-table">
             <thead>
               <tr>
-                <th>SSID</th>
-                <th>Канал</th>
-                <th>Діапазон</th>
-                <th>RSSI (dBm)</th>
-                <th>Безпека</th>
+                <SortableHeader label="SSID" sortKey="ssid" />
+                <SortableHeader label="Vendor" sortKey="vendor" />
+                <SortableHeader label="Channel" sortKey="channel" />
+                <SortableHeader label="Frequency range" sortKey="band" />
+                <SortableHeader label="RSSI (dBm)" sortKey="rssi" />
+                <SortableHeader label="Quality" sortKey="quality" />
+                <SortableHeader label="Security" sortKey="security" />              
+                <SortableHeader label="Distance" sortKey="distance" />
               </tr>
             </thead>
             <tbody>
-              {/* Поки йде завантаження, треба показати спіннер (поки просто текст) */}
               {loading && (
-                 <tr>
-                    <td colSpan={5}>Завантаження даних...</td>
-                  </tr>
+                 <tr><td colSpan={8} className="table-message">Scanning...</td></tr>
               )}
               
-              {/* Якщо завантаження завершено і є дані */}
-              {!loading && networks.length > 0 && (
-                networks.map((network) => (
+              {!loading && sortedNetworks.length > 0 && (
+                sortedNetworks.map((network) => (
                   <tr key={network.bssid}>
-                    <td>{network.ssid || '(Прихована мережа)'}</td>
+                    {/* SSID */}
+                    <td>
+                      {network.ssid ? (
+                        <span className="ssid-text">{network.ssid}</span>
+                      ) : (
+                        <span className="hidden-ssid">
+                          Прихована <span className="bssid-hint">({network.bssid})</span>
+                        </span>
+                      )}
+                    </td>
+
+                    {/* Vendor*/}
+                    <td style={{ color: '#888', fontSize: '0.9em' }}>
+                      {network.vendor || 'Unknown'}
+                    </td>
+
+                    {/* Channel */}
                     <td>{network.channel}</td>
+
+                    {/* Band */}
                     <td>{network.band}</td>
-                    <td>{network.rssi}</td>
+
+                    {/* RSSI */}
+                    <td className={network.rssi > -60 ? 'signal-good' : network.rssi > -80 ? 'signal-mid' : 'signal-bad'}>
+                      {network.rssi}
+                    </td>
+
+                    {/* Quality (Нове поле з прогрес-баром) */}
+                    <td>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ minWidth: '30px', fontSize: '0.9em' }}>{network.quality}%</span>
+                        <div style={{ 
+                          width: '60px', height: '4px', background: '#eee', borderRadius: '2px' 
+                        }}>
+                          <div style={{ 
+                            width: `${network.quality}%`, 
+                            height: '100%', 
+                            background: network.quality > 70 ? '#4cd137' : network.quality > 40 ? '#fbc531' : '#e84118',
+                            borderRadius: '2px'
+                          }} />
+                        </div>
+                      </div>
+                    </td>
+
                     <td>{network.security}</td>
+
+                    <td>{network.distance}</td>
                   </tr>
                 ))
               )}
               
-              {/* Якщо завантаження завершено і даних немає */}
-              {!loading && !error && networks.length === 0 && (
-                <tr>
-                  <td colSpan={5}>Мережі не знайдено. Натисніть "Почати сканування".</td>
-                </tr>
+              {!loading && !error && sortedNetworks.length === 0 && (
+                <tr><td colSpan={8} className="table-message">No data found. Please run a scan.</td></tr>
               )}
             </tbody>
           </table>
@@ -159,4 +171,3 @@ export const ScanPage = () => {
     </div>
   );
 };
-

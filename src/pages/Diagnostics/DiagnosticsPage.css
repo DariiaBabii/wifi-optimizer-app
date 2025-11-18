@@ -1,15 +1,19 @@
 .tabs {
-  background: rgba(212, 212, 212, 0.5); /* напівпрозорий фон */
+  background: rgba(205, 205, 205, 0.185); /* напівпрозорий фон */
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid rgb(255, 255, 255); 
   border-radius: 100px; 
   
   display: inline-flex; /* Щоб контейнер облягав кнопки */
+  align-items: center;
+  justify-content: center;
   padding: 8px; 
   gap: 8px; 
   margin-bottom: 20px;
   border-bottom: none;
+  width: 265px;
+  height: 52px;
 }
 
 .tabs a {
@@ -18,21 +22,21 @@
   font-weight: 500;
   border-radius: 100px; 
   
-  color: #0e1a43; /* Колір неактивного тексту */
+  color: var(--color-text-primary); /* Колір неактивного тексту */
   transition: all 0.3s ease;
 
   border-bottom: none;
 }
 
 .tabs a.active {
-  background-color: rgb(246, 246, 246);
+  background-color: var(--background-color-active);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  color: #000000; /* активний текст */
+  color: var(--color-text-primary); /* активний текст */
 }
 
 .tabs a:not(.active):hover {
-  color: #b3b3b3;
-  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--color-text-hover);
+  background-color: var(--background-color-hover);
 }
 
 .tab-content {

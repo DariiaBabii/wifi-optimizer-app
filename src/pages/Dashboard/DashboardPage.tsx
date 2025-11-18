@@ -1,5 +1,6 @@
 import { Widget } from '../../components/Widget';
 import { getGreeting } from '../../utils/timeHelpers';
+import { NetworksListWidget } from '../../components/NetworksListWidget/NetworksListWidget';
 import './DashboardPage.css'; 
 
 export const DashboardPage = () => {
@@ -40,8 +41,9 @@ export const DashboardPage = () => {
         {/* Тут буде графік */}
       </Widget>
       <Widget className="grid-sidebar">
-        <h4>Мережі Поруч</h4>
-        {/* Тут буде список */}
+        <div className="grid-sidebar">
+          <NetworksListWidget />
+        </div>
       </Widget>
 
     </div>
