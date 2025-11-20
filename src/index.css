@@ -6,20 +6,39 @@
     size: 16px;
 
   --color-background: #F4F4F4;       /* фон сторінки */
+  --color-background-second:#F4F4F4;
   --color-text-primary: #242424;    /* заголовки */
   --color-text-secondary: #1f1f1f; /* для звичайного тексту */
-  --color-accent: #006fff;          /* Акцентний колір (в Navbar) */
+  --color-accent: #006fff;  
+  --color-accent-light: #7fb3f6;         /* Акцентний колір (в Navbar) */
   --color-text-table: #1a1b3a;
   --color-text-hover:#424242;
   --border-radius-small-color: #dee0e3;
-  --background-color-hover: #e9e9ee;
+  --background-color-hover: #e1e1e1;
   --background-color-active: #F4F4F4;
+  --background-color-navigation:#ffff;
 
   /* Розміри */
   --navbar-width: 70px;
   --content-padding: 24px;         
   --border-radius-main: 16px;       /* Основний радіус для віджетів */
   --border-radius-small: 20px;       /* Для кнопок та sidebar */
+
+}
+
+body.dark {
+  --color-background: #242424; /* Темний фон */
+  --color-background-second:#363636;
+  --color-text-primary: #F4F4F4;
+  --color-text-secondary: #b7bcc2; /* для звичайного тексту */
+  --color-accent: #006fff;  
+  --color-accent-light: #7fb3f6;         /* Акцентний колір (в Navbar) */
+  --color-text-table: #1a1b3a;
+  --color-text-hover:#424242;
+  --border-radius-small-color: #dee0e3;
+  --background-color-hover: #d8d8db;
+  --background-color-active: #242424;
+  --background-color-navigation:#000000;
 
 }
 
@@ -37,7 +56,7 @@ html {
 body {
   margin: 0;
   font-family: var(--font-primary);
-  background-image: linear-gradient(5deg, #F4F4F4 1%, #F4F4F4  70%);
+  background-image: linear-gradient(5deg, var(--color-background) 1%, var(--color-background-second)  70%);
   background-repeat: no-repeat; /* Забороняємо повторення градієнту */
   min-height: 100vh; /* Гарантуємо, що градієнт покриє весь екран */  
   color: var(--color-text-secondary);     /* Глобальний колір тексту */

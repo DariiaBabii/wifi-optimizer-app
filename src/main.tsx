@@ -20,6 +20,7 @@ import { NotificationsPage } from './pages/Notifications/NotificationsPage';
 import { SettingsPage } from './pages/Settings/SettingsPage';
 
 import { WifiProvider } from './context/WifiContext';
+import { ThemeProvider } from './context/ThemeContext';
 
 const router = createBrowserRouter([
   {
@@ -76,8 +77,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
+    <ThemeProvider>
     <WifiProvider>
       <RouterProvider router={router} />
     </WifiProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );

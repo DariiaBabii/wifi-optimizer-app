@@ -1,52 +1,18 @@
-.tabs {
-  background: rgba(205, 205, 205, 0.185); /* напівпрозорий фон */
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgb(255, 255, 255); 
-  border-radius: 100px; 
-  
-  display: inline-flex; /* Щоб контейнер облягав кнопки */
-  align-items: center;
-  justify-content: center;
-  padding: 8px; 
-  gap: 8px; 
-  margin-bottom: 20px;
-  border-bottom: none;
-  width: 265px;
-  height: 52px;
-}
-
-.tabs a {
-  padding: 8px 24px; /* клікабельна зона */
-  text-decoration: none;
-  font-weight: 500;
-  border-radius: 100px; 
-  
-  color: var(--color-text-primary); /* Колір неактивного тексту */
-  transition: all 0.3s ease;
-
-  border-bottom: none;
-}
-
-.tabs a.active {
-  background-color: var(--background-color-active);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  color: var(--color-text-primary); /* активний текст */
-}
-
-.tabs a:not(.active):hover {
-  color: var(--color-text-hover);
-  background-color: var(--background-color-hover);
-}
-
-.tab-content {
-  padding-top: 10px;
-}
-
 .diagnostics-container {
   text-align: center;
 }
 
 .diagnostics-title {
   text-align: left;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px); /* Трохи зсуваємо вниз на початку */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0); /* Повертаємо на місце */
+  }
 }

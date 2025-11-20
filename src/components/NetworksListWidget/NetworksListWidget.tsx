@@ -32,13 +32,13 @@ export const NetworksListWidget = () => {
   return (
     <Widget className="networks-widget">
       <div className="widget-header">
-        <h3>Мережі поруч</h3>
+        <h3>Neighboring Networks</h3>
         <span className="badge">{networks.length}</span>
       </div>
       
       <div className="networks-list-scroll">
         {sortedNetworks.map((net) => {
-          // Проста логіка "загрози" (пізніше замінимо на справжній аналіз)
+          // Проста логіка "загрози" (пізніше замінити на справжній аналіз)
           const isStrong = net.rssi > -60; 
           
           return (

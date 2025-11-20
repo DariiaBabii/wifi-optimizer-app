@@ -44,7 +44,7 @@
 }
 
 .network-row:hover {
-  background: rgba(255,255,255, 0.5);
+  background: var(--background-color-hover);
 }
 
 /* Іконка */
@@ -92,7 +92,7 @@
 
 /* Технічний шрифт для цифр */
 .mono-text {
-  font-family: 'JetBrains Mono', 'Roboto Mono', monospace; /* Підключіть цей шрифт */
+  font-family: 'JetBrains Mono', 'Roboto Mono', monospace; 
   font-variant-numeric: tabular-nums; /* Щоб цифри не скакали */
 }
 
@@ -113,7 +113,7 @@
 .signal-bar-bg {
   width: 40px;
   height: 4px;
-  background: rgba(0,0,0,0.1);
+  background: var(--color-text-primary);
   border-radius: 2px;
   overflow: hidden;
 }

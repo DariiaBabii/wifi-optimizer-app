@@ -1,0 +1,99 @@
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px; 
+  margin-bottom: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 400px; 
+}
+
+.page-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+/* --- TABS ---*/
+
+.header-tabs{
+  background: rgba(205, 205, 205, 0.185); 
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgb(255, 255, 255); 
+  border-radius: 100px; 
+  
+  display: inline-flex; /* Щоб контейнер облягав кнопки */
+  align-items: center;
+  justify-content: center;
+  padding: 8px; 
+  gap: 8px; 
+  border-bottom: none;
+  width: 265px;
+  height: 52px;
+}
+
+.header-tabs a {
+  padding: 8px 24px; /* клікабельна зона */
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 100px; 
+  
+  color: var(--color-text-primary); /* Колір неактивного тексту */
+  transition: all 0.4s ease;
+
+  border-bottom: none;
+}
+
+.header-tabs a.active {
+  background-color: var(--background-color-active);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  color: var(--color-text-primary); /* активний текст */
+}
+
+.header-tabs a:not(.active):hover {
+  color: var(--color-text-hover);
+  background-color: var(--background-color-hover);
+}
+
+.tab-content {
+  padding-top: 10px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* --- THEMES BUTTON ---*/
+
+.theme-toggle {
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: var(--color-text-secondary);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background: rgba(0, 0, 0, 0.03);
+  color: var(--color-text-primary);
+  transform: rotate(15deg);
+}
+
+/* --- Темна тема (підготовка) --- */
+body.dark .header-tabs {
+  background: rgba(255, 255, 255, 0.05);
+}
+body.dark .header-tabs a.active {
+  background: #2c2c2c; /* Темний фон для активної вкладки */
+  color: #fff;
+}

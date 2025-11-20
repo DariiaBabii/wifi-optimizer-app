@@ -2,6 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   margin-bottom: var(--content-padding);
 }
 
@@ -66,7 +67,7 @@
     /* 1/4 кола - це плавний "хвіст" радара */
     rgba(255, 255, 255, 0.1) 271deg, 
     rgba(255, 255, 255, 0.7) 340deg, 
-    #ffffff 360deg                
+    #ffffff 350deg                
   );
   transform-origin: center center;
   transform: translate(-50%, -50%) rotate(0deg);
@@ -75,14 +76,15 @@
 }
 
 .scan-button.loading {
-  width: 56px;  
+  width: 56px;
+  height: 56px;  
   border-radius: 50%;
   padding: 0;
   gap: 0;
   cursor: not-allowed;
   box-shadow: none;
 
-  background: var(--background-color-hover); 
+  background: var(--color-accent-light); 
   
   z-index: 2; 
 }

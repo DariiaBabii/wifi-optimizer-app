@@ -10,6 +10,11 @@ type SortKey = keyof WifiNetwork;
 export const ScanPage = () => {
   const { networks, loading, error, scanNetworks } = useWifi();
 
+  const formatDistance = (meters: number) => {
+  if (meters < 1) return meters.toFixed(1) + ' m'; // 0.5 m
+  return Math.round(meters) + ' m'; // 5 m, 12 m
+  };
+
   // Стан для сортування
   const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: 'asc' | 'desc' }>({
     key: 'rssi',
@@ -71,6 +76,10 @@ export const ScanPage = () => {
   return (
     <div className="scan-page-container">
       <div className="scan-button-container">
+        <div className="diagnostics-title">
+        <h3>Network Scanner</h3>
+        <h4>Find the best channel for your router by scanning neighboring networks</h4>
+        </div>
         <button 
           className={`scan-button ${loading ? 'loading' : ''}`} 
           onClick={scanNetworks} 
@@ -156,7 +165,7 @@ export const ScanPage = () => {
 
                     <td>{network.security}</td>
 
-                    <td>{network.distance}</td>
+                    <td>{formatDistance(network.distance)}</td>
                   </tr>
                 ))
               )}
