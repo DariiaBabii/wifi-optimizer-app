@@ -5,11 +5,11 @@
   justify-content: space-between;
   width: var(--navbar-width);
   height: 97vh;
-  background-color: var(--background-color-navigation); 
   padding: 20px;
   margin: 10px;
   margin-bottom: 20px;
-  border: 1px solid var(--border-radius-small);
+  /* background-color: var(--background-color-navigation); 
+  border: 1px solid var(--border-radius-small); */
   border-radius: 8px;
   position: sticky;
   top: 0;
@@ -41,9 +41,9 @@
   font-weight: 500; 
 }
 
-.main-nav a:hover {
+/* .main-nav a:hover {
   background-color: var(--background-color-hover);
-}
+} */
 
 .main-nav a.active {
   background-color: var(--color-accent);
@@ -67,6 +67,9 @@
   width: 45px;  
   height: 45px;
   object-fit: contain; 
+}
+body.dark .logo-img {
+  filter: invert(1);
 }
 
 .nav-list {
@@ -111,7 +114,7 @@
 .nav-tooltip {
   position: absolute;
   left: 65px; /* Зсув вправо від іконки */
-  background-color: #383838; /* Темний фон */
+  background: var(--background-glass); 
   color: rgb(245, 252, 255);
   padding: 6px 12px;
   border-radius: 8px;

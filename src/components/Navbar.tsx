@@ -13,7 +13,7 @@ import './Navbar.css';
 
 export const Navbar = () => {
   return (
-    <nav className="main-nav">
+    <nav className="navbar main-nav">
 
       <div className="nav-top">
         <div className="nav-logo">
