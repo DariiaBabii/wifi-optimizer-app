@@ -67,6 +67,7 @@
   width: 45px;  
   height: 45px;
   object-fit: contain; 
+  filter: invert(0);
 }
 body.dark .logo-img {
   filter: invert(1);
@@ -114,7 +115,7 @@ body.dark .logo-img {
 .nav-tooltip {
   position: absolute;
   left: 65px; /* Зсув вправо від іконки */
-  background: var(--background-glass); 
+  background: var(--background-tooltip); 
   color: rgb(245, 252, 255);
   padding: 6px 12px;
   border-radius: 8px;

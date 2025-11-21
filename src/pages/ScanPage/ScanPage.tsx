@@ -125,7 +125,7 @@ export const ScanPage = () => {
                         <span className="ssid-text">{network.ssid}</span>
                       ) : (
                         <span className="hidden-ssid">
-                          Прихована <span className="bssid-hint">({network.bssid})</span>
+                          Hidden <span className="bssid-hint">({network.bssid})</span>
                         </span>
                       )}
                     </td>

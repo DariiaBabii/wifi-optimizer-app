@@ -19,7 +19,7 @@ export const NetworksListWidget = () => {
       <Widget className="networks-widget empty-state">
         <div className="empty-content">
           <AlertCircle size={40} className="empty-icon" />
-          <h4>Дані відсутні</h4>
+          <h4>Data missing</h4>
           <p>Please scan the network for interference.</p>
           <Link to="/diagnostics/scan" className="scan-link-btn">
             Go to scanner
@@ -48,7 +48,7 @@ export const NetworksListWidget = () => {
               </div>
               
               <div className="network-info">
-                <span className="network-ssid">{net.ssid || '(Прихована)'}</span>
+                <span className="network-ssid">{net.ssid || '(Hidden)'}</span>
                 <span className="network-meta">
                   Ch: <span className="mono-text">{net.channel}</span>
                 </span>

@@ -12,19 +12,23 @@
   --color-text-table: #1a1b3a;
   --color-text-hover:#424242;
 
+  --table-header-bg:rgba(245, 247, 250, 0.7);
+  --table-row-hover:#e1e1e1;
+
   /* акценти */
   --color-accent: #006fff;  
   --color-accent-light: #7fb3f6;  
 
   /* Напівпрозорі фони */
-  --background-glass: rgba(255, 255, 255, 0.70); 
-  --border-glass: rgba(255, 255, 255, 0.5);
+  --glass-bg: rgba(255, 255, 255, 0.70); 
+  --glass-border: rgba(255, 255, 255, 0.5);
 
   --border-radius-small-color: #dee0e3;
   --background-color-hover: #e1e1e1;
   --background-color-active: #F4F4F4;
 
   --background-color-navigation:#ffff;
+  --background-tooltip:#383838;
 
   /* Розміри */
   --navbar-width: 70px;
@@ -49,6 +53,7 @@ body.dark {
 
   /* Напівпрозорі фони для темної теми */
   --background-glass: rgba(15, 23, 42, 0.60); 
+  /* --background-glass-hover: rgb(178, 0, 0);  */
   --border-glass: rgba(255, 255, 255, 0.08);
 
   --border-radius-small-color: #dee0e3;

@@ -18,7 +18,7 @@ export const Navbar = () => {
       <div className="nav-top">
         <div className="nav-logo">
           <img 
-            src="https://img.icons8.com/fluency-systems-regular/48/242424/smart-home-connection.png" 
+            src="https://img.icons8.com/external-others-inmotus-design/67/external-WiFi-contour-others-inmotus-design-2.png" 
             alt="Wi-Fi Advisor Logo" 
             className="logo-img"
           />

@@ -1,12 +1,16 @@
 .widget-container {
-  background: rgba(255, 255, 255, 0.6); 
-  backdrop-filter: blur(10px); 
-  -webkit-backdrop-filter: blur(10px); /* Для Safari */
+  background: var(--glass-bg); 
+  backdrop-filter: blur(12px); 
+  -webkit-backdrop-filter: blur(12px); /* Для Safari */
 
-  border-radius: var(--border-radius-main);  
-  /* padding: 150px; */
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-main);
+  border-radius: var(--border-radius-main);
+  
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease;
+}
 
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-
-  border: 1px solid rgba(255, 255, 255, 0.2);
+.widget-container:hover {
+  background: var(--background-glass-hover);
+  border-color: var(--color-accent); /* Легка підсвітка кольором акценту */
 }
