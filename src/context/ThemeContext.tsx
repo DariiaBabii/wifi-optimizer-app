@@ -19,7 +19,7 @@ export const ThemeProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     // 2. Зберігаємо вибір і оновлюємо клас на <body>
     localStorage.setItem('app-theme', theme);
-    document.body.className = theme; // Це дозволить нам писати CSS типу body.dark { ... }
+    document.body.className = theme; 
   }, [theme]);
 
   const toggleTheme = () => {

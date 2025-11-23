@@ -23,7 +23,7 @@
 /* --- TABS ---*/
 
 .header-tabs{
-  background: var(--color-background);
+  background: var(--background-color-hover);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--glass-border); 
@@ -50,9 +50,15 @@
 }
 
 .header-tabs a.active {
-  background-color: var(--background-color-hover);
+  background-color: var(--glass-border);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   color: var(--color-text-table); 
+}
+
+body.dark .header-tabs a.active {
+  background: rgba(39, 39, 39, 0.693); /* Трохи світліший фон для контрасту на темному */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); /* Тінь темніша */
+  color: #ffffff; /* Білий текст */
 }
 
 .header-tabs a:not(.active):hover {
@@ -68,7 +74,7 @@
 /* --- THEMES BUTTON ---*/
 
 .theme-toggle {
-  background: var(--glass-bg-light);
+  background: var(--background-color-active);
   border: 1px solid var(--glass-border);
   color: var(--color-text-secondary);
   width: 40px;
@@ -82,7 +88,7 @@
 }
 
 .theme-toggle:hover {
-  background: var(--glass-hover);
+  background: var(--background-color-active);
   color: var(--accent);
   border-color: var(--accent);
 }

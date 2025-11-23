@@ -1,8 +1,9 @@
 .networks-widget {
   display: flex;
   flex-direction: column;
-  padding: 0; /* Забираємо паддінг віджета, щоб контролювати його самі */
+  padding: 0; 
   height: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .widget-header {
