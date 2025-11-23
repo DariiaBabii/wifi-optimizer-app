@@ -63,15 +63,18 @@ def get_wifi_details(freq_mhz: int):
     try: freq = int(freq_mhz)
     except: return 0, "Unknown"
 
+    if freq > 10000:
+        freq = freq // 1000
+
     if 2412 <= freq <= 2484:
         channel = (freq - 2407) // 5 if freq != 2484 else 14
-        return channel, "2.4 GHz"
+        return channel, "2.4"
     elif 5180 <= freq <= 5825:
         channel = (freq - 5000) // 5
-        return channel, "5 GHz"
+        return channel, "5"
     elif 5925 <= freq <= 7125:
         channel = (freq - 5930) // 5
-        return channel, "6 GHz"
+        return channel, "6"
     else:
         return 0, f"{freq} MHz"
 

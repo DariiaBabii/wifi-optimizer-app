@@ -1,0 +1,218 @@
+.speedtest-widget {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* Заповнити весь доступний простір у Grid */
+  min-height: 300px;
+  padding: 20px 20px 10px 20px;;
+}
+
+.st-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.st-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.st-title h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.live-indicator {
+  font-size: 0.75rem;
+  color: #28a745;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(40, 167, 69, 0.1);
+  padding: 2px 6px;
+  border-radius: 100px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background: #28a745;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+/* Стиль пігулки для фільтрів */
+.st-filters {
+  background: rgba(0,0,0,0.05);
+  padding: 4px;
+  border-radius: 8px;
+  display: flex;
+  gap: 4px;
+}
+
+.st-filters button {
+  border: none;
+  background: transparent;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.st-filters button.active {
+  background: var(--color-text-hover);
+  color: var(--color-text-primary);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.st-content {
+  display: flex;
+  flex: 1;
+  gap: 15px;
+}
+
+/* Ліва колонка */
+.st-stats {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 140px;
+  flex-shrink: 0;
+  gap: 20px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-background-second); 
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  
+  /* border: 1px solid var(--border-radius-small-color); */
+  border-radius: 12px;
+  padding: 5px; 
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); 
+}
+
+.stat-item .label {
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.stat-item .value {
+    line-height: 1.5;
+  font-weight: 400;
+  color: var(--color-text-primary);
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.stat-item .value small {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+}
+
+.run-test-btn {
+  margin-top: auto;
+  background: var(--color-accent);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: transform 0.2s;
+  margin: 20px 0px 20px 0px;
+}
+
+.run-test-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.run-test-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Права колонка (графік) */
+.st-chart {
+  flex: 1;
+  min-width: 0;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+
+/* --- Custom Tooltip Style --- */
+
+.custom-tooltip {
+  background: rgba(255, 255, 255, 0.9); 
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 12px;
+  border-radius: 12px; 
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); 
+  
+  min-width: 150px;
+}
+
+.tooltip-date {
+  margin: 0 0 10px 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #666;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 6px;
+}
+
+.tooltip-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+}
+
+.tooltip-row:last-child {
+  margin-bottom: 0;
+}
+
+.tooltip-row span {
+  color: #888;
+  font-size: 0.8rem;
+}
+
+.tooltip-row strong {
+  /* font-family: 'JetBrains Mono', monospace;  */
+  font-weight: 700;
+}
+
+/* Кольори для значень */
+.tooltip-row.download strong { 
+  color: #007bff; /* Синій для Download */
+}
+
+.tooltip-row.upload strong { 
+  color: #82ca9d; /* Зелений для Upload */
+}

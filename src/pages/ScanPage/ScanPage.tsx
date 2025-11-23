@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'; 
-import { Widget } from '../../components/Widget';
+import { Widget } from '../../components/Widget/Widget';
 import './ScanPage.css';
 import { Wifi, ChevronUp, ChevronDown, Loader2 } from 'lucide-react';
 import { useWifi, type WifiNetwork } from '../../context/WifiContext';
@@ -11,8 +11,8 @@ export const ScanPage = () => {
   const { networks, loading, error, scanNetworks } = useWifi();
 
   const formatDistance = (meters: number) => {
-  if (meters < 1) return meters.toFixed(1) + ' m'; // 0.5 m
-  return Math.round(meters) + ' m'; // 5 m, 12 m
+  if (meters < 1) return meters.toFixed(1); // 0.5 m
+  return Math.round(meters); // 5 m, 12 m
   };
 
   // Стан для сортування
@@ -104,11 +104,11 @@ export const ScanPage = () => {
                 <SortableHeader label="SSID" sortKey="ssid" />
                 <SortableHeader label="Vendor" sortKey="vendor" />
                 <SortableHeader label="Channel" sortKey="channel" />
-                <SortableHeader label="Frequency range" sortKey="band" />
+                <SortableHeader label="Frequency range (GHz)" sortKey="band" />
                 <SortableHeader label="RSSI (dBm)" sortKey="rssi" />
                 <SortableHeader label="Quality" sortKey="quality" />
                 <SortableHeader label="Security" sortKey="security" />              
-                <SortableHeader label="Distance" sortKey="distance" />
+                <SortableHeader label="Distance (m)" sortKey="distance" />
               </tr>
             </thead>
             <tbody>

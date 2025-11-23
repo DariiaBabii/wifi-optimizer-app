@@ -1,19 +1,44 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from wifi_service import scan_networks
 import uvicorn
+import time
+from speedtest_service import run_speedtest, get_history
 
-app = FastAPI()
+from apscheduler.schedulers.background import BackgroundScheduler
+from contextlib import asynccontextmanager
+
+def scheduled_speedtest():
+    print("--- [SCHEDULED JOB] Auto-speedtest started... ---", flush=True)
+    try:
+        result = run_speedtest()
+        if result:
+            print(f"--- [SCHEDULED JOB] Success: {result['download']} Mbps ---", flush=True)
+        else:
+            print("--- [SCHEDULED JOB] Failed ---", flush=True)
+    except Exception as e:
+        print(f"--- [SCHEDULED JOB] Error: {e} ---", flush=True)
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    scheduler = BackgroundScheduler()
+
+    scheduler.add_job(scheduled_speedtest, 'interval', hours=1)
+
+    scheduler.start()
+    print("--- [SCHEDULER] Background scheduler started (Every 6 hours) ---", flush=True)
+
+    yield
+
+    scheduler.shutdown()
+    print("--- [SCHEDULER] Shut down", flush=True)
+
+app = FastAPI(lifespan=lifespan)
 
 # CORS
-origins = [
-    "http://localhost:5173",
-    "http://localhost:3000", # На всякий
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -34,6 +59,31 @@ def get_scan_results():
         return {"success": True, "data": networks}
     except Exception as e:
         return {"success": False, "error": str(e)}
+
+@app.get("/api/speedtest/history")
+def get_speedtest_history():
+    return {"success": True, "data": get_history()}
+
+def execute_speedtest_task():
+    print("--- [MANUAL] Speedtest started in background... ---", flush=True)
+    start_time = time.time()
+    
+    try:
+        result = run_speedtest() # Це займає 20-30 сек
+        duration = round(time.time() - start_time, 2)
+        
+        if result:
+            print(f"--- [MANUAL] Finished in {duration}s. Result saved. ---", flush=True)
+        else:
+            print("--- [MANUAL] Failed to get result ---", flush=True)
+    except Exception as e:
+        print(f"--- [MANUAL] Error: {e} ---", flush=True)
+
+@app.post("/api/speedtest/run")
+def trigger_speedtest(background_tasks: BackgroundTasks):
+    background_tasks.add_task(execute_speedtest_task)
+    
+    return {"success": True, "message": "Test started in background"}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)

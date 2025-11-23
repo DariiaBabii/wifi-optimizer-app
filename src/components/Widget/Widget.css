@@ -1,8 +1,5 @@
 .widget-container {
   background: var(--glass-bg); 
-  backdrop-filter: blur(12px); 
-  -webkit-backdrop-filter: blur(12px); /* Для Safari */
-
   border: 1px solid var(--glass-border);
   box-shadow: var(--shadow-main);
   border-radius: var(--border-radius-main);

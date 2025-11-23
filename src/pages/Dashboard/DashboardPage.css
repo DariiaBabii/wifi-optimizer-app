@@ -29,7 +29,7 @@
   font-size: 0.9rem;
 }    
 
-.grid-main-chart { grid-area: main; min-height: 350px; }
+.grid-main-chart { grid-area: main; }
 .grid-stat-1  { grid-area: stat1; max-height: 40px; padding: 97px;}
 .grid-stat-2  { grid-area: stat2; max-height: 40px; padding: 97px;}
 .grid-stat-3  { grid-area: stat3; max-height: 40px; padding: 97px;}

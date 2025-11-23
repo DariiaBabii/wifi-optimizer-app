@@ -1,6 +1,7 @@
-import { Widget } from '../../components/Widget';
+import { Widget } from '../../components/Widget/Widget';
 import { getGreeting } from '../../utils/timeHelpers';
 import { NetworksListWidget } from '../../components/NetworksListWidget/NetworksListWidget';
+import { SpeedtestWidget } from '../../components/Widget/SpeedtestWidget';
 import './DashboardPage.css'; 
 
 export const DashboardPage = () => {
@@ -35,13 +36,9 @@ export const DashboardPage = () => {
         <p>-50 dBm</p>
       </Widget>
 
-      {/* General Content */}
-      <Widget className="grid-main-chart">
-        <h4>Огляд Продуктивності</h4>
-        {/* Тут буде графік */}
-      </Widget>
+      <SpeedtestWidget className="grid-main-chart" />
       <Widget className="grid-sidebar">
-        <div className="grid-sidebar">
+        <div>
           <NetworksListWidget />
         </div>
       </Widget>

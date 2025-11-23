@@ -8,8 +8,8 @@
   padding: 20px;
   margin: 10px;
   margin-bottom: 20px;
-  /* background-color: var(--background-color-navigation); 
-  border: 1px solid var(--border-radius-small); */
+  background-color: var(--background-color-navigation); 
+  border: 1px solid var(--border-radius-small);
   border-radius: 8px;
   position: sticky;
   top: 0;

@@ -23,7 +23,7 @@
 /* --- TABS ---*/
 
 .header-tabs{
-  background: var(--glass-bg-light);
+  background: var(--color-background);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--glass-border); 
@@ -50,9 +50,9 @@
 }
 
 .header-tabs a.active {
-  background-color: var(--glass-hover);
+  background-color: var(--background-color-hover);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  color: var(--color-text-primary); /* активний текст */
+  color: var(--color-text-table); 
 }
 
 .header-tabs a:not(.active):hover {

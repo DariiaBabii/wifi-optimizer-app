@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Wifi, AlertCircle } from 'lucide-react';
-import { Widget } from '../Widget';
+import { Widget } from '../Widget/Widget';
 import { useWifi } from '../../context/WifiContext';
 import './NetworksListWidget.css';
 

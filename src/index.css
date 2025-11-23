@@ -4,19 +4,19 @@
 
   /* --- світла тема--- */
   --color-background: #F4F4F4;       /* фон сторінки */
-  --color-background-second:#E0E0E0;
+  --color-background-second:#eeeeee;
   
   /* текст */
   --color-text-primary: #242424;    
   --color-text-secondary: #4a4a4a;
   --color-text-table: #1a1b3a;
-  --color-text-hover:#424242;
+  --color-text-hover:#bfbfbf;
 
   --table-header-bg:rgba(245, 247, 250, 0.7);
   --table-row-hover:#e1e1e1;
 
   /* акценти */
-  --color-accent: #006fff;  
+  --color-accent: #1c70de;  
   --color-accent-light: #7fb3f6;  
 
   /* Напівпрозорі фони */
@@ -39,27 +39,26 @@
 
 body.dark {
   /* --- темна тема--- */
-  --color-background: #010023;
-  --color-background-second:#003E3D;
+  --color-background: #121212;
+  --color-background-second:#343434;
 
   --color-text-primary: #F4F4F4;
   --color-text-secondary: #b7bcc2; 
   --color-text-table: #1a1b3a;
-  --color-text-hover:#424242;
+  --color-text-hover:#b7bcc2;
 
   /* акценти */
   --color-accent: #006fff;  
   --color-accent-light: #7fb3f6;
 
-  /* Напівпрозорі фони для темної теми */
-  --background-glass: rgba(15, 23, 42, 0.60); 
-  /* --background-glass-hover: rgb(178, 0, 0);  */
-  --border-glass: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.051); 
+  --glass-bg-table: rgba(255, 255, 255, 0.803); 
+  --glass-border: rgba(255, 255, 255, 0.268);
 
   --border-radius-small-color: #dee0e3;
   --background-color-hover: #d8d8db;
   --background-color-active: #242424;
-  --background-color-navigation:#003E3D;
+  --background-color-navigation:#242424;
 
 }
 
@@ -75,7 +74,7 @@ html {
 
 /* 3. Стилі для Body */
 body {
-  line-height: 1.6;
+  line-height: 1.5;
   font-weight: 400;
   size: 16px;
   margin: 0;
