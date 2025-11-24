@@ -122,10 +122,10 @@ body.dark .logo-img {
   font-size: 0.85rem;
   font-weight: 400;
   white-space: nowrap;
-  opacity: 0; /* Сховано за замовчуванням */
+  opacity: 0;
   visibility: hidden;
   transform: translateX(-10px); /* Початкова позиція для анімації */
-  transform: translateY(-30px);
+  transform: translateY(-4px);
   transition: all 0.2s ease;
   pointer-events: none; /* Щоб мишка не чіплялася за тултіп */
   z-index: 1000;

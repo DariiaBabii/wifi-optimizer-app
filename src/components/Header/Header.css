@@ -46,7 +46,8 @@
   display: inline-flex; 
   align-items: center;
   justify-content: center;
-  padding: 8px; 
+  padding: 8px;
+  margin-left: 40px; 
   gap: 8px; 
   width: 265px;
   height: 52px;

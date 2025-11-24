@@ -18,6 +18,10 @@
   color: #1e3a8a;
 }
 
+.banner-text{
+  padding-left: 180px;
+}
+
 .banner-icon {
   color: var(--color-accent);
   flex-shrink: 0;
