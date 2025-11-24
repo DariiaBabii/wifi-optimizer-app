@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react'; 
 import { Widget } from '../../components/Widget/Widget';
 import './ScanPage.css';
-import { Wifi, ChevronUp, ChevronDown, Loader2 } from 'lucide-react';
+import { Wifi, ChevronUp, ChevronDown, Loader2, Info } from 'lucide-react';
 import { useWifi, type WifiNetwork } from '../../context/WifiContext';
 
 // Тип для ключів, за якими можна сортувати
@@ -75,19 +75,23 @@ export const ScanPage = () => {
 
   return (
     <div className="scan-page-container">
-      <div className="scan-button-container">
-        <div className="diagnostics-title">
-        <h3>Network Scanner</h3>
-        <h4>Find the best channel for your router by scanning neighboring networks</h4>
+      
+      <div className="scan-info-banner">
+        <Info size={20} className="banner-icon" />
+        <div className="banner-text">
+          <h3>Network Scanner</h3>
+          <p>Find the best channel for your router by scanning neighboring networks.</p>
         </div>
-        <button 
-          className={`scan-button ${loading ? 'loading' : ''}`} 
-          onClick={scanNetworks} 
-          disabled={loading}
-        >
-          <Wifi className="scan-icon" size={24} />
-          <span className="scan-text">{loading ? 'Scanning...' : 'Scan network'}</span>
-        </button>
+        <div className="scan-button-wrapper">
+              <button 
+                className={`scan-button ${loading ? 'loading' : ''}`} 
+                onClick={scanNetworks} 
+                disabled={loading}
+              >
+                <Wifi className="scan-icon" size={24} />
+                <span className="scan-text">{loading ? 'Scanning...' : 'Scan network'}</span>
+              </button>
+        </div>
       </div>
 
       {error && (
@@ -95,12 +99,20 @@ export const ScanPage = () => {
       )}
 
       <Widget className="scan-table-widget">
-        <h3>Знайдені мережі ({sortedNetworks.length})</h3>
+        <div className="widget-toolbar">
+          {/* Зліва: Заголовок і лічильник */}
+          <div className="toolbar-title">
+            <h4>Discovered Networks:</h4>
+            <span className="network-count-badge">{sortedNetworks.length}</span>
+          </div>
         
+
+        </div>
+
         <div className="table-container">
           <table className="scan-table">
             <thead>
-              <tr>
+              <tr className="sortable-header">
                 <SortableHeader label="SSID" sortKey="ssid" />
                 <SortableHeader label="Vendor" sortKey="vendor" />
                 <SortableHeader label="Channel" sortKey="channel" />
@@ -146,7 +158,7 @@ export const ScanPage = () => {
                       {network.rssi}
                     </td>
 
-                    {/* Quality (Нове поле з прогрес-баром) */}
+                    {/* Quality*/}
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                         <span style={{ minWidth: '30px', fontSize: '0.9em' }}>{network.quality}%</span>

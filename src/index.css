@@ -4,24 +4,25 @@
 
   /* --- світла тема--- */
   --color-background: #f5f5f5;       /* фон сторінки */
-  --color-background-second:#f5f5f5;
+  --color-background-second:#f1f7fe;
   
   /* текст */
   --color-text-primary: #242424;    
   --color-text-secondary: #4a4a4a;
-  --color-text-table: #1a1b3a;
+  --color-text-table: #101023;
   --color-text-hover:#2c2c2c;
 
-  --table-header-bg:rgba(245, 247, 250, 0.7);
-  --table-row-hover:#e1e1e1;
+  --table-header-bg:rgba(245, 245, 245, 0.82);
+  --table-row-hover:rgba(255, 255, 255, 0.848);
 
   /* акценти */
   --color-accent: #1c70de;  
   --color-accent-light: #7fb3f6;  
 
   /* Напівпрозорі фони */
-  --glass-bg: rgba(255, 255, 255, 0.70); 
-  --glass-border: rgb(255, 255, 255);
+  --glass-bg: rgba(255, 255, 255); 
+  --glass-border: rgb(190, 190, 190);
+  --glass-tabs-background: rgb(255, 255, 255);
 
   --border-radius-small-color: #dee0e3;
   --background-color-hover: #e1e1e1;
@@ -42,7 +43,7 @@ body.dark {
   --color-background: #121212;
   --color-background-second:#343434;
 
-  --color-text-primary: #F4F4F4;
+  --color-text-primary: #fcfcfc;
   --color-text-secondary: #b7bcc2; 
   --color-text-table: #e8e8e8;
   --color-text-hover:#b7bcc2;
@@ -55,8 +56,11 @@ body.dark {
   --glass-bg-table: rgba(255, 255, 255, 0.597); 
   --glass-border: rgba(255, 255, 255, 0.725);
 
+  --table-header-bg:rgba(255, 255, 255, 0.051); 
+  --table-row-hover:rgba(102, 102, 102, 0.848);
+
   --border-radius-small-color: #dee0e3;
-  --background-color-hover: rgba(236, 236, 236, 0.814);;
+  --background-color-hover: #F4F4F4;
   --background-color-active: #242424;
   --background-color-navigation:#242424;
 

@@ -1,27 +1,41 @@
+import { Header } from '../../components/Header/Header';
 import { Widget } from '../../components/Widget/Widget';
 import { getGreeting } from '../../utils/timeHelpers';
 import { NetworksListWidget } from '../../components/NetworksListWidget/NetworksListWidget';
 import { SpeedtestWidget } from '../../components/Widget/SpeedtestWidget';
 import './DashboardPage.css'; 
 
+import { Bot } from 'lucide-react';
+
 export const DashboardPage = () => {
   const greeting = getGreeting();
 
+  const dashboardTitle = (
+      <div>
+        <h3>{greeting}</h3>
+        <p className="network-status">
+        Ready to analyze your Wi-Fi environment.
+        </p>
+        
+      </div>
+  );
+
+  const aiButton = (
+    <button className="ai-button">
+      <Bot size={18} />
+      <span>AI Assistant</span>
+    </button>
+  );
+
   return (
-    <div className="dashboard-grid">
+    <div className="dashboard-page">
 
-      {/* Header */}
-      <Widget className="grid-header">
-        <div>
-        <h3>{greeting}, User!</h3>
-        <p>Network status: All is well.</p>
-        </div>
+      <Header 
+        title={dashboardTitle} 
+        actions={aiButton} 
+      />
 
-        <button className="ai-button">
-          AI Assistant
-        </button>
-      </Widget>
-
+      <div className="dashboard-grid">
       {/* Metrics */}
       <Widget className="grid-stat-1">
         <h4>Поточний Канал</h4>
@@ -42,7 +56,7 @@ export const DashboardPage = () => {
           <NetworksListWidget />
         </div>
       </Widget>
-
+      </div>
     </div>
   );
 };

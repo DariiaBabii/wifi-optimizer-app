@@ -20,13 +20,27 @@
   color: var(--color-text-primary);
 }
 
+.page-title-complex h3 {
+  margin: 0 0 4px 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.page-title-complex p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+}
+
 /* --- TABS ---*/
 
 .header-tabs{
   background: var(--background-color-hover);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(10px);
-  border: 1px solid var(--glass-border); 
+  /* border: 1px solid var(--glass-border);  */
   border-radius: 100px; 
   
   display: inline-flex; 
@@ -45,25 +59,36 @@
   border-radius: 100px; 
   font-size: 0.9rem;
   
-  color: var(--color-text-primary); /* Колір неактивного тексту */
+  color: var(--color-text-secondary); /* Колір неактивного тексту */
+  transition: all 0.4s ease;
+}
+
+body.dark .header-tabs a {
+  padding: 8px 24px; /* клікабельна зона */
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 100px; 
+  font-size: 0.9rem;
+  
+  color: var(--background-color-active); /* Колір неактивного тексту */
   transition: all 0.4s ease;
 }
 
 .header-tabs a.active {
-  background-color: var(--glass-border);
+  background-color: var(--glass-tabs-background);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   color: var(--color-text-table); 
 }
 
 body.dark .header-tabs a.active {
-  background: rgba(39, 39, 39, 0.693); /* Трохи світліший фон для контрасту на темному */
+  background: rgba(39, 39, 39, 0.901); 
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5); /* Тінь темніша */
   color: #ffffff; /* Білий текст */
 }
 
 .header-tabs a:not(.active):hover {
-  color: var(--color-text-hover);
-  background-color: var(--background-color-hover);
+  /* color: var(--color-text-hover); */
+  background-color: var(--table-row-hover);
 }
 
 .tab-content {
@@ -74,11 +99,11 @@ body.dark .header-tabs a.active {
 /* --- THEMES BUTTON ---*/
 
 .theme-toggle {
-  background: var(--background-color-active);
+  background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   color: var(--color-text-secondary);
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -89,6 +114,15 @@ body.dark .header-tabs a.active {
 
 .theme-toggle:hover {
   background: var(--background-color-active);
-  color: var(--accent);
-  border-color: var(--accent);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  margin-right: 16px; /* Відступ від перемикача теми */
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
 }

@@ -13,9 +13,9 @@ import { MainLayout } from './components/MainLayout';
 import { DashboardPage } from './pages/Dashboard/DashboardPage';
 import { DiagnosticsPage } from './pages/Diagnostics/DiagnosticsPage';
 import { ScanPage } from './pages/ScanPage/ScanPage';
-import { HeatmapPage } from './pages/HeatmapPage';
+import { HeatmapPage } from './pages/HeatmapPage/HeatmapPage';
 import { AssistantPage } from './pages/AssistantPage';
-import { HistoryPage } from './pages/HistoryPage';
+import { HistoryPage } from './components/HistoryPage/HistoryPage';
 import { NotificationsPage } from './pages/Notifications/NotificationsPage';
 import { SettingsPage } from './pages/Settings/SettingsPage';
 

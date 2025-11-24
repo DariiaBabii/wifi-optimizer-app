@@ -1,3 +1,72 @@
+.scan-page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* --- 1. Information Banner --- */
+
+.scan-info-banner {
+  display: flex;
+  align-items: center;
+    justify-content: space-between;
+  gap: 16px;
+  background: linear-gradient(to right, var(--color-background-second), var(--background-color-navigation));
+  border: 1px solid var(--border-radius-small-color);
+  padding: 16px 20px;
+  border-radius: 12px;
+  color: #1e3a8a;
+}
+
+.banner-icon {
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.scan-info-banner h4 {
+  margin: 0 0 4px 0;
+  font-size: 1rem;
+}
+
+.scan-info-banner p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+}
+
+/* --- 2. Toolbar таблиці --- */
+.widget-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px; /* Відступи всередині віджета */
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.toolbar-title {
+  display: flex;
+  gap: 12px;
+}
+
+.toolbar-title h3 {
+  margin: 0;
+}
+
+.toolbar-title h4 {
+  margin: 0;
+  color: var(--color-text-secondary);
+}
+
+.network-count-badge {
+  background: rgba(0,0,0,0.06);
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+/* --- 3. Start Scan --- */
 .scan-button-container {
   display: flex;
   justify-content: center;
@@ -13,7 +82,7 @@
   justify-content: center;
   gap: 10px; 
 
-  height: 50px; 
+  height: 35px; 
   width: auto; 
   padding: 0 25px; 
   border-radius: 90px; 
@@ -76,8 +145,8 @@
 }
 
 .scan-button.loading {
-  width: 56px;
-  height: 56px;  
+  width: 35px;
+  height: 35px;  
   border-radius: 50%;
   padding: 0;
   gap: 0;
@@ -121,21 +190,22 @@
 .scan-table-widget {
   padding: 0;
   overflow: hidden; 
+  background: var(--glass-bg);
 }
 
 .scan-table-widget h3 {
-  padding: 16px 20px; 
   margin: 0;
-  color: var(--text-main);
   border-bottom: 1px solid var(--glass-border);
 }
+
+/* --- Стилі для таблиці --- */
 
 .table-container {
   width: 100%;
   overflow-x: auto; 
+  border-top: 1px solid var(--glass-border);
 }
 
-/* --- Стилі для таблиці --- */
 .scan-table {
   width: 100%;
   border-collapse: collapse; 
@@ -153,12 +223,11 @@
 /* Заголовок таблиці */
 .scan-table th {
   background-color: var(--table-header-bg); 
-
-  font-weight: 600;
+  border-bottom: 1px solid var(--glass-border);
   color: var(--color-text-table);
   position: sticky;
   top: 0;
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(1px);
 }
 
 /* Рядки таблиці */
@@ -198,8 +267,6 @@
   }
 }
 
-
-
 .sortable-th {
   cursor: pointer;
   user-select: none; /* Щоб текст не виділявся при подвійному кліку */
@@ -209,7 +276,6 @@
 .sortable-th:hover {
   background-color: var(--glass-hover);
   cursor: pointer;
-  color: var(--accent);
 }
 
 .th-content {
@@ -237,13 +303,42 @@
   opacity: 0.6; /* Напівпрозора */
 }
 
+.band-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
 .signal-good { color: #28a745; font-weight: 600; }
 .signal-mid { color: #ffc107; font-weight: 600; }
 .signal-bad { color: #dc3545; font-weight: 600; }
 
 /* Повідомлення в таблиці */
 .table-message {
-  text-align: center;
+  display: flex;
+  align-items: center;
   padding: 30px;
   color: #888;
+}
+
+/* Quality Bar */
+.quality-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.quality-text {
+  font-size: 0.85rem;
+  min-width: 32px;
+}
+.quality-bar-bg {
+  width: 60px;
+  height: 6px;
+  background: #e5e7eb;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.quality-bar-fill {
+  height: 100%;
+  border-radius: 3px;
 }
