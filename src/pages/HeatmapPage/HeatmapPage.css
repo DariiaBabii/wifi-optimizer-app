@@ -20,7 +20,7 @@
 }
 
 .toolbar-left {
-  padding-left: 250px;
+  padding-left: 140px;
 }
 
 .toolbar-left h3 {
@@ -78,6 +78,42 @@ body.dark .btn-secondary {
 }
 body.dark .btn-secondary:hover { background: #dededf; border-color: #cbd5e1; }
 
+/* Кнопка Start/Finish */
+.btn-scan-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: var(--color-accent);
+  color: white;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.btn-scan-toggle:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
+}
+
+/* Стан "Активне сканування" (червона кнопка стоп) */
+.btn-scan-toggle.active {
+  background: #fff;
+  color: #ef4444;
+  border: 1px solid #ef4444;
+  box-shadow: none;
+}
+.btn-scan-toggle.active:hover {
+  background: #fef2f2;
+}
+
+.scanning-cursor {
+  cursor: crosshair; /* Приціл */
+}
+
 /* --- Робоча область --- */
 .heatmap-workspace {
   flex: 1;
@@ -95,7 +131,7 @@ body.dark .btn-secondary:hover { background: #dededf; border-color: #cbd5e1; }
   max-width: 100%;
   max-height: 100%;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-  cursor: crosshair; /* Курсор-приціл */
+  cursor: crosshair; 
   border-radius: 8px;
   overflow: hidden;
 }
@@ -103,7 +139,7 @@ body.dark .btn-secondary:hover { background: #dededf; border-color: #cbd5e1; }
 .floor-plan-img {
   display: block;
   max-width: 100%;
-  max-height: 600px; /* Обмеження висоти */
+  max-height: 600px; 
   object-fit: contain;
 }
 
@@ -115,14 +151,26 @@ body.dark .btn-secondary:hover { background: #dededf; border-color: #cbd5e1; }
   border-radius: 50%;
   border: 2px solid white;
   transform: translate(-50%, -50%); /* Центрування точки відносно координат */
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition: all 0.3s ease;
-  cursor: pointer;
   z-index: 10;
 }
 
 .signal-point:hover {
   transform: translate(-50%, -50%) scale(1.2);
   z-index: 20;
+}
+
+.signal-point.pending {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-color: #ccc !important;
+}
+
+.point-spinner {
+  animation: spin 1s linear infinite;
+  color: var(--color-accent);
 }
 
 /* Тултіп з dBm при наведенні */
@@ -185,3 +233,32 @@ body.dark .btn-secondary:hover { background: #dededf; border-color: #cbd5e1; }
   align-items: center;
   gap: 8px;
 }
+
+/* Селектор Мережі */
+.network-selector {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0 10px;
+  position: relative;
+}
+
+.selector-icon {
+  color: var(--color-text-secondary);
+  margin-right: 8px;
+}
+
+.ssid-select {
+  border: none;
+  background: transparent;
+  padding: 10px 0;
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+  outline: none;
+  cursor: pointer;
+  min-width: 150px;
+}
+
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
