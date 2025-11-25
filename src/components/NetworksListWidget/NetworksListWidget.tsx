@@ -18,11 +18,13 @@ export const NetworksListWidget = () => {
     return (
       <Widget className="networks-widget empty-state">
         <div className="empty-content">
-          <AlertCircle size={40} className="empty-icon" />
-          <h4>Data missing</h4>
+          <div className="empty-header">
+            <AlertCircle size={20} className="empty-icon" />
+            <h4>Required data</h4>
+          </div>
           <p>Please scan the network for interference.</p>
           <Link to="/diagnostics/scan" className="scan-link-btn">
-            Go to scanner
+            Click Here to Scan
           </Link>
         </div>
       </Widget>

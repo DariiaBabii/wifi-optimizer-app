@@ -14,7 +14,7 @@ import { DashboardPage } from './pages/Dashboard/DashboardPage';
 import { DiagnosticsPage } from './pages/Diagnostics/DiagnosticsPage';
 import { ScanPage } from './pages/ScanPage/ScanPage';
 import { HeatmapPage } from './pages/HeatmapPage/HeatmapPage';
-import { AssistantPage } from './pages/AssistantPage';
+import { AssistantPage } from './pages/AssistantPage/AssistantPage';
 import { HistoryPage } from './components/HistoryPage/HistoryPage';
 import { NotificationsPage } from './pages/Notifications/NotificationsPage';
 import { SettingsPage } from './pages/Settings/SettingsPage';

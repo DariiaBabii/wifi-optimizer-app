@@ -8,6 +8,6 @@
 }
 
 .widget-container:hover {
-  background: var(--background-glass-hover);
-  border-color: var(--color-accent); /* Легка підсвітка кольором акценту */
+  background: var(--glass-tabs-background);
+  border-color: var(--color-accent); 
 }

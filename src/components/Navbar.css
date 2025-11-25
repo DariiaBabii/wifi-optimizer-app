@@ -125,7 +125,7 @@ body.dark .logo-img {
   opacity: 0;
   visibility: hidden;
   transform: translateX(-10px); /* Початкова позиція для анімації */
-  transform: translateY(-4px);
+  transform: translateY(-30px);
   transition: all 0.2s ease;
   pointer-events: none; /* Щоб мишка не чіплялася за тултіп */
   z-index: 1000;

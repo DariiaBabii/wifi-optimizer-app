@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  height: calc(100vh - 140px); /* Заповнюємо висоту екрану мінус хедер */
+  height: calc(100vh - 140px); /* висота екрану мінус хедер */
 }
 
 /* --- Панель інструментів --- */
@@ -60,6 +60,10 @@
 .btn-primary:hover { background: #2563eb; }
 .btn-primary:disabled { background: #ccc; cursor: not-allowed; }
 
+body.dark .btn-primary {
+  color: var(--color-background);
+}
+
 .btn-secondary {
   background: var(--glass-tabs-background);
   color: #121212;
@@ -67,13 +71,20 @@
 }
 .btn-secondary:hover { background: #f8fafc; border-color: #cbd5e1; }
 
+body.dark .btn-secondary {
+  background: var(--background-color-hover);
+  color: #121212;
+  border: 1px solid #e2e8f0;
+}
+body.dark .btn-secondary:hover { background: #dededf; border-color: #cbd5e1; }
+
 /* --- Робоча область --- */
 .heatmap-workspace {
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden; /* Ховаємо скроли якщо картинка велика */
+  overflow: hidden; 
   padding: 20px;
   position: relative;
 }

@@ -3,7 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from wifi_service import scan_networks
 import uvicorn
 import time
+from pydantic import BaseModel
 from speedtest_service import run_speedtest, get_history
+from assistant_service import get_ai_response
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from contextlib import asynccontextmanager
@@ -84,6 +86,23 @@ def trigger_speedtest(background_tasks: BackgroundTasks):
     background_tasks.add_task(execute_speedtest_task)
     
     return {"success": True, "message": "Test started in background"}
+
+class PromptData(BaseModel):
+    prompt_data: str
+
+
+@app.post("/api/assistant/send")
+def send_prompt(data: PromptData):
+    response = ''
+    try:
+        response = get_ai_response(data.prompt_data)
+    except Exception as e:
+        print(f'--- Failed to get AI response from LLM... ---')
+        print(f'--- Error: {str(e)} ---')
+        return {"success": False, "error": str(e)}
+    else:
+        return {"success": True, "response": response}
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)

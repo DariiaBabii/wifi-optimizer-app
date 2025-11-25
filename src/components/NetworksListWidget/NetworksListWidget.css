@@ -11,7 +11,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 20px 10px 20px;
-  border-bottom: 1px solid rgba(0,0,0,0.05);
+  border-bottom: 1px solid var(--glass-border);
 }
 
 .widget-header h3 {
@@ -44,9 +44,9 @@
   margin-bottom: 4px;
 }
 
-.network-row:hover {
-  background: var(--background-color-hover);
-}
+/* .network-row:hover {
+  background: var(--glass-bg-table);
+} */
 
 /* Іконка */
 .network-icon {
@@ -122,4 +122,60 @@
 .signal-bar-fill {
   height: 100%;
   border-radius: 2px;
+}
+
+/* --- Data missing --- */
+
+.networks-widget.empty-state {
+  padding: 0 !important; 
+  min-height: 100%;
+}
+
+.empty-content{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 130px 0px 122px 0px;
+  gap: 20px; 
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.empty-content p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  max-width: 200px;
+}
+
+.empty-header {
+  display: flex;
+  flex-direction: row; 
+  align-items: center; 
+  gap: 8px;        
+  color: var(--color-text-primary); 
+}
+
+.empty-header h4 {
+  margin: 0;
+}
+
+.scan-link-btn{
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-top: 8px; 
+  transition: color 0.2s ease;
+  color: var(--color-accent);
+}
+
+.scan-link-btn:hover {
+  color: var(--color-accent-light);
+}
+
+.empty-icon{
+  color: var(--color-accent);
 }
