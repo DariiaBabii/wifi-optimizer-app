@@ -3,12 +3,14 @@ import { Widget } from '../../components/Widget/Widget';
 import './ScanPage.css';
 import { Wifi, ChevronUp, ChevronDown, Loader2, Info } from 'lucide-react';
 import { useWifi, type WifiNetwork } from '../../context/WifiContext';
+import { useSettings } from '../../context/SettingsContext';
 
 // Тип для ключів, за якими можна сортувати
 type SortKey = keyof WifiNetwork;
 
 export const ScanPage = () => {
   const { networks, loading, error, scanNetworks } = useWifi();
+  const { settings } = useSettings();
 
   const formatDistance = (meters: number) => {
   if (meters < 1) return meters.toFixed(1); // 0.5 m
@@ -20,6 +22,7 @@ export const ScanPage = () => {
     key: 'rssi',
     direction: 'desc', // Спочатку найсильніші
   });
+  const filteredNetworks = networks.filter(n => n.rssi >= settings.signalThreshold);
 
   // Функція для зміни сортування
   const handleSort = (key: SortKey) => {
@@ -31,7 +34,7 @@ export const ScanPage = () => {
 
   // Сортування списку
   const sortedNetworks = useMemo(() => {
-    const sorted = [...networks];
+    const sorted = [...filteredNetworks];
     sorted.sort((a, b) => {
       const aValue = a[sortConfig.key];
       const bValue = b[sortConfig.key];
@@ -52,7 +55,7 @@ export const ScanPage = () => {
       return 0;
     });
     return sorted;
-  }, [networks, sortConfig]);
+  }, [filteredNetworks, sortConfig]);
 
   const SortableHeader = ({ label, sortKey }: { label: string; sortKey: SortKey }) => {
     const isActive = sortConfig.key === sortKey;
@@ -84,6 +87,7 @@ export const ScanPage = () => {
         </div>
         <div className="scan-button-wrapper">
               <button 
+              
                 className={`scan-button ${loading ? 'loading' : ''}`} 
                 onClick={scanNetworks} 
                 disabled={loading}

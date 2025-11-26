@@ -1,0 +1,60 @@
+.info-tooltip-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  z-index: 1;
+}
+
+.info-icon {
+  color: var(--color-accent);
+  transition: color 0.2s;
+}
+
+.info-tooltip-container:hover {
+  z-index: 9999; 
+}
+
+/* тултіп */
+.tooltip-bubble {
+  position: absolute;
+  bottom: 100%; /* З'являється зверху */
+  left: 50%;
+  transform: translateX(-50%) translateY(10px); /* Початкова позиція для анімації */
+  
+  width: max-content;
+  max-width: 250px;
+  padding: 8px 12px;
+  
+  background: var(--tooltip-bg); 
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(0,0,0,0.05);
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  
+  font-size: 0.8rem;
+  color: var(--background-color-hover);
+  text-align: center;
+  pointer-events: none; /* Щоб мишка не чіплялася */
+  transform: translateX(-50%) translateY(10px);
+  opacity: 0;
+  visibility: hidden;
+  z-index: 10;
+}
+
+.tooltip-bubble::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color:  var(--tooltip-bg) transparent transparent transparent;
+}
+
+.info-tooltip-container:hover .tooltip-bubble {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-8px); /* Піднімається вгору */
+}

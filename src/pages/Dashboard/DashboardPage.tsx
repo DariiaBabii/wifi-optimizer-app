@@ -22,7 +22,6 @@ export const DashboardPage = () => {
 
   const aiButton = (
     <button className="ai-button">
-      <Bot size={18} />
       <span>AI Assistant</span>
     </button>
   );
