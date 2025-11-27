@@ -39,7 +39,8 @@
     "table_distance": "Відстань (м)",
     "table_no_data": "Даних немає. Будь ласка, запустіть сканування.",
     "table_unknown": "Невідомо",
-    "table_hidden": "Прихована"
+    "table_hidden": "Прихована",
+    "btn_scanning": "Сканування..."
   },
 
   "heatmap": {

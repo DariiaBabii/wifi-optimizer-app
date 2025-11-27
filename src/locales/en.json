@@ -39,7 +39,8 @@
     "table_distance": "Distance (m)",
     "table_no_data": "No data found. Please run a scan.",
     "table_unknown": "Unknown",
-    "table_hidden": "Hidden"
+    "table_hidden": "Hidden",
+    "btn_scanning": "Scanning..."
   },
 
   "heatmap": {
@@ -66,7 +67,7 @@
     "ignore": "Ignore below",
     "intelligence": "Intelligence",
     "ai": "AI Model Level",
-    "notifications": "Notifications",
+    "notifications": "Notificatioщеns",
     "alerts": "Push Alerts",
     "sound": "Sound",
     "appearance": "Appearance",
