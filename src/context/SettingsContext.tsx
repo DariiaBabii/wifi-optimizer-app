@@ -1,10 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import i18n from '../i18n';
 
 interface Settings {
-  scanInterval: string;   // 'off', '10s' (для тесту), '1h', '6h'
-  signalThreshold: number; // -100 до -50
+  scanInterval: string;
+  signalThreshold: number;
   aiLevel: 'simple' | 'expert';
   theme: 'light' | 'dark';
+  language: string; 
 }
 
 interface SettingsContextType {
@@ -17,6 +19,7 @@ const defaultSettings: Settings = {
   signalThreshold: -85,
   aiLevel: 'simple',
   theme: 'light',
+  language: 'en',
 };
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
@@ -27,14 +30,17 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     return saved ? JSON.parse(saved) : defaultSettings;
   });
 
-  // в localStorage при кожній зміні
-  useEffect(() => {
-    localStorage.setItem('app-settings', JSON.stringify(settings));
-  }, [settings]);
-
   const updateSettings = (newSettings: Partial<Settings>) => {
     setSettings((prev) => ({ ...prev, ...newSettings }));
   };
+
+  useEffect(() => {
+    localStorage.setItem('app-settings', JSON.stringify(settings));
+    
+    if (settings.language !== i18n.language) {
+      i18n.changeLanguage(settings.language);
+    }
+  }, [settings]);
 
   return (
     <SettingsContext.Provider value={{ settings, updateSettings }}>
@@ -43,7 +49,6 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   );
 };
 
-// Хук для швидкого доступу
 export const useSettings = () => {
   const context = useContext(SettingsContext);
   if (!context) {

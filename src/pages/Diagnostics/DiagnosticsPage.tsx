@@ -15,7 +15,6 @@ export const DiagnosticsPage = () => {
     <div className="diagnostics-container">
      <Header title="Diagnostics" tabs={diagnosticTabs} />
 
-      {/* Контент вкладок (ScanPage або HeatmapPage) */}
         <div className="tab-content" key={location.pathname}>
         <Outlet />
       </div>

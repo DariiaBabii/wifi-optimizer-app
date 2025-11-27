@@ -1,30 +1,30 @@
 import React, { useState, useMemo } from 'react'; 
+import { useTranslation } from 'react-i18next';
 import { Widget } from '../../components/Widget/Widget';
 import './ScanPage.css';
 import { Wifi, ChevronUp, ChevronDown, Loader2, Info } from 'lucide-react';
 import { useWifi, type WifiNetwork } from '../../context/WifiContext';
 import { useSettings } from '../../context/SettingsContext';
 
-// Тип для ключів, за якими можна сортувати
 type SortKey = keyof WifiNetwork;
 
 export const ScanPage = () => {
+  const { t } = useTranslation();
   const { networks, loading, error, scanNetworks } = useWifi();
   const { settings } = useSettings();
 
   const formatDistance = (meters: number) => {
-  if (meters < 1) return meters.toFixed(1); // 0.5 m
-  return Math.round(meters); // 5 m, 12 m
+    if (meters < 1) return meters.toFixed(1); 
+    return Math.round(meters);
   };
 
-  // Стан для сортування
   const [sortConfig, setSortConfig] = useState<{ key: SortKey; direction: 'asc' | 'desc' }>({
     key: 'rssi',
-    direction: 'desc', // Спочатку найсильніші
+    direction: 'desc',
   });
+  
   const filteredNetworks = networks.filter(n => n.rssi >= settings.signalThreshold);
 
-  // Функція для зміни сортування
   const handleSort = (key: SortKey) => {
     setSortConfig((current) => ({
       key,
@@ -32,21 +32,18 @@ export const ScanPage = () => {
     }));
   };
 
-  // Сортування списку
   const sortedNetworks = useMemo(() => {
     const sorted = [...filteredNetworks];
     sorted.sort((a, b) => {
       const aValue = a[sortConfig.key];
       const bValue = b[sortConfig.key];
 
-      // Обробка рядків
       if (typeof aValue === 'string' && typeof bValue === 'string') {
         return sortConfig.direction === 'asc'
           ? aValue.localeCompare(bValue)
           : bValue.localeCompare(aValue);
       }
       
-      // Обробка чисел
       if (typeof aValue === 'number' && typeof bValue === 'number') {
         return sortConfig.direction === 'asc' 
           ? aValue - bValue 
@@ -82,18 +79,19 @@ export const ScanPage = () => {
       <div className="scan-info-banner">
         <Info size={20} className="banner-icon" />
         <div className="banner-text">
-          <h3>Network Scanner</h3>
-          <p>Find the best channel for your router by scanning neighboring networks.</p>
+          <h3>{t('scanner.title')}</h3>
+          <p>{t('scanner.desc')}</p>
         </div>
         <div className="scan-button-wrapper">
               <button 
-              
                 className={`scan-button ${loading ? 'loading' : ''}`} 
                 onClick={scanNetworks} 
                 disabled={loading}
               >
                 <Wifi className="scan-icon" size={24} />
-                <span className="scan-text">{loading ? 'Scanning...' : 'Scan network'}</span>
+                <span className="scan-text">
+                    {loading ? t('scanner.btn_scanning') : t('scanner.btn_start')}
+                </span>
               </button>
         </div>
       </div>
@@ -104,65 +102,56 @@ export const ScanPage = () => {
 
       <Widget className="scan-table-widget">
         <div className="widget-toolbar">
-          {/* Зліва: Заголовок і лічильник */}
           <div className="toolbar-title">
-            <h4>Discovered Networks:</h4>
+            <h4>{t('scanner.networks')}</h4>
             <span className="network-count-badge">{sortedNetworks.length}</span>
           </div>
-        
-
         </div>
 
         <div className="table-container">
           <table className="scan-table">
             <thead>
               <tr className="sortable-header">
-                <SortableHeader label="SSID" sortKey="ssid" />
-                <SortableHeader label="Vendor" sortKey="vendor" />
-                <SortableHeader label="Channel" sortKey="channel" />
-                <SortableHeader label="Frequency range (GHz)" sortKey="band" />
-                <SortableHeader label="RSSI (dBm)" sortKey="rssi" />
-                <SortableHeader label="Quality" sortKey="quality" />
-                <SortableHeader label="Security" sortKey="security" />              
-                <SortableHeader label="Distance (m)" sortKey="distance" />
+                <SortableHeader label={t('scanner.table_ssid')} sortKey="ssid" />
+                <SortableHeader label={t('scanner.table_vendor')} sortKey="vendor" />
+                <SortableHeader label={t('scanner.table_channel')} sortKey="channel" />
+                <SortableHeader label={t('scanner.table_frq')} sortKey="band" />
+                <SortableHeader label={t('scanner.table_rssi')} sortKey="rssi" />
+                <SortableHeader label={t('scanner.table_quality')} sortKey="quality" />
+                <SortableHeader label={t('scanner.table_security')} sortKey="security" />              
+                <SortableHeader label={t('scanner.table_distance')} sortKey="distance" />
               </tr>
             </thead>
             <tbody>
               {loading && (
-                 <tr><td colSpan={8} className="table-message">Scanning...</td></tr>
+                 <tr><td colSpan={8} className="table-message">{t('scanner.btn_scanning')}</td></tr>
               )}
               
               {!loading && sortedNetworks.length > 0 && (
                 sortedNetworks.map((network) => (
                   <tr key={network.bssid}>
-                    {/* SSID */}
                     <td>
                       {network.ssid ? (
                         <span className="ssid-text">{network.ssid}</span>
                       ) : (
                         <span className="hidden-ssid">
-                          Hidden <span className="bssid-hint">({network.bssid})</span>
+                          {t('scanner.table_hidden')} <span className="bssid-hint">({network.bssid})</span>
                         </span>
                       )}
                     </td>
 
-                    {/* Vendor*/}
                     <td style={{ color: '#888', fontSize: '0.9em' }}>
-                      {network.vendor || 'Unknown'}
+                      {network.vendor || t('scanner.table_unknown')}
                     </td>
 
-                    {/* Channel */}
                     <td>{network.channel}</td>
 
-                    {/* Band */}
                     <td>{network.band}</td>
 
-                    {/* RSSI */}
                     <td className={network.rssi > -60 ? 'signal-good' : network.rssi > -80 ? 'signal-mid' : 'signal-bad'}>
                       {network.rssi}
                     </td>
 
-                    {/* Quality*/}
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                         <span style={{ minWidth: '30px', fontSize: '0.9em' }}>{network.quality}%</span>
@@ -187,7 +176,7 @@ export const ScanPage = () => {
               )}
               
               {!loading && !error && sortedNetworks.length === 0 && (
-                <tr><td colSpan={8} className="table-message">No data found. Please run a scan.</td></tr>
+                <tr><td colSpan={8} className="table-message">{t('scanner.table_no_data')}</td></tr>
               )}
             </tbody>
           </table>

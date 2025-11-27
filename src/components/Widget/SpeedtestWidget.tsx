@@ -4,6 +4,7 @@ import {
 } from 'recharts';
 import { format, subDays, parseISO } from 'date-fns';
 import { Play, Download, Upload, Activity } from 'lucide-react';
+import { useTranslation } from 'react-i18next'; 
 import { Widget } from './Widget';
 import './SpeedtestWidget.css';
 
@@ -36,6 +37,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 export const SpeedtestWidget = ({ className }: { className?: string }) => {
+  const { t } = useTranslation(); 
   const [data, setData] = useState<TestResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState<'day' | 'week' | 'month'>('week');
@@ -59,7 +61,7 @@ export const SpeedtestWidget = ({ className }: { className?: string }) => {
       const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
       await fetch(`${API_URL}/api/speedtest/run`, { method: 'POST' });
       await new Promise(resolve => setTimeout(resolve, 35000));
-      await fetchData(); // Оновити графік після тесту
+      await fetchData();
     } catch (e) {
       console.error(e);
     } finally {
@@ -77,7 +79,6 @@ export const SpeedtestWidget = ({ className }: { className?: string }) => {
     return () => clearInterval(intervalId);
   }, []);
 
-  // Фільтрація даних для графіка
   const getFilteredData = () => {
     const now = new Date();
     let cutoff = now;
@@ -92,13 +93,12 @@ export const SpeedtestWidget = ({ className }: { className?: string }) => {
     <Widget className={`speedtest-widget ${className || ''}`}>
       <div className="st-header">
         <div className="st-title">
-          <h3>Speed History</h3>
+          <h3>{t('dashboard.speed')}</h3>
           <span className="live-indicator">
             <span className="dot"></span> Live
           </span>
         </div>
         
-        {/* Фільтри*/}
         <div className="st-filters">
           {(['day', 'week', 'month'] as const).map((f) => (
             <button 
@@ -113,7 +113,6 @@ export const SpeedtestWidget = ({ className }: { className?: string }) => {
       </div>
 
       <div className="st-content">
-        {/* Ліва частина: Поточні цифри та кнопка */}
         <div className="st-stats">
           <div className="stat-item">
             <span className="label"><Download size={14}/> Download</span>
@@ -133,11 +132,14 @@ export const SpeedtestWidget = ({ className }: { className?: string }) => {
             onClick={runTest} 
             disabled={loading}
           >
-            {loading ? 'Testing...' : <><Play size={16} fill="currentColor" /> Run Test</>}
+            {loading ? (
+                t('scanner.btn_scanning') 
+            ) : (
+                <><Play size={16} fill="currentColor" /> {t('dashboard.speed_btn')}</> 
+            )}
           </button>
         </div>
 
-        {/* Права частина: Графік */}
         <div className="st-chart">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={getFilteredData()}>

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Widget } from '../../components/Widget/Widget';
 import { Upload, Trash2, Save, Map as MapIcon, Plus, Play, Square, Loader2, Wifi, Info } from 'lucide-react';
 import { useWifi, type WifiNetwork } from '../../context/WifiContext';
@@ -14,6 +15,7 @@ interface SurveyPoint {
 }
 
 export const HeatmapPage = () => {
+  const { t } = useTranslation();
   const [mapImage, setMapImage] = useState<string | null>(null);
   const [points, setPoints] = useState<SurveyPoint[]>([]);
   const [isScanningMode, setIsScanningMode] = useState(false);
@@ -115,12 +117,6 @@ const handleMapClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     return Array.from(ssids).sort();
   }, [points]);
 
-
-  // // Delete the last point
-  // const undoLastPoint = () => {
-  //   setPoints(points.slice(0, -1));
-  // };
-
 // Determining the color of the point
   const getPointStyle = (point: SurveyPoint) => {
       // Якщо сканування ще йде
@@ -158,8 +154,8 @@ const handleMapClick = async (e: React.MouseEvent<HTMLDivElement>) => {
         <div className="heatmap-toolbar">
           <Info size={20} className="banner-icon" />
           <div className="toolbar-left">
-            <h3>Coverage Mapper</h3>
-            <p>{isScanningMode ? 'Click on the map to measure signal at your current location.' : 'Start scan to begin mapping.'}</p>
+            <h3>{t('heatmap.coverage_mapper')}</h3>
+            <p>{isScanningMode ? t('heatmap.scan_str') : t('heatmap.coverage_mapper_str')}</p>
           </div>
           
           <div className="toolbar-actions">
@@ -172,7 +168,7 @@ const handleMapClick = async (e: React.MouseEvent<HTMLDivElement>) => {
                   onChange={(e) => setSelectedSsid(e.target.value)}
                   className="ssid-select"
                 >
-                  <option value="" disabled>Select Network to View</option>
+                  <option value="" disabled>{t('heatmap.scan_select')}</option>
                   {availableNetworks.map(ssid => (
                     <option key={ssid} value={ssid}>{ssid}</option>
                   ))}
@@ -182,20 +178,20 @@ const handleMapClick = async (e: React.MouseEvent<HTMLDivElement>) => {
 
             {!mapImage && (
               <button className="btn-secondary" onClick={() => fileInputRef.current?.click()}>
-                <Upload size={18} /> Upload Plan
+                <Upload size={18} /> {t('heatmap.upload_plan')}
               </button>
             )}
 
-            {/* Головна кнопка Start/Finish */}
+            {/* Start/Finish */}
             {mapImage && (
               <button 
                 className={`btn-scan-toggle ${isScanningMode ? 'active' : ''}`} 
                 onClick={toggleScanningMode}
               >
                 {isScanningMode ? (
-                  <><Square size={18} fill="currentColor" /> Finish Scan</>
+                  <><Square size={18} fill="currentColor" /> {t('heatmap.scan_finish')}</>
                 ) : (
-                  <><Play size={18} fill="currentColor" /> Start Scan</>
+                  <><Play size={18} fill="currentColor" /> {t('heatmap.scan')}</>
                 )}
               </button>
             )}
@@ -227,7 +223,6 @@ const handleMapClick = async (e: React.MouseEvent<HTMLDivElement>) => {
                       opacity: (style as any).opacity || 1
                     }}
                   >
-                    {/* Спіннер, якщо скануємо */}
                     {point.status === 'pending' && <Loader2 size={14} className="point-spinner" />}
                     
                     {/* Тултіп при наведенні */}
@@ -246,8 +241,8 @@ const handleMapClick = async (e: React.MouseEvent<HTMLDivElement>) => {
             <div className="empty-map-state" onClick={() => fileInputRef.current?.click()}>
               <div className="upload-placeholder">
                 <MapIcon size={64} color="#cbd5e1" />
-                <h4>No Floor Plan</h4>
-                <button className="btn-upload-big"><Plus size={20} /> Upload Image</button>
+                <h4>{t('heatmap.no_floor')}</h4>
+                <button className="btn-upload-big"><Plus size={20} /> {t('heatmap.upload_image')}</button>
               </div>
             </div>
           )}

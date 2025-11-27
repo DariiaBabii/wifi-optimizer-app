@@ -1,34 +1,22 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next'; 
 import { Header } from '../../components/Header/Header';
 import { useTheme } from '../../context/ThemeContext';
 import { InfoTooltip } from '../../components/InfoTooltip/InfoTooltip';
 import { useSettings } from '../../context/SettingsContext';
 import { 
-  Bell, 
-  Moon, 
-  Globe, 
-  Trash2,
-  Download,
-  Eye,
-  EyeOff,
-  ChevronRight,
-  Volume2, 
-  Info
+  Bell, Moon, Globe, Database, Trash2, Download, Eye, EyeOff, ChevronRight, Volume2 
 } from 'lucide-react';
-import { Tooltip } from 'recharts';
 import './SettingsPage.css';
 
 export const SettingsPage = () => {
+  const { t } = useTranslation(); 
   const { theme, toggleTheme } = useTheme();
-  
-  const {settings, updateSettings} = useSettings();
-  // --- Local State for Settings ---
+  const { settings, updateSettings } = useSettings();
 
-  const [aiLevel, setAiLevel] = useState<'simple' | 'expert'>('simple');
+  // --- Local State ---
   const [apiKey, setApiKey] = useState('');
   const [showKey, setShowKey] = useState(false);
-  const [language, setLanguage] = useState('en');
-
   const [pushEnabled, setPushEnabled] = useState(true);
   const [soundEnabled, setSoundEnabled] = useState(false);
 
@@ -38,15 +26,14 @@ export const SettingsPage = () => {
 
   // --- Handlers ---
   const handleClearHistory = () => {
-    if (window.confirm('Are you sure you want to delete all scan history? This cannot be undone.')) {
-      // Тут буде виклик API до бекенду
+    if (window.confirm(t('settings.confirm_clear'))) { 
       sessionStorage.clear();
-      alert('History cleared.');
+      alert(t('settings.history_cleared')); 
     }
   };
 
   const handleExport = () => {
-    alert('Exporting report... (Feature pending)');
+    alert(t('settings.export_pending')); 
   };
 
   return (
@@ -55,7 +42,7 @@ export const SettingsPage = () => {
       <div className="settings-container">
         
         {/* --- GROUP 1: SCANNER --- */}
-        <div className="settings-group-title">Scanner</div>
+        <div className="settings-group-title">{t('settings.scanner')}</div>
         <div className="settings-divider" />
 
         <div className="settings-group glass-panel">
@@ -63,11 +50,10 @@ export const SettingsPage = () => {
           {/* Row: Auto-Scan */}
           <div className="settings-row">
             <div className="row-left">
-                          
               <div className="row-info">
-                <span className="row-label">Auto-Speedtest Interval</span>
+                <span className="row-label">{t('settings.speedtest')}</span>
+                <InfoTooltip text={t('settings.tooltip_speedtest')} />
               </div>
-                <InfoTooltip text="Sets the time interval for automatic background speed tests to build historical performance data without user intervention." />
             </div>
             <div className="row-right">
               <select 
@@ -75,7 +61,7 @@ export const SettingsPage = () => {
                 value={settings.scanInterval} 
                 onChange={(e) => updateSettings({ scanInterval: e.target.value })}
               >
-                <option value="off">Off</option>
+                <option value="off">{t('settings.off')}</option>
                 <option value="1h">Every 1h</option>
                 <option value="6h">Every 6h</option>
                 <option value="24h">Daily</option>
@@ -83,15 +69,14 @@ export const SettingsPage = () => {
             </div>
           </div>
 
-
           {/* Row: Threshold */}
-          <div className="settings-row">
-
-              <div className="row-left">
-                <span className="row-label">Signal Threshold</span>
-                <InfoTooltip text="Networks with signals weaker than this will be hidden from the scan list." />
+          <div className="settings-row align-start">
+             <div className="row-left">
+              <div className="row-info">
+                <span className="row-label">{t('settings.threshold')}</span>
+                <InfoTooltip text={t('settings.tooltip_threshold')} />
               </div>
-
+            </div>
             <div className="row-right vertical-align">
                <input 
                 type="range" 
@@ -101,22 +86,21 @@ export const SettingsPage = () => {
                 style={getRangeBackgroundSize(settings.signalThreshold, -100, -60)}
                 onChange={(e) => updateSettings({ signalThreshold: Number(e.target.value) })} 
               />
-           <span className="row-desc">Ignore below {settings.signalThreshold} dBm</span>
-
+              <span className="row-desc">{t('settings.ignore')} {settings.signalThreshold} dBm</span>
             </div>
           </div>
+        </div>
 
         {/* --- GROUP 2: AI ASSISTANT --- */}
-        <div className="settings-group-title">Intelligence</div>
+        <div className="settings-group-title">{t('settings.intelligence')}</div>
         <div className="settings-divider" />
 
         <div className="settings-group glass-panel">
-          {/* Expertise Level */}
           <div className="settings-row">
             <div className="row-left">
-              <div className="row-left">
-                <span className="row-label">AI Model Level</span>
-                <InfoTooltip text="Controls the depth of AI advice: simplified steps or technical analysis." />
+              <div className="row-info">
+                <span className="row-label">{t('settings.ai')}</span>
+                <InfoTooltip text={t('settings.tooltip_ai')} />
               </div>
             </div>
             <div className="row-right">
@@ -138,9 +122,10 @@ export const SettingsPage = () => {
             </div>
           </div>
           
+          {/* API Key */}
           <div className="settings-row">
             <div className="row-left">
-              <div className="row-inаfo"><span className="row-label">API Key</span></div>
+              <div className="row-info"><span className="row-label">API Key</span></div>
             </div>
             <div className="row-right input-wrapper">
                <input 
@@ -157,19 +142,19 @@ export const SettingsPage = () => {
           </div>
         </div>
 
-        {/* --- GROUP 3: NOTIFICATIONS (NEW) --- */}
-        <div className="settings-group-title">Notifications</div>
+        {/* --- GROUP 3: NOTIFICATIONS --- */}
+        <div className="settings-group-title">{t('settings.notifications')}</div>
         <div className="settings-divider" />
 
         <div className="settings-group glass-panel">
           
           <div className="settings-row">
             <div className="row-left">
-              <div className="icon-box" style={{ color: '#3b4edfff' }}>
+              <div className="icon-box" style={{ color: '#ef4444' }}>
                 <Bell size={20} />
               </div>
               <div className="row-info">
-                <span className="row-label">Push Alerts</span>
+                <span className="row-label">{t('settings.alerts')}</span>
               </div>
             </div>
             <div className="row-right">
@@ -186,11 +171,11 @@ export const SettingsPage = () => {
 
           <div className="settings-row">
             <div className="row-left">
-              <div className="icon-box" style={{ color: '#3b4edfff' }}>
+              <div className="icon-box" style={{ color: '#ef4444' }}>
                 <Volume2 size={20} />
               </div>
               <div className="row-info">
-                <span className="row-label">Sound</span>
+                <span className="row-label">{t('settings.sound')}</span>
               </div>
             </div>
             <div className="row-right">
@@ -207,7 +192,7 @@ export const SettingsPage = () => {
         </div>
 
         {/* --- GROUP 4: INTERFACE --- */}
-        <div className="settings-group-title">Appearance</div>
+        <div className="settings-group-title">{t('settings.appearance')}</div>
         <div className="settings-divider" />
 
         <div className="settings-group glass-panel">
@@ -218,7 +203,7 @@ export const SettingsPage = () => {
                 <Moon size={20} />
               </div>
               <div className="row-info">
-                <span className="row-label">Dark Mode</span>
+                <span className="row-label">{t('settings.dark_mode')}</span>
               </div>
             </div>
             <div className="row-right">
@@ -239,14 +224,14 @@ export const SettingsPage = () => {
                 <Globe size={20} />
               </div>
               <div className="row-info">
-                <span className="row-label">Language</span>
+                <span className="row-label">{t('settings.language')}</span>
               </div>
             </div>
             <div className="row-right">
                <select 
                 className="glass-select"
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
+                value={settings.language} 
+                onChange={(e) => updateSettings({ language: e.target.value })}
               >
                 <option value="en">English</option>
                 <option value="ua">Українська</option>
@@ -255,8 +240,8 @@ export const SettingsPage = () => {
           </div>
         </div>
 
-        {/* --- GROUP 5: DATA (Actions) --- */}
-        <div className="settings-group-title">Data</div>
+        {/* --- GROUP 5: DATA --- */}
+        <div className="settings-group-title">{t('settings.data')}</div>
         <div className="settings-divider" />
 
         <div className="settings-group glass-panel">
@@ -267,7 +252,7 @@ export const SettingsPage = () => {
                 <Download size={20} />
               </div>
               <div className="row-info">
-                <span className="row-label" style={{ color: 'var(--color-accent)' }}>Export Report</span>
+                <span className="row-label" style={{ color: 'var(--color-accent)' }}>{t('settings.export')}</span>
               </div>
             </div>
           </div>
@@ -278,7 +263,7 @@ export const SettingsPage = () => {
                 <Trash2 size={20} />
               </div>
               <div className="row-info">
-                <span className="row-label" style={{ color: '#ef4444' }}>Clear History</span>
+                <span className="row-label" style={{ color: '#ef4444' }}>{t('settings.clear')}</span>
               </div>
             </div>
             <div className="row-right">
@@ -292,7 +277,6 @@ export const SettingsPage = () => {
         </div>
 
       </div>
-    </div>
     </div>
   );
 };

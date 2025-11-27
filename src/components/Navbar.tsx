@@ -1,17 +1,19 @@
 // src/components/Navbar.tsx
 import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { 
   LayoutDashboard, 
   Activity, 
   Bot, 
   History,
-  Wifi,
   Bell,    
   Settings
 } from 'lucide-react';
 import './Navbar.css'; 
 
 export const Navbar = () => {
+  const { t } = useTranslation();
+
   return (
     <nav className="navbar main-nav">
 
@@ -28,25 +30,25 @@ export const Navbar = () => {
           <li>
             <NavLink to="/" className="nav-link">
               <LayoutDashboard size={20} />
-              <span className="nav-tooltip">Dashboard</span>
+              <span className="nav-tooltip">{t('nav.dashboard')}</span>
             </NavLink>
           </li>
           <li>
             <NavLink to="/diagnostics" className="nav-link">
               <Activity size={20} />
-              <span className="nav-tooltip">Diagnostics</span>
+              <span className="nav-tooltip">{t('nav.diagnostics')}</span>
             </NavLink>
           </li>
           <li>
             <NavLink to="/assistant" className="nav-link">
               <Bot size={20} />
-              <span className="nav-tooltip">Assistant</span>
+              <span className="nav-tooltip">{t('nav.assistant')}</span>
             </NavLink>
           </li>
           <li>
             <NavLink to="/history" className="nav-link">
               <History size={20} />
-              <span className="nav-tooltip">History</span>
+              <span className="nav-tooltip">{t('nav.history')}</span>
             </NavLink>
           </li>
         </ul>
@@ -57,13 +59,13 @@ export const Navbar = () => {
           <li>
             <NavLink to="/notifications" className="nav-link">
               <Bell size={20} />
-              <span className="nav-tooltip">Notifications</span>
+              <span className="nav-tooltip">{t('nav.notifications')}</span>
             </NavLink>
           </li>
           <li>
             <NavLink to="/settings" className="nav-link">
               <Settings size={20} />
-              <span className="nav-tooltip">Settings</span>
+              <span className="nav-tooltip">{t('nav.settings')}</span>
             </NavLink>
           </li>
         </ul>

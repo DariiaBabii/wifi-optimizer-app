@@ -2,9 +2,12 @@ import { useState } from 'react';
 import { Header } from '../../components/Header/Header';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import { useTranslation } from 'react-i18next'; 
+import { Send } from 'lucide-react'; 
 import './AssistantPage.css';
 
 export const AssistantPage = () => {
+  const { t } = useTranslation(); 
   const [messages, setMessages] = useState<{ role: 'user' | 'assistant'; text: string; isMarkdown?: boolean }[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -20,23 +23,24 @@ export const AssistantPage = () => {
     try {
       setLoading(true);
       const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      
       const response = await fetch(`${API_URL}/api/assistant/send`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ prompt_data: userText }),
+        body: JSON.stringify({ message: userText }),
       });
 
       const data = await response.json();
-      const assistantText = data.response;
+      const assistantText = data.response || 'No response';
 
       setMessages(prev => [...prev, { role: 'assistant', text: assistantText, isMarkdown: true }]);
 
     } catch (err) {
       setMessages(prev => [
         ...prev,
-        { role: 'assistant', text: '⚠ Помилка з\'єднання з сервером', isMarkdown: false },
+        { role: 'assistant', text: '⚠ Connection error. Please ensure backend is running.', isMarkdown: false },
       ]);
 
     } finally {
@@ -46,12 +50,12 @@ export const AssistantPage = () => {
 
   return (
     <div className="assistant-container">
-      <Header title="Assistant" />
+      <Header title={t('nav.assistant')} />
 
       <div className="assistant-window">
         {messages.length === 0 && (
           <div className="assistant-placeholder">
-            I'm your AI assistant! Ask me any questions you're interested in...
+            {t('assistant.assistant_placeholder')}
           </div>
         )}
 
@@ -71,7 +75,7 @@ export const AssistantPage = () => {
         ))}
 
         {loading && (
-          <div className="assistant-message assistant-msg">
+          <div className="assistant-message assistant-msg loading-dots">
             ...
           </div>
         )}
@@ -80,14 +84,15 @@ export const AssistantPage = () => {
       <div className="assistant-input-row">
         <input
           className="assistant-input"
-          placeholder="Enter your query..."
+          placeholder={t('assistant.assistant_input')}
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+          disabled={loading}
         />
 
-        <button className="assistant-send-btn" onClick={sendMessage}>
-          ➤
+        <button className="assistant-send-btn" onClick={sendMessage} disabled={loading}>
+          <Send size={18} />
         </button>
       </div>
     </div>

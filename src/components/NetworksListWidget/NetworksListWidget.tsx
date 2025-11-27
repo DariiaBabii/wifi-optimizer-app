@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import { Wifi, AlertCircle } from 'lucide-react';
 import { Widget } from '../Widget/Widget';
 import { useWifi } from '../../context/WifiContext';
+import { useTranslation } from 'react-i18next';
 import './NetworksListWidget.css';
 
 export const NetworksListWidget = () => {
   const { networks, loading } = useWifi();
+  const { t } = useTranslation();
 
   // Сортуємо: спочатку найсильніші сигнали
   const sortedNetworks = [...networks]
@@ -20,11 +22,11 @@ export const NetworksListWidget = () => {
         <div className="empty-content">
           <div className="empty-header">
             <AlertCircle size={20} className="empty-icon" />
-            <h4>Required data</h4>
+            <h4>{t('dashboard.required')}</h4>
           </div>
-          <p>Please scan the network for interference.</p>
+          <p>{t('dashboard.string')}</p>
           <Link to="/diagnostics/scan" className="scan-link-btn">
-            Click Here to Scan
+            {t('dashboard.required_btn')}
           </Link>
         </div>
       </Widget>
@@ -34,7 +36,7 @@ export const NetworksListWidget = () => {
   return (
     <Widget className="networks-widget">
       <div className="widget-header">
-        <h3>Neighboring Networks</h3>
+        <h3>{t('dashboard.networks_nearby')}</h3>
         <span className="badge">{networks.length}</span>
       </div>
       

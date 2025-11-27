@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 
 import "./index.css";
+import './i18n';
 
 import { MainLayout } from './components/MainLayout';
 

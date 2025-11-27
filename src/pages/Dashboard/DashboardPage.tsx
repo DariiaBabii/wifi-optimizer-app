@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Header } from '../../components/Header/Header';
 import { Widget } from '../../components/Widget/Widget';
 import { getGreeting } from '../../utils/timeHelpers';
@@ -8,13 +9,14 @@ import './DashboardPage.css';
 import { Bot } from 'lucide-react';
 
 export const DashboardPage = () => {
+  const { t } = useTranslation();
   const greeting = getGreeting();
 
   const dashboardTitle = (
       <div>
         <h3>{greeting}</h3>
         <p className="network-status">
-        Ready to analyze your Wi-Fi environment.
+        {t('dashboard.status_ready')}
         </p>
         
       </div>
@@ -22,7 +24,8 @@ export const DashboardPage = () => {
 
   const aiButton = (
     <button className="ai-button">
-      <span>AI Assistant</span>
+      <Bot size={18} style={{ marginRight: '8px' }} />
+      <span>{t('nav.assistant')}</span>
     </button>
   );
 
@@ -37,15 +40,15 @@ export const DashboardPage = () => {
       <div className="dashboard-grid">
       {/* Metrics */}
       <Widget className="grid-stat-1">
-        <h4>Поточний Канал</h4>
+        <h4>{t('dashboard.channel')}</h4>
         <p>6 (2.4 GHz)</p>
       </Widget>
       <Widget className="grid-stat-2">
-        <h4>Інтерференція</h4>
-        <p>Середня</p>
+        <h4>{t('dashboard.interference')}</h4>
+        <p>Medium</p>
       </Widget>
       <Widget className="grid-stat-3">
-        <h4>Сила Сигналу</h4>
+        <h4>{t('dashboard.signal')}</h4>
         <p>-50 dBm</p>
       </Widget>
 

@@ -1,0 +1,84 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "diagnostics": "Diagnostics",
+    "assistant": "Assistant",
+    "history": "History",
+    "notifications": "Notifications",
+    "settings": "Settings",
+    "scanner": "Scanner",
+    "heatmap": "Heatmap"
+  },
+
+  "dashboard": {
+    "greeting": "Good day",
+    "status_ready": "Ready to analyze your Wi-Fi environment.",
+    "channel": "Current Channel",
+    "interference": "Interference",
+    "speed": "Speed History",
+    "speed_btn": "Run Test",
+    "signal": "Signal Strength",
+    "networks_nearby": "Neighboring Networks",
+    "required": "Required data",
+    "required_string": "Please scan the network for interference.",
+    "required_btn": "Click Here to Scan"
+  },
+
+  "scanner": {
+    "title": "Network Scanner",
+    "desc": "Find the best channel for your router by scanning neighboring networks.",
+    "btn_start": "Scan network",
+    "networks": "Discovered Networks:",
+    "table_ssid": "SSID",
+    "table_vendor": "Vendor",
+    "table_channel": "Channel",
+    "table_frq": "Frequency range (GHz)",
+    "table_rssi": "RSSI (dBm)",
+    "table_quality": "Quality",
+    "table_security": "Security",
+    "table_distance": "Distance (m)",
+    "table_no_data": "No data found. Please run a scan.",
+    "table_unknown": "Unknown",
+    "table_hidden": "Hidden"
+  },
+
+  "heatmap": {
+    "coverage_mapper": "Coverage Mapper",
+    "coverage_mapper_str": "Start scan to begin mapping.",
+    "upload_plan": "Upload Plan",
+    "no_floor": "No Floor Plan",
+    "upload_image": "Upload Image",
+    "scan": "Start Scan",
+    "scan_str": "Click on the map to measure signal at your current location.",
+    "scan_finish": "Finish Scan",
+    "scan_select": "Select Network to View"
+  },
+
+  "assistant": {
+    "assistant_input": "Enter your query...",
+    "assistant_placeholder": "I'm your AI assistant! Ask me any questions you're interested in..."
+  },
+
+  "settings": {
+    "scanner": "Scanner",
+    "speedtest": "Auto-Speedtest Interval",
+    "threshold": "Signal Threshold",
+    "ignore": "Ignore below",
+    "intelligence": "Intelligence",
+    "ai": "AI Model Level",
+    "notifications": "Notifications",
+    "alerts": "Push Alerts",
+    "sound": "Sound",
+    "appearance": "Appearance",
+    "dark_mode": "Dark Mode",
+    "language": "Language",
+    "data": "Data",
+    "export": "Export Report",
+    "clear": "Clear History",
+    "off": "Off",
+    "tooltip_speedtest": "Sets the time interval for background speed tests to build historical performance data.",
+    "tooltip_threshold": "Networks with signals weaker than this will be hidden from the scan list.",
+    "tooltip_ai": "Controls the depth of AI advice: simplified steps or technical analysis."
+  }
+
+}

@@ -3,6 +3,7 @@
   display: inline-flex;
   align-items: center;
   z-index: 1;
+  margin-left: 10px;
 }
 
 .info-icon {
