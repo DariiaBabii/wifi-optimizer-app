@@ -68,8 +68,6 @@
   border-radius: 100px;
 }
 
-
-
 /* --- Status --- */
 .network-status {
   display: flex;
@@ -107,7 +105,6 @@
 .kpi-widget {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   height: 100%;
     min-height: 150px;
     padding: 20px 20px 10px;
@@ -123,7 +120,7 @@
 .kpi-header h4 {
   margin: 0;
   font-size: 0.95rem;
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -152,10 +149,13 @@
   display: flex;
   gap: 40px;
   flex-direction: row;
+  justify-content: center;
 }
 
 .kpi-main-value {
+  display: flex;
   font-size: 2rem;
+  justify-content: center;
   font-weight: 700;
   color: var(--color-text-primary);
   line-height: 1;
@@ -169,6 +169,10 @@
   color: var(--color-text-secondary);
   margin-left: 4px;
   font-family: var(--font-primary);
+}
+
+.kpi-unit-label {
+  padding-right: 20px;
 }
 
 /* Опис знизу */
@@ -199,11 +203,24 @@
 /* Signal Badge */
 .signal-badge {
   display: inline-block;
-  background: rgba(0,0,0,0.05);
   padding: 8px 8px 8px 8px;
   border-radius: 4px;
   font-size: 0.85rem;
   color: var(--color-text-primary);
   width: fit-content;
   margin-bottom: 4px;
+}
+
+.signal-bars-container {
+  display: flex;
+  gap: 4px; 
+  margin-top: 12px;
+  height: 6px; 
+  width: 100%;
+}
+
+.signal-bar-segment {
+  flex: 1; 
+  border-radius: 4px; 
+  transition: background-color 0.3s ease; 
 }

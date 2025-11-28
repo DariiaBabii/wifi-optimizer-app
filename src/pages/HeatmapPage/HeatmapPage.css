@@ -246,7 +246,6 @@ body.dark .btn-secondary:hover { background: #dededf; border-color: #cbd5e1; }
 }
 
 .selector-icon {
-  color: var(--color-text-secondary);
   margin-right: 8px;
 }
 
@@ -255,7 +254,6 @@ body.dark .btn-secondary:hover { background: #dededf; border-color: #cbd5e1; }
   background: transparent;
   padding: 10px 0;
   font-size: 0.9rem;
-  color: var(--color-text-primary);
   outline: none;
   cursor: pointer;
   min-width: 150px;

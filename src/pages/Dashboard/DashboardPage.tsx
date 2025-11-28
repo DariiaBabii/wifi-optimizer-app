@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import { Header } from '../../components/Header/Header';
 import { Widget } from '../../components/Widget/Widget';
 import { getGreeting } from '../../utils/timeHelpers';
@@ -8,12 +9,12 @@ import { SpeedtestWidget } from '../../components/Widget/SpeedtestWidget';
 import { useWifi } from '../../context/WifiContext';
 import './DashboardPage.css'; 
 
-import { Bot, BarChart3 } from 'lucide-react';
-
 export const DashboardPage = () => {
   const { t } = useTranslation();
   const greeting = getGreeting();
   const { networks } = useWifi();
+
+  const navigate = useNavigate();
 
   const bestNetwork = useMemo(() => {
     if (networks.length === 0) return null;
@@ -38,13 +39,15 @@ export const DashboardPage = () => {
   }, [bestNetwork, channelCongestion]);
 
   const getSignalStatus = (rssi: number) => {
-    if (rssi >= -50) return { label: 'Perfect', desc: 'Streaming 4K / Gaming' };
-    if (rssi >= -65) return { label: 'Good', desc: 'HD Streaming / Work' };
-    if (rssi >= -75) return { label: 'Fair', desc: 'Web Browsing' };
-    return { label: 'Weak', desc: 'Unstable connection' };
+    if (rssi >= -50) return { label: 'Perfect', level: 4, color: '#47ba8aff' }; 
+    if (rssi >= -65) return { label: 'Good',    level: 3, color: '#007bff' };
+    if (rssi >= -75) return { label: 'Fair',    level: 2, color: '#f59e0b' };
+    return {                  label: 'Weak',    level: 1, color: '#ef4444' };
   };
 
-  const signalInfo = bestNetwork ? getSignalStatus(bestNetwork.rssi) : { label: '--', desc: 'No data' };
+  const signalInfo = bestNetwork 
+    ? getSignalStatus(bestNetwork.rssi) 
+    : { label: '--', level: 0, color: '#cccccc' };
 
   const dashboardTitle = (
       <div>
@@ -57,8 +60,8 @@ export const DashboardPage = () => {
   );
 
   const aiButton = (
-    <button className="ai-button">
-      <Bot size={18} style={{ marginRight: '8px' }} />
+    <button className="ai-button"
+      onClick={() => navigate('/assistant')} >
       <span>{t('nav.assistant')}</span>
     </button>
   );
@@ -99,14 +102,13 @@ export const DashboardPage = () => {
                 <span className="kpi-unit">%</span>
             </div>
             <div className="health-bar-bg">
-                <div className="health-bar-fill" style={{ width: `${healthScore}%`, background: healthScore > 70 ? '#10b981' : '#f59e0b' }}></div>
+                <div className="health-bar-fill" style={{ width: `${healthScore}%`, background: healthScore > 70 ? '#10b981' : '#f8e111ff' }}></div>
             </div>
-            <p className="kpi-desc">Based on signal & interference</p>
+            <p className="kpi-desc">{t('dashboard.health')}</p>
         </div>
       </Widget>
       <Widget className="grid-stat-3 kpi-widget">
         <div className="kpi-header">
-            <div className="icon-bg green"><BarChart3 size={20} /></div>
             <h4>{t('dashboard.signal')}</h4>
         </div>
         <div className="kpi-content">
@@ -116,12 +118,26 @@ export const DashboardPage = () => {
                 {bestNetwork ? bestNetwork.rssi : '--'} 
                 <span className="kpi-unit">dBm</span>
             </div>
-            <div className="signal-badge">
+            <div 
+            className="signal-badge" 
+            style={{ 
+                color: signalInfo.color, 
+                backgroundColor: `${signalInfo.color}15` 
+            }} >
                 <strong>{signalInfo.label}</strong>
             </div>
-          </div>
-          
-            <p className="kpi-desc">{signalInfo.desc}</p>
+            </div>
+            <div className="signal-bars-container">
+            {[1, 2, 3, 4].map((bar) => (
+              <div 
+                key={bar} 
+                className="signal-bar-segment"
+                style={{ 
+                  backgroundColor: bar <= signalInfo.level ? signalInfo.color : '#e5e7eb' 
+                }}
+              />
+            ))}
+            </div>
         </div>
       </Widget>
 

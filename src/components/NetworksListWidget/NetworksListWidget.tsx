@@ -24,7 +24,7 @@ export const NetworksListWidget = () => {
             <AlertCircle size={20} className="empty-icon" />
             <h4>{t('dashboard.required')}</h4>
           </div>
-          <p>{t('dashboard.string')}</p>
+          <p>{t('dashboard.required_string')}</p>
           <Link to="/diagnostics/scan" className="scan-link-btn">
             {t('dashboard.required_btn')}
           </Link>

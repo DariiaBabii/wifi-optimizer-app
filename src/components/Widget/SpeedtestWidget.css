@@ -17,11 +17,13 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  
 }
 
 .st-title h3 {
   margin: 0;
   font-size: 1.1rem;
+  font-weight: 600;
 }
 
 .live-indicator {

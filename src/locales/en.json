@@ -17,11 +17,12 @@
     "interference": "Interference",
     "speed": "Speed History",
     "speed_btn": "Run Test",
-    "signal": "Signal Strength",
+    "signal": "Signal Strength Status",
     "networks_nearby": "Neighboring Networks",
     "required": "Required data",
     "required_string": "Please scan the network for interference.",
-    "required_btn": "Click Here to Scan"
+    "required_btn": "Click Here to Scan",
+    "health": "Based on signal & interference"
   },
 
   "scanner": {
@@ -67,7 +68,7 @@
     "ignore": "Ignore below",
     "intelligence": "Intelligence",
     "ai": "AI Model Level",
-    "notifications": "Notificatioщеns",
+    "notifications": "Notifications",
     "alerts": "Push Alerts",
     "sound": "Sound",
     "appearance": "Appearance",
