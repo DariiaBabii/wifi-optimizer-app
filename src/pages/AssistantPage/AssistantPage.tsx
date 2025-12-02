@@ -29,7 +29,7 @@ export const AssistantPage = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message: userText }),
+        body: JSON.stringify({ prompt_data: userText }),
       });
 
       const data = await response.json();
