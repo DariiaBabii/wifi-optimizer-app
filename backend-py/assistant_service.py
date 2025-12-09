@@ -13,13 +13,31 @@ else:
 MODEL = 'gemini-2.5-flash-lite'
 
 
-def get_ai_response(prompt):
+def get_ai_response(user_message, level="simple"):
     if not API_KEY:
         return "Error: API Key not found. Check the .env file on the backend."
-    try:            
+
+    try:
         model = genai.GenerativeModel(MODEL)
-        response = model.generate_content(prompt)
+        
+        if level == "expert":
+            system_instruction = (
+                "You are a Network Engineer. User is an advanced user. "
+                "Use technical terminology, use a user language to answer."
+                "Be concise, professional, and focus on technical details and specific configuration steps."
+            )
+        else:
+            system_instruction = (
+                "You are a helpful Wi-Fi Assistant for a non-technical user. "
+                "Explain things in simple language. Avoid heavy jargon. "
+                "Be friendly and encouraging."
+            )
+
+        full_prompt = f"{system_instruction}\n\nUser Question: {user_message}"
+        response = model.generate_content(full_prompt)
         return response.text
+
     except Exception as e:
         print(f"--- AI Error details: {e} ---")
+
     return "An error occurred while accessing the AI."

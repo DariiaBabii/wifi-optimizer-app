@@ -1,0 +1,149 @@
+[
+  {
+    "id": "1765292884031",
+    "timestamp": "2025-12-09T17:08:04.031606",
+    "type": "heatmap",
+    "summary": "Heatmap: UID Wi-Fi",
+    "details": {
+      "points_count": 2,
+      "target_ssid": "UID Wi-Fi",
+      "avg_signal": -39,
+      "coverage_percent": 100,
+      "coverage_quality": "Good"
+    }
+  },
+  {
+    "id": "1765292814544",
+    "timestamp": "2025-12-09T17:06:54.544881",
+    "type": "scan",
+    "summary": "Scan: 33 networks found",
+    "details": {
+      "networks_count": 33,
+      "top_network": "UID Wi-Fi",
+      "top_5_networks": [
+        {
+          "ssid": "UID Wi-Fi",
+          "bssid": "d8:b3:70:f8:72:8d",
+          "rssi": -39,
+          "channel": 44,
+          "band": "5",
+          "security": "Open",
+          "quality": 100,
+          "distance": 0.41,
+          "vendor": "Unknown"
+        },
+        {
+          "ssid": "AP_Office_Workspace",
+          "bssid": "b4:fb:e4:24:98:91",
+          "rssi": -46,
+          "channel": 36,
+          "band": "5",
+          "security": "WPA2",
+          "quality": 100,
+          "distance": 0.92,
+          "vendor": "Ubiquiti"
+        },
+        {
+          "ssid": "uisp",
+          "bssid": "1c:6a:1b:6d:19:e8",
+          "rssi": -47,
+          "channel": 36,
+          "band": "5",
+          "security": "Open",
+          "quality": 100,
+          "distance": 1.03,
+          "vendor": "Unknown"
+        },
+        {
+          "ssid": "TestNet",
+          "bssid": "74:ac:b9:5a:b8:97",
+          "rssi": -48,
+          "channel": 153,
+          "band": "5",
+          "security": "WPA2",
+          "quality": 100,
+          "distance": 1.04,
+          "vendor": "Ubiquiti"
+        },
+        {
+          "ssid": "UID Wi-Fi",
+          "bssid": "9c:05:d6:a2:aa:3a",
+          "rssi": -48,
+          "channel": 149,
+          "band": "5",
+          "security": "Open",
+          "quality": 100,
+          "distance": 1.04,
+          "vendor": "Unknown"
+        }
+      ]
+    }
+  },
+  {
+    "id": "1765290116952",
+    "timestamp": "2025-12-09T16:21:56.952419",
+    "type": "scan",
+    "summary": "Scan: 39 networks found",
+    "details": {
+      "networks_count": 39,
+      "top_network": "UID Wi-Fi",
+      "top_5_networks": [
+        {
+          "ssid": "UID Wi-Fi",
+          "bssid": "9c:05:d6:a2:aa:3a",
+          "rssi": -42,
+          "channel": 149,
+          "band": "5",
+          "security": "Open",
+          "quality": 100,
+          "distance": 0.52,
+          "vendor": "Unknown"
+        },
+        {
+          "ssid": "UID Wi-Fi",
+          "bssid": "d8:b3:70:f8:72:8d",
+          "rssi": -42,
+          "channel": 44,
+          "band": "5",
+          "security": "Open",
+          "quality": 100,
+          "distance": 0.58,
+          "vendor": "Unknown"
+        },
+        {
+          "ssid": "",
+          "bssid": "b6:fb:e4:14:98:91",
+          "rssi": -46,
+          "channel": 36,
+          "band": "5",
+          "security": "WPA2",
+          "quality": 100,
+          "distance": 0.92,
+          "vendor": "Unknown"
+        },
+        {
+          "ssid": "UniFi",
+          "bssid": "94:2a:6f:cc:a2:60",
+          "rssi": -48,
+          "channel": 44,
+          "band": "5",
+          "security": "WPA2",
+          "quality": 100,
+          "distance": 1.15,
+          "vendor": "Ubiquiti"
+        },
+        {
+          "ssid": "TestNet",
+          "bssid": "74:ac:b9:5a:b8:97",
+          "rssi": -50,
+          "channel": 153,
+          "band": "5",
+          "security": "WPA2",
+          "quality": 100,
+          "distance": 1.31,
+          "vendor": "Ubiquiti"
+        }
+      ]
+    }
+  }
+]

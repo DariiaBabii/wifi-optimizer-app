@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react'; 
+import React, { useState, useMemo, useEffect, useRef } from 'react'; 
 import { useTranslation } from 'react-i18next';
 import { Widget } from '../../components/Widget/Widget';
 import './ScanPage.css';
@@ -13,6 +13,8 @@ export const ScanPage = () => {
   const { networks, loading, error, scanNetworks } = useWifi();
   const { settings } = useSettings();
 
+  const isScanningRef = useRef(false);
+
   const formatDistance = (meters: number) => {
     if (meters < 1) return meters.toFixed(1); 
     return Math.round(meters);
@@ -24,6 +26,46 @@ export const ScanPage = () => {
   });
   
   const filteredNetworks = networks.filter(n => n.rssi >= settings.signalThreshold);
+
+  const saveScanResult = async (currentNetworks: WifiNetwork[]) => {
+    if (currentNetworks.length === 0) return;
+
+    const topNetwork = currentNetworks[0]?.ssid || 'Unknown';
+    
+    try {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      await fetch(`${API_URL}/api/history`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'scan',
+          summary: `Scan: ${currentNetworks.length} networks found`,
+          details: {
+            networks_count: currentNetworks.length,
+            top_network: topNetwork,
+            top_5_networks: currentNetworks.slice(0, 5) 
+          }
+        })
+      });
+        console.log("Scan saved to history");
+    } catch (err) {
+      console.error("Failed to save history:", err);
+    }
+  };
+
+  const handleScanClick = () => {
+    isScanningRef.current = true; 
+    scanNetworks();
+  };
+
+  useEffect(() => {
+    if (!loading && !error && isScanningRef.current) {
+      if (networks.length > 0) {
+        saveScanResult(networks);
+      }
+      isScanningRef.current = false; 
+    }
+  }, [loading, error, networks]); 
 
   const handleSort = (key: SortKey) => {
     setSortConfig((current) => ({
@@ -85,7 +127,7 @@ export const ScanPage = () => {
         <div className="scan-button-wrapper">
               <button 
                 className={`scan-button ${loading ? 'loading' : ''}`} 
-                onClick={scanNetworks} 
+                onClick={handleScanClick} 
                 disabled={loading}
               >
                 <Wifi className="scan-icon" size={24} />

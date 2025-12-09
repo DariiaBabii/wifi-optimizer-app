@@ -1,11 +1,11 @@
-export const getGreeting = (): string => {
+export const getGreetingKey = (): string => {
   const currentHour = new Date().getHours();
 
   if (currentHour < 12) {
-    return "Good morning ☀️";
-  } else if (currentHour < 17) {
-    return "Good afternoon";
+    return 'dashboard.greeting_morning';
+  } else if (currentHour < 18) {
+    return 'dashboard.greeting_day';
   } else {
-    return "Good evening 🌙";
+    return 'dashboard.greeting_evening';
   }
 };

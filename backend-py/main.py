@@ -6,10 +6,16 @@ import time
 from pydantic import BaseModel
 from speedtest_service import run_speedtest, get_history
 from assistant_service import get_ai_response
+from history_service import load_history, save_history_entry, clear_history
+from pydantic import BaseModel
+from typing import Dict, Any
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from contextlib import asynccontextmanager
 
+scheduler = None
+JOB_ID = 'speedtest_job'
+    
 def scheduled_speedtest():
     print("--- [SCHEDULED JOB] Auto-speedtest started... ---", flush=True)
     try:
@@ -25,7 +31,7 @@ def scheduled_speedtest():
 async def lifespan(app: FastAPI):
     scheduler = BackgroundScheduler()
 
-    scheduler.add_job(scheduled_speedtest, 'interval', hours=1)
+    scheduler.add_job(scheduled_speedtest, 'interval', hours=6, id=JOB_ID)
 
     scheduler.start()
     print("--- [SCHEDULER] Background scheduler started (Every 6 hours) ---", flush=True)
@@ -89,20 +95,42 @@ def trigger_speedtest(background_tasks: BackgroundTasks):
 
 class PromptData(BaseModel):
     prompt_data: str
-
+    level: str = "simple" # "simple" або "expert"
+    action_type: str | None = None
 
 @app.post("/api/assistant/send")
 def send_prompt(data: PromptData):
     response = ''
     try:
-        response = get_ai_response(data.prompt_data)
+        response = get_ai_response(data.prompt_data, data.level)
+        return {"success": True, "response": response}
+
     except Exception as e:
         print(f'--- Failed to get AI response from LLM... ---')
         print(f'--- Error: {str(e)} ---')
         return {"success": False, "error": str(e)}
-    else:
-        return {"success": True, "response": response}
 
+class HistoryItem(BaseModel):
+    type: str
+    summary: str
+    details: Dict[str, Any]
+
+@app.get("/api/history")
+def get_history_route():
+    return {"success": True, "data": load_history()}
+
+@app.post("/api/history")
+def add_history_route(item: HistoryItem):
+    try:
+        entry = save_history_entry(item.type, item.summary, item.details)
+        return {"success": True, "data": entry}
+    except Exception as e:
+        return {"success": False, "error": str(e)}
+
+@app.delete("/api/history")
+def delete_history_route():
+    clear_history()
+    return {"success": True, "message": "History cleared"}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)

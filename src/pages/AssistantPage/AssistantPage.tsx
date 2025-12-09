@@ -1,25 +1,36 @@
 import { useState } from 'react';
 import { Header } from '../../components/Header/Header';
+import { QuickActions } from './QuickActions/QuickActions';
+import type { QuickAction } from './quickActionsConfig';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useTranslation } from 'react-i18next'; 
+import { useSettings } from '../../context/SettingsContext';
 import { Send } from 'lucide-react'; 
 import './AssistantPage.css';
 
+interface ChatMessage {
+  id: number;
+  role: 'user' | 'assistant';
+  text: string;
+  isMarkdown?: boolean;
+}
+
 export const AssistantPage = () => {
   const { t } = useTranslation(); 
-  const [messages, setMessages] = useState<{ role: 'user' | 'assistant'; text: string; isMarkdown?: boolean }[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const { settings } = useSettings();
 
-  const sendMessage = async () => {
-    if (!input.trim()) return;
-
-    const userText = input;
-    setInput('');
-
-    setMessages(prev => [...prev, { role: 'user', text: userText }]);
-
+  const sendMessage = async (userText: string, actionType?: string) => {
+    const newUserMsg: ChatMessage = { 
+      id: Date.now(), 
+      role: 'user', 
+      text: userText 
+    };
+    setMessages(prev => [...prev, newUserMsg]);
+    
     try {
       setLoading(true);
       const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
@@ -29,23 +40,48 @@ export const AssistantPage = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ prompt_data: userText }),
+        body: JSON.stringify({ 
+          message: userText,
+          level: settings.aiLevel || 'simple',
+          action_type: actionType || null
+       }),
       });
 
       const data = await response.json();
-      const assistantText = data.response || 'No response';
+      const assistantText = data.success ? data.response : `Error: ${data.error}`;
 
-      setMessages(prev => [...prev, { role: 'assistant', text: assistantText, isMarkdown: true }]);
+      setMessages(prev => [...prev, { 
+        id: Date.now() + 1,
+        role: 'assistant', 
+        text: assistantText, 
+        isMarkdown: true 
+      }]);
 
     } catch (err) {
       setMessages(prev => [
         ...prev,
-        { role: 'assistant', text: '⚠ Connection error. Please ensure backend is running.', isMarkdown: false },
+        { 
+          id: Date.now() + 1,
+          role: 'assistant', 
+          text: '⚠ Connection error. Please ensure backend is running.', 
+          isMarkdown: false 
+        },
       ]);
 
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleInputSend = () => {
+    if (!input.trim()) return;
+    sendMessage(input); 
+    setInput('');
+  };
+
+  const handleQuickAction = (action: QuickAction) => {
+    const textToSend = action.promptData || action.label;
+    sendMessage(textToSend, action.actionType);
   };
 
   return (
@@ -56,6 +92,11 @@ export const AssistantPage = () => {
         {messages.length === 0 && (
           <div className="assistant-placeholder">
             {t('assistant.assistant_placeholder')}
+
+        <QuickActions 
+                 onActionClick={handleQuickAction} 
+                 disabled={loading}
+          />
           </div>
         )}
 
@@ -76,7 +117,7 @@ export const AssistantPage = () => {
 
         {loading && (
           <div className="assistant-message assistant-msg loading-dots">
-            ...
+            Thinking...
           </div>
         )}
       </div>
@@ -87,11 +128,15 @@ export const AssistantPage = () => {
           placeholder={t('assistant.assistant_input')}
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+          onKeyDown={(e) => e.key === 'Enter' && handleInputSend()}
           disabled={loading}
         />
 
-        <button className="assistant-send-btn" onClick={sendMessage} disabled={loading}>
+        <button 
+          className="assistant-send-btn" 
+          onClick={handleInputSend} 
+          disabled={loading || !input.trim()}
+        >
           <Send size={18} />
         </button>
       </div>

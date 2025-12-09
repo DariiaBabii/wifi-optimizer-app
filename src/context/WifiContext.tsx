@@ -17,11 +17,12 @@ interface WifiContextType {
   loading: boolean;
   error: string | null;
   scanNetworks: () => Promise<void>;
-  lastUpdated: Date | null;
+  lastUpdated: string | null;
 }
 
 const WifiContext = createContext<WifiContextType | undefined>(undefined);
 const STORAGE_KEY = 'wifiScanResults';
+const STORAGE_KEY_DATE = 'wifiLastUpdated';
 
 export const WifiProvider = ({ children }: { children: ReactNode }) => {
   const [networks, setNetworks] = useState<WifiNetwork[]>(() => {
@@ -33,13 +34,22 @@ export const WifiProvider = ({ children }: { children: ReactNode }) => {
     }
   });
 
+  const [lastUpdated, setLastUpdated] = useState<string | null>(() => {
+    return sessionStorage.getItem(STORAGE_KEY_DATE);
+  });
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
   useEffect(() => {
     sessionStorage.setItem(STORAGE_KEY, JSON.stringify(networks));
   }, [networks]);
+
+  useEffect(() => {
+    if (lastUpdated) {
+      sessionStorage.setItem(STORAGE_KEY_DATE, lastUpdated);
+    }
+  }, [lastUpdated]);
 
   const scanNetworks = async () => {
     setLoading(true);
@@ -59,7 +69,7 @@ export const WifiProvider = ({ children }: { children: ReactNode }) => {
       }));
         
         setNetworks(adapted);
-        setLastUpdated(new Date());
+        setLastUpdated(new Date().toISOString());
       } else {
         throw new Error(result.error);
       }

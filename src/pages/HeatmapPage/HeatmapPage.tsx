@@ -1,37 +1,72 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import html2canvas from 'html2canvas';
 import { Widget } from '../../components/Widget/Widget';
-import { Upload, Trash2, Save, Map as MapIcon, Plus, Play, Square, Loader2, Wifi, Info } from 'lucide-react';
-import { useWifi, type WifiNetwork } from '../../context/WifiContext';
+import { Upload, Save, Map as MapIcon, Plus, Play, Square, Loader2, Wifi, Info } from 'lucide-react';
+import { type WifiNetwork } from '../../context/WifiContext';
 import './HeatmapPage.css';
+
+const STORAGE_KEY_MAP = 'heatmap_image_data';
+const STORAGE_KEY_POINTS = 'heatmap_points_data';
 
 interface SurveyPoint {
   id: number;
   x: number;
   y: number;
-  rssi: number;
   status: 'pending' | 'success' | 'error'; 
   data?: WifiNetwork[];
 }
 
 export const HeatmapPage = () => {
   const { t } = useTranslation();
-  const [mapImage, setMapImage] = useState<string | null>(null);
-  const [points, setPoints] = useState<SurveyPoint[]>([]);
+  
+  const [mapImage, setMapImage] = useState<string | null>(() => {
+    return sessionStorage.getItem(STORAGE_KEY_MAP);
+  });
+  
+  const [points, setPoints] = useState<SurveyPoint[]>(() => {
+    const saved = sessionStorage.getItem(STORAGE_KEY_POINTS);
+    return saved ? JSON.parse(saved) : [];
+  });
+
   const [isScanningMode, setIsScanningMode] = useState(false);
   const [selectedSsid, setSelectedSsid] = useState<string>('');
+  
+  const [isSaving, setIsSaving] = useState(false); 
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  //Image Upload
+  useEffect(() => {
+    if (mapImage) {
+      sessionStorage.setItem(STORAGE_KEY_MAP, mapImage);
+    } else {
+      sessionStorage.removeItem(STORAGE_KEY_MAP);
+    }
+  }, [mapImage]);
+
+  useEffect(() => {
+    sessionStorage.setItem(STORAGE_KEY_POINTS, JSON.stringify(points));
+  }, [points]);
+
+  const clearSession = () => {
+     sessionStorage.removeItem(STORAGE_KEY_MAP);
+     sessionStorage.removeItem(STORAGE_KEY_POINTS);
+     setMapImage(null);
+     setPoints([]);
+     setIsScanningMode(false);
+     setSelectedSsid('');
+  };
+
+  // Image Upload
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setMapImage(e.target?.result as string);
-        setPoints([]);
-        setIsScanningMode(false);
+        clearSession();
+        // Встановлюємо нове
+        const result = e.target?.result as string;
+        setMapImage(result);
       };
       reader.readAsDataURL(file);
     }
@@ -39,7 +74,7 @@ export const HeatmapPage = () => {
 
   const toggleScanningMode = () => {
     if (!isScanningMode) {
-      // Старт: Очищаємо попередні точки
+      // Старт
       if (points.length > 0 && !window.confirm("Start new scan? Current points will be cleared.")) {
         return;
       }
@@ -49,64 +84,59 @@ export const HeatmapPage = () => {
     } else {
       // Стоп
       setIsScanningMode(false);
-      // Автоматично обираємо найсильнішу мережу з останньої точки для відображення
+      // Авто-вибір
       if (points.length > 0) {
         const lastData = points[points.length - 1].data;
         if (lastData && lastData.length > 0) {
-          setSelectedSsid(lastData[0].ssid);
+          const bestNet = [...lastData].sort((a, b) => b.rssi - a.rssi)[0];
+          setSelectedSsid(bestNet.ssid);
         }
       }
     }
   };
 
-// Adding a point on click
-const handleMapClick = async (e: React.MouseEvent<HTMLDivElement>) => {
+  // Adding a point
+  const handleMapClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     if (!mapImage || !isScanningMode) return;
 
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width) * 100;
     const y = ((e.clientY - rect.top) / rect.height) * 100;
 
-    // точка зі статусом "Очікуйте"
     const newPoint: SurveyPoint = {
       id: Date.now(),
       x, y,
-      status: 'pending',
-      rssi: 0
+      status: 'pending'
     };
 
     setPoints(prev => [...prev, newPoint]);
 
-        // сканування для цієї точки
-        try {
-          const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-          const response = await fetch(`${API_URL}/api/scan`);
-          const result = await response.json();
+    try {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      const response = await fetch(`${API_URL}/api/scan`);
+      const result = await response.json();
 
-          if (result.success) {
-            // Оновлюємо точку успішними даними
-            setPoints(currentPoints => 
-              currentPoints.map(p => 
-                p.id === newPoint.id 
-                  ? { ...p, status: 'success', data: result.data } 
-                  : p
-              )
-            );
-          } else {
-            throw new Error("Scan failed");
-          }
-        } catch (err) {
+      if (result.success) {
+        setPoints(currentPoints => 
+          currentPoints.map(p => 
+            p.id === newPoint.id 
+              ? { ...p, status: 'success', data: result.data } 
+              : p
+          )
+        );
+      } else {
+        throw new Error("Scan failed");
+      }
+    } catch (err) {
+      setPoints(currentPoints => 
+        currentPoints.map(p => 
+          p.id === newPoint.id ? { ...p, status: 'error' } : p
+        )
+      );
+    }
+  };
 
-          // Позначаємо точку як помилкову
-          setPoints(currentPoints => 
-            currentPoints.map(p => 
-              p.id === newPoint.id ? { ...p, status: 'error' } : p
-            )
-          );
-        }
-      };
-
-// Отримання списку унікальних SSID для дропдауна
+  // Unique SSIDs
   const availableNetworks = useMemo(() => {
     const ssids = new Set<string>();
     points.forEach(p => {
@@ -117,40 +147,91 @@ const handleMapClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     return Array.from(ssids).sort();
   }, [points]);
 
-// Determining the color of the point
+  // Styling
   const getPointStyle = (point: SurveyPoint) => {
-      // Якщо сканування ще йде
       if (point.status === 'pending') return { bg: '#ccc', border: '#999', shadow: 'none' };
       if (point.status === 'error') return { bg: '#ef4444', border: '#b91c1c', shadow: 'none' };
 
-      // Якщо сканування завершено, шукаємо рівень сигналу вибраної мережі
       if (selectedSsid && point.data) {
         const network = point.data.find(n => n.ssid === selectedSsid);
         
         if (network) {
-          // Мережа знайдена в цій точці -> визначаємо колір за RSSI
           const rssi = network.rssi;
-          let color = '#ef4444'; // Bad (< -80)
-          if (rssi >= -50) color = '#10b981'; // Excellent
-          else if (rssi >= -60) color = '#3b82f6'; // Good
-          else if (rssi >= -70) color = '#f59e0b'; // Fair
-          else if (rssi >= -80) color = '#f97316'; // Poor
+          let color = '#ef4444';
+          if (rssi >= -50) color = '#10b981';
+          else if (rssi >= -60) color = '#3b82f6';
+          else if (rssi >= -70) color = '#f59e0b';
+          else if (rssi >= -80) color = '#f97316';
 
           return { bg: color, border: '#fff', shadow: `0 0 15px 2px ${color}` };
         } else {
-          // Мережа НЕ ловить в цій точці
           return { bg: 'transparent', border: '#aaa', shadow: 'none', opacity: 0.5 };
         }
       }
-
-      // Якщо мережа не вибрана, просто показуємо, що точка є (зелена)
       return { bg: '#10b981', border: '#fff', shadow: 'none' };
-    };
+  };
+
+  const saveHeatmapResult = async () => {
+    if (!selectedSsid || points.length === 0) return;
+    setIsSaving(true);
+
+    let totalRssi = 0;
+    let count = 0;
+
+    points.forEach(p => {
+      const net = p.data?.find(n => n.ssid === selectedSsid);
+      if (net) {
+        totalRssi += net.rssi;
+        count++;
+      }
+    });
+
+    const avgRssi = count > 0 ? Math.round(totalRssi / count) : 0;
+    const coveragePercent = Math.round((count / points.length) * 100);
+    
+    try {
+      // 2. Створення скріншоту
+      const mapElement = document.querySelector('.heatmap-workspace') as HTMLElement;
+      let snapshotBase64 = null;
+
+      if (mapElement) {
+        const canvas = await html2canvas(mapElement, {
+            useCORS: true,
+            logging: false,
+            scale: 1 
+        });
+        snapshotBase64 = canvas.toDataURL('image/jpeg', 0.7);
+      }
+
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+      
+      await fetch(`${API_URL}/api/history`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'heatmap',
+          summary: `Heatmap: ${selectedSsid}`,
+          details: {
+            points_count: points.length,
+            target_ssid: selectedSsid,
+            avg_signal: avgRssi,
+            coverage_percent: coveragePercent,
+            coverage_quality: avgRssi > -65 ? 'Good' : 'Weak',
+            snapshot: snapshotBase64
+          }
+        })
+      });
+      alert(t('heatmap.save_success') || "Saved!");
+    } catch (error) {
+      console.error(error);
+      alert("Failed to save heatmap");
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   return (
       <div className="heatmap-container">
-        
-        {/* Toolbar */}
         <div className="heatmap-toolbar">
           <Info size={20} className="banner-icon" />
           <div className="toolbar-left">
@@ -159,7 +240,6 @@ const handleMapClick = async (e: React.MouseEvent<HTMLDivElement>) => {
           </div>
           
           <div className="toolbar-actions">
-            {/* Dropdown для вибору мережі (показуємо тільки якщо є дані) */}
             {points.length > 0 && !isScanningMode && (
               <div className="network-selector">
                 <Wifi size={16} className="selector-icon"/>
@@ -182,11 +262,11 @@ const handleMapClick = async (e: React.MouseEvent<HTMLDivElement>) => {
               </button>
             )}
 
-            {/* Start/Finish */}
             {mapImage && (
               <button 
                 className={`btn-scan-toggle ${isScanningMode ? 'active' : ''}`} 
                 onClick={toggleScanningMode}
+                disabled={isSaving}
               >
                 {isScanningMode ? (
                   <><Square size={18} fill="currentColor" /> {t('heatmap.scan_finish')}</>
@@ -196,11 +276,23 @@ const handleMapClick = async (e: React.MouseEvent<HTMLDivElement>) => {
               </button>
             )}
             
+            {/* Кнопка збереження */}
+            {mapImage && !isScanningMode && points.length > 0 && selectedSsid && (
+              <button 
+                className="btn-primary" 
+                onClick={saveHeatmapResult}
+                disabled={isSaving}
+                style={{display: 'flex', alignItems: 'center', gap: '8px'}}
+              >
+                {isSaving ? <Loader2 size={18} className="spin" /> : <Save size={18} />}
+                {t('heatmap.save_btn') || "Save"}
+              </button>
+            )}
+
             <input type="file" accept="image/*" ref={fileInputRef} style={{ display: 'none' }} onChange={handleImageUpload}/>
           </div>
         </div>
 
-        {/* Workspace */}
         <Widget className="heatmap-workspace">
           {mapImage ? (
             <div className={`map-wrapper ${isScanningMode ? 'scanning-cursor' : ''}`} onClick={handleMapClick}>
@@ -225,7 +317,6 @@ const handleMapClick = async (e: React.MouseEvent<HTMLDivElement>) => {
                   >
                     {point.status === 'pending' && <Loader2 size={14} className="point-spinner" />}
                     
-                    {/* Тултіп при наведенні */}
                     {point.status === 'success' && selectedSsid && (
                       <div className="point-tooltip">
                         <strong>{selectedSsid}</strong>

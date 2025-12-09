@@ -1,18 +1,22 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { formatDistanceToNow } from 'date-fns'; 
+import { uk, enUS } from 'date-fns/locale';
 import { Header } from '../../components/Header/Header';
 import { Widget } from '../../components/Widget/Widget';
-import { getGreeting } from '../../utils/timeHelpers';
+import { getGreetingKey } from '../../utils/timeHelpers';
 import { NetworksListWidget } from '../../components/NetworksListWidget/NetworksListWidget';
 import { SpeedtestWidget } from '../../components/Widget/SpeedtestWidget';
 import { useWifi } from '../../context/WifiContext';
+import { useSettings } from '../../context/SettingsContext';
 import './DashboardPage.css'; 
 
 export const DashboardPage = () => {
   const { t } = useTranslation();
-  const greeting = getGreeting();
-  const { networks } = useWifi();
+  const greetingKey = getGreetingKey();
+  const { networks, lastUpdated } = useWifi();
+  const { settings } = useSettings();
 
   const navigate = useNavigate();
 
@@ -49,13 +53,37 @@ export const DashboardPage = () => {
     ? getSignalStatus(bestNetwork.rssi) 
     : { label: '--', level: 0, color: '#cccccc' };
 
+
+
+    const renderStatus = () => {
+    if (!lastUpdated || networks.length === 0) {
+      return (
+        <span style={{ color: '#fcb74fff' }}>
+           ● {t('dashboard.status_no_data')}
+        </span>
+      );
+    }
+
+    const dateLocale = settings.language === 'ua' ? uk : enUS;
+
+  const timeAgo = formatDistanceToNow(new Date(lastUpdated), { 
+      addSuffix: true, 
+      locale: dateLocale 
+    });
+
+  return (
+      <span style={{ color: '#099158a7' }}>
+        ● {t('dashboard.status_updated')} {timeAgo}
+      </span>
+    );
+  };
+
   const dashboardTitle = (
       <div>
-        <h3>{greeting}</h3>
+        <h3>{t(greetingKey)}</h3>
         <p className="network-status">
-        {t('dashboard.status_ready')}
+          {renderStatus()}
         </p>
-        
       </div>
   );
 

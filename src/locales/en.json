@@ -11,7 +11,12 @@
   },
 
   "dashboard": {
-    "greeting": "Good day",
+    "greeting_morning": "Good morning ☀️",
+    "greeting_day": "Good afternoon",
+    "greeting_evening": "Good evening 🌙",
+    "status_no_data": "No data available. Run a scan to analyze.",
+    "status_updated": "Data is up to date. Last updated:",
+    "status_ago": "ago",
     "status_ready": "Ready to analyze your Wi-Fi environment.",
     "channel": "Current Channel",
     "interference": "Interference",
@@ -53,7 +58,8 @@
     "scan": "Start Scan",
     "scan_str": "Click on the map to measure signal at your current location.",
     "scan_finish": "Finish Scan",
-    "scan_select": "Select Network to View"
+    "scan_select": "Select Network to View",
+    "save_btn": "Save Map"
   },
 
   "assistant": {
