@@ -23,6 +23,7 @@
 
   /* Напівпрозорі фони */
   --glass-bg: rgba(255, 255, 255); 
+  --glass-bg-table: #f8fafc;
   --glass-border: rgb(190, 190, 190);
   --glass-tabs-background: rgb(255, 255, 255);
 

@@ -1,9 +1,11 @@
 import React, { useState, useRef, useMemo, useEffect } from 'react';
+import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import html2canvas from 'html2canvas';
 import { Widget } from '../../components/Widget/Widget';
-import { Upload, Save, Map as MapIcon, Plus, Play, Square, Loader2, Wifi, Info } from 'lucide-react';
+import { Upload, Save, Map as MapIcon, Plus, Play, Square, Loader2, Wifi, Info, Trash2 } from 'lucide-react';
 import { type WifiNetwork } from '../../context/WifiContext';
+import { ConfirmModal } from '../../components/Modal/ConfirmModal';
 import './HeatmapPage.css';
 
 const STORAGE_KEY_MAP = 'heatmap_image_data';
@@ -20,6 +22,7 @@ interface SurveyPoint {
 export const HeatmapPage = () => {
   const { t } = useTranslation();
   
+  // --- STATES ---
   const [mapImage, setMapImage] = useState<string | null>(() => {
     return sessionStorage.getItem(STORAGE_KEY_MAP);
   });
@@ -31,11 +34,17 @@ export const HeatmapPage = () => {
 
   const [isScanningMode, setIsScanningMode] = useState(false);
   const [selectedSsid, setSelectedSsid] = useState<string>('');
-  
   const [isSaving, setIsSaving] = useState(false); 
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Стан для модального вікна
+  const [modalConfig, setModalConfig] = useState<{
+    isOpen: boolean;
+    type: 'clear_map' | 'new_scan' | null;
+  }>({ isOpen: false, type: null });
+
+  // --- EFFECTS ---
   useEffect(() => {
     if (mapImage) {
       sessionStorage.setItem(STORAGE_KEY_MAP, mapImage);
@@ -48,6 +57,8 @@ export const HeatmapPage = () => {
     sessionStorage.setItem(STORAGE_KEY_POINTS, JSON.stringify(points));
   }, [points]);
 
+  // --- HELPER FUNCTIONS ---
+  
   const clearSession = () => {
      sessionStorage.removeItem(STORAGE_KEY_MAP);
      sessionStorage.removeItem(STORAGE_KEY_POINTS);
@@ -57,6 +68,14 @@ export const HeatmapPage = () => {
      setSelectedSsid('');
   };
 
+  const startScan = () => {
+      setPoints([]);
+      setSelectedSsid(''); 
+      setIsScanningMode(true);
+  };
+
+  // --- HANDLERS ---
+
   // Image Upload
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -64,7 +83,6 @@ export const HeatmapPage = () => {
       const reader = new FileReader();
       reader.onload = (e) => {
         clearSession();
-        // Встановлюємо нове
         const result = e.target?.result as string;
         setMapImage(result);
       };
@@ -72,19 +90,24 @@ export const HeatmapPage = () => {
     }
   };
 
+  // Клік на смітник -> відкриває модалку
+  const handleClearMap = () => {
+    setModalConfig({ isOpen: true, type: 'clear_map' });
+  };
+
+  // Клік на Start/Stop Scan
   const toggleScanningMode = () => {
     if (!isScanningMode) {
-      // Старт
-      if (points.length > 0 && !window.confirm("Start new scan? Current points will be cleared.")) {
+      // Якщо намагаємось почати нове сканування, а точки вже є -> питаємо підтвердження
+      if (points.length > 0) {
+        setModalConfig({ isOpen: true, type: 'new_scan' });
         return;
       }
-      setPoints([]);
-      setSelectedSsid(''); 
-      setIsScanningMode(true);
+      startScan();
     } else {
-      // Стоп
+      // СТОП 
       setIsScanningMode(false);
-      // Авто-вибір
+      
       if (points.length > 0) {
         const lastData = points[points.length - 1].data;
         if (lastData && lastData.length > 0) {
@@ -95,7 +118,17 @@ export const HeatmapPage = () => {
     }
   };
 
-  // Adding a point
+  const performConfirmedAction = () => {
+    if (modalConfig.type === 'clear_map') {
+       clearSession();
+       toast.success(t('heatmap.map_cleared') || "Map cleared");
+    } else if (modalConfig.type === 'new_scan') {
+       startScan();
+    }
+    setModalConfig({ isOpen: false, type: null });
+  };
+
+  // Додавання точки на карту
   const handleMapClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     if (!mapImage || !isScanningMode) return;
 
@@ -106,7 +139,7 @@ export const HeatmapPage = () => {
     const newPoint: SurveyPoint = {
       id: Date.now(),
       x, y,
-      status: 'pending'
+      status: 'pending',
     };
 
     setPoints(prev => [...prev, newPoint]);
@@ -133,10 +166,10 @@ export const HeatmapPage = () => {
           p.id === newPoint.id ? { ...p, status: 'error' } : p
         )
       );
+      toast.error("Scan failed for this point");
     }
   };
 
-  // Unique SSIDs
   const availableNetworks = useMemo(() => {
     const ssids = new Set<string>();
     points.forEach(p => {
@@ -147,7 +180,6 @@ export const HeatmapPage = () => {
     return Array.from(ssids).sort();
   }, [points]);
 
-  // Styling
   const getPointStyle = (point: SurveyPoint) => {
       if (point.status === 'pending') return { bg: '#ccc', border: '#999', shadow: 'none' };
       if (point.status === 'error') return { bg: '#ef4444', border: '#b91c1c', shadow: 'none' };
@@ -190,7 +222,6 @@ export const HeatmapPage = () => {
     const coveragePercent = Math.round((count / points.length) * 100);
     
     try {
-      // 2. Створення скріншоту
       const mapElement = document.querySelector('.heatmap-workspace') as HTMLElement;
       let snapshotBase64 = null;
 
@@ -221,10 +252,13 @@ export const HeatmapPage = () => {
           }
         })
       });
-      alert(t('heatmap.save_success') || "Saved!");
+
+      // 3. Успіх
+      toast.success(t('heatmap.save_success') || "Heatmap saved successfully!");
+
     } catch (error) {
       console.error(error);
-      alert("Failed to save heatmap");
+      toast.error("Failed to save heatmap");
     } finally {
       setIsSaving(false);
     }
@@ -256,6 +290,12 @@ export const HeatmapPage = () => {
               </div>
             )}
 
+            {mapImage && !isScanningMode && (
+              <button className="btn-danger-outline" onClick={handleClearMap} title="Clear Map">
+                <Trash2 size={18} />
+              </button>
+            )}
+
             {!mapImage && (
               <button className="btn-secondary" onClick={() => fileInputRef.current?.click()}>
                 <Upload size={18} /> {t('heatmap.upload_plan')}
@@ -276,7 +316,6 @@ export const HeatmapPage = () => {
               </button>
             )}
             
-            {/* Кнопка збереження */}
             {mapImage && !isScanningMode && points.length > 0 && selectedSsid && (
               <button 
                 className="btn-primary" 
@@ -338,6 +377,21 @@ export const HeatmapPage = () => {
             </div>
           )}
         </Widget>
+
+        <ConfirmModal 
+          isOpen={modalConfig.isOpen}
+          title={modalConfig.type === 'clear_map' ? (t('heatmap.clear_map_title') || "Clear Map?") : (t('heatmap.new_scan_title') || "Start New Scan?")}
+          message={
+              modalConfig.type === 'clear_map' 
+              ? (t('heatmap.clear_map_msg') || "This will remove the current floor plan and all recorded data. This action cannot be undone.")
+              : (t('heatmap.new_scan_msg') || "Starting a new scan will clear all current points. Do you want to continue?")
+          }
+          onConfirm={performConfirmedAction}
+          onCancel={() => setModalConfig({ ...modalConfig, isOpen: false })}
+          isDangerous={true}
+          confirmText={t('common.confirm') || "Confirm"}
+          cancelText={t('common.cancel') || "Cancel"}
+        />
       </div>
     );
-  };
+};

@@ -59,7 +59,17 @@
     "scan_str": "Click on the map to measure signal at your current location.",
     "scan_finish": "Finish Scan",
     "scan_select": "Select Network to View",
-    "save_btn": "Save Map"
+    "save_btn": "Save Map",
+    "clear_map_title": "Clear map?",
+    "clear_map_msg": "This will remove the current floor plan and all recorded data. This action cannot be undone.",
+    "new_scan_title":"Start new scan?",
+    "new_scan_msg":"Starting a new scan will clear all current points. Do you want to continue?",
+    "map_cleared": "Map cleared"
+  },
+
+  "common":{
+    "cancel":"Cancel",
+    "confirm":"Confirm"
   },
 
   "assistant": {

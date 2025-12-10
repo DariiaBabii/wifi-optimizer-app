@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next'; 
-import { Header } from '../../components/Header/Header';
+import { generatePDFReport } from '../../utils/pdfGenerator';
 import { useTheme } from '../../context/ThemeContext';
+import toast from 'react-hot-toast';
 import { InfoTooltip } from '../../components/InfoTooltip/InfoTooltip';
 import { useSettings } from '../../context/SettingsContext';
 import { 
-  Bell, Moon, Globe, Database, Trash2, Download, Eye, EyeOff, ChevronRight, Volume2 
+  Bell, Moon, Globe, Database, Trash2, Download, Eye, EyeOff, ChevronRight, Volume2, Loader2, FileText 
 } from 'lucide-react';
 import './SettingsPage.css';
 
@@ -13,6 +14,7 @@ export const SettingsPage = () => {
   const { t } = useTranslation(); 
   const { theme, toggleTheme } = useTheme();
   const { settings, updateSettings } = useSettings();
+  const [isGenerating, setIsGenerating] = useState(false);
 
   // --- Local State ---
   const [apiKey, setApiKey] = useState('');
@@ -32,8 +34,19 @@ export const SettingsPage = () => {
     }
   };
 
-  const handleExport = () => {
-    alert(t('settings.export_pending')); 
+  const handleExport = async () => {
+    if (isGenerating) return;
+
+    setIsGenerating(true);
+    try {
+          await generatePDFReport();
+          toast.success("Report downloaded!");
+    } catch (error) {
+          console.error(error);
+          toast.error("Failed to generate report");
+    } finally {
+          setIsGenerating(false);
+    }
   };
 
   return (
@@ -240,24 +253,47 @@ export const SettingsPage = () => {
           </div>
         </div>
 
-        {/* --- GROUP 5: DATA --- */}
+      {/* DATA */}
         <div className="settings-group-title">{t('settings.data')}</div>
         <div className="settings-divider" />
 
         <div className="settings-group glass-panel">
           
-          <div className="settings-row clickable" onClick={handleExport}>
-             <div className="row-left">
+          <div 
+            className="settings-row clickable" 
+            onClick={handleExport}
+            style={{ 
+              cursor: isGenerating ? 'wait' : 'pointer', 
+              opacity: isGenerating ? 0.7 : 1,
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center'
+            }}
+          >
+            <div className="row-left">
               <div className="icon-box" style={{ color: '#3b82f6' }}>
-                <Download size={20} />
+                <FileText size={20} />
               </div>
               <div className="row-info">
-                <span className="row-label" style={{ color: 'var(--color-accent)' }}>{t('settings.export')}</span>
+                <span className="row-label" style={{ color: 'var(--color-accent)' }}>
+                  {t('settings.export')}
+                </span>
+                {isGenerating && (
+                  <span style={{ fontSize: '0.75rem', color: '#94a3b8', display: 'block' }}>
+                    Generating PDF...
+                  </span>
+                )}
               </div>
             </div>
-          </div>
 
-          <div className="settings-row clickable" onClick={handleClearHistory}>
+          {isGenerating && (
+            <div className="row-right" style={{ paddingRight: '10px' }}>
+               <Loader2 size={20} className="spin" style={{ color: '#3b82f6' }} />
+            </div>
+          )}
+        </div>
+
+        <div className="settings-row clickable" onClick={handleClearHistory}>
              <div className="row-left">
               <div className="icon-box" style={{ color: '#ef4444' }}>
                 <Trash2 size={20} />

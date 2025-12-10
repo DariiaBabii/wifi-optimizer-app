@@ -8,7 +8,7 @@ from speedtest_service import run_speedtest, get_history
 from assistant_service import get_ai_response
 from history_service import load_history, save_history_entry, clear_history
 from pydantic import BaseModel
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from contextlib import asynccontextmanager
@@ -94,7 +94,7 @@ def trigger_speedtest(background_tasks: BackgroundTasks):
     return {"success": True, "message": "Test started in background"}
 
 class PromptData(BaseModel):
-    prompt_data: str
+    message: str
     level: str = "simple" # "simple" або "expert"
     action_type: str | None = None
 
@@ -102,7 +102,7 @@ class PromptData(BaseModel):
 def send_prompt(data: PromptData):
     response = ''
     try:
-        response = get_ai_response(data.prompt_data, data.level)
+        response = get_ai_response(data.message, data.level)
         return {"success": True, "response": response}
 
     except Exception as e:

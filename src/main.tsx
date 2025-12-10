@@ -5,6 +5,7 @@ import {
   RouterProvider,
   Navigate,
 } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast'; 
 
 import "./index.css";
 import './i18n';
@@ -29,16 +30,13 @@ const router = createBrowserRouter([
     path: '/',
     element: <MainLayout />,
     children: [
-      // 1. Dashboard
       {
-        index: true, // "index: true" -> сторінка за замовчуванням для "/"
+        index: true,
         element: <DashboardPage />,
       },
-      // 2. Diagnostics (з вкладками)
       {
         path: 'diagnostics',
         element: <DiagnosticsPage />,
-
         children: [
           {
             path: 'scan',
@@ -49,18 +47,15 @@ const router = createBrowserRouter([
             element: <HeatmapPage />,
           },
           {
-            // За замовчуванням перенаправляємо на 'scan'
             path: '',
             element: <Navigate to="scan" replace />,
           },
         ],
       },
-      // 3. Assistant
       {
         path: 'assistant',
         element: <AssistantPage />,
       },
-      // 4. History
       {
         path: 'history',
         element: <HistoryPage />,
@@ -80,11 +75,46 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ThemeProvider>
-    <SettingsProvider>
-      <WifiProvider>
-        <RouterProvider router={router} />
-      </WifiProvider>
-    </SettingsProvider>
+      <SettingsProvider>
+        <WifiProvider>
+          <RouterProvider router={router} />
+          
+          <Toaster 
+            position="top-right"
+            toastOptions={{
+              style: {
+                background: '#333',
+                color: '#fff',
+                borderRadius: '10px',
+                padding: '12px',
+                fontSize: '14px',
+              },
+              success: {
+                style: {
+                  background: '#ecfdf5',
+                  color: '#065f46',
+                  border: '1px solid #10b981'
+                },
+                iconTheme: {
+                  primary: '#10b981',
+                  secondary: '#fff',
+                },
+              },
+              error: {
+                style: {
+                  background: '#fef2f2',
+                  color: '#991b1b',
+                  border: '1px solid #ef4444'
+                },
+                iconTheme: {
+                  primary: '#ef4444',
+                  secondary: '#fff',
+                },
+              },
+            }}
+          />
+        </WifiProvider>
+      </SettingsProvider>
     </ThemeProvider>
   </React.StrictMode>
 );

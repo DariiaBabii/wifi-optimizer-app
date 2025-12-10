@@ -260,3 +260,28 @@ body.dark .btn-secondary:hover { background: #dededf; border-color: #cbd5e1; }
 }
 
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.btn-danger-outline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; 
+  height: 40px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  color: #64748b;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-danger-outline:hover {
+  background: #fee2e2; 
+  color: #ef4444;      
+  border-color: #fca5a5;
+  transform: translateY(-1px);
+}
+
+.btn-danger-outline:active {
+  transform: translateY(0);
+}

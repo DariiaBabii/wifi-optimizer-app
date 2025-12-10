@@ -1,113 +1,350 @@
 .history-container {
-  padding: 20px;
   height: 100vh;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  overflow: hidden; 
 }
 
-.history-content {
-  max-width: 800px;
+/* Основний контейнер для двох колонок */
+.history-layout {
+  display: flex;
+  flex: 1;
+  padding: 20px;
+  gap: 20px;
+  overflow: hidden;
+  max-width: 1600px;
   margin: 0 auto;
   width: 100%;
+  box-sizing: border-box;
 }
 
-.history-toolbar {
+/* --- ЛІВА КОЛОНКА --- */
+.history-list-column {
+  flex: 0 0 350px; /* Фіксована ширина списку */
+  display: flex;
+  flex-direction: column;
+  background: var(--glass-bg);
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+}
+
+.list-toolbar {
+  padding: 16px;
+  border-bottom: 1px solid #f1f5f9;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
-  color: #64748b;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  background: var(--glass-bg);
 }
 
-.clear-btn {
+.clear-text-btn {
+  border: none;
+  background: none;
+  color: #ef4444;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.list-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+/* Картка в списку */
+.history-card-compact {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
-  border: none;
-  padding: 8px 12px;
-  border-radius: 8px;
+  padding: 12px;
+  border-radius: 12px;
   cursor: pointer;
+  margin-bottom: 8px;
+  border: 1px solid transparent;
   transition: all 0.2s;
 }
 
-.clear-btn:hover {
-  background: rgba(239, 68, 68, 0.2);
+.history-card-compact:hover {
+  background-color: var(--background-color-active);
 }
 
-.history-list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding-bottom: 40px;
+.history-card-compact.active {
+  background-color: rgba(0,0,0,0.01);
+  border-color: var(--color-accent);
 }
 
-.history-card {
-  display: flex;
-  align-items: center;
-  background: var(--background-color-navigation);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  padding: 16px;
-  border-radius: 16px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
-  transition: transform 0.2s;
-}
-
-.history-card:hover {
-  transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.8);
-}
-
-.card-left {
-  margin-right: 16px;
-}
-
-.icon-box {
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
+.icon-box-small {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-right: 12px;
 }
+.icon-box-small.heatmap { background: rgba(245, 158, 11, 0.1); }
+.icon-box-small.scan { background: rgba(59, 130, 246, 0.1); }
 
-.icon-box.scan { background: rgba(59, 130, 246, 0.1); }
-.icon-box.heatmap { background: rgba(245, 158, 11, 0.1); }
-.icon-box.speedtest { background: rgba(16, 185, 129, 0.1); }
+.card-content { flex: 1; }
 
-.card-center {
-  flex: 1;
-}
-
-.card-header {
+.card-top {
   display: flex;
   justify-content: space-between;
   margin-bottom: 4px;
 }
 
-.summary {
+.summary-text {
   font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+
+.time-text { 
+  font-size: 0.75rem;   
+  color: var(--color-text-secondary);
+ }
+
+.date-text { 
+  font-size: 0.75rem;   
+  color: var(--color-text-secondary);
+ }
+
+
+/* --- ПРАВА КОЛОНКА --- */
+.history-detail-column {
+  flex: 1;
+  background: var(--glass-bg);
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  border: 1px solid #e2e8f0;
+  overflow-y: auto;
+  padding: 24px;
+  position: relative;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.detail-icon-large {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+}
+.detail-icon-large.heatmap { background: rgba(245, 158, 11, 0.1); }
+.detail-icon-large.scan { background: rgba(59, 130, 246, 0.1); }
+
+.detail-header h2 { 
+  margin: 0 0 4px 0; 
+  font-size: 1.5rem; 
   color: var(--color-text-primary);
 }
 
-.timestamp {
-  font-size: 0.8rem;
-  color: #94a3b8;
+.detail-date { 
+  display: flex; 
+  align-items: center; 
+  color: var(--color-text-secondary);
+  font-size: 0.9rem; 
 }
 
-.card-details {
-  font-size: 0.9rem;
+/* Стилі для Heatmap View */
+.image-container {
+  border-radius: 12px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+  border: 1px solid #e2e8f0;
+}
+
+.heatmap-img {
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.no-image-placeholder {
+  background: #f8fafc;
+  height: 200px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #94a3b8;
+  margin-bottom: 24px;
+  border: 2px dashed #e2e8f0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 16px;
+}
+
+.stat-card {
+  background: var(--glass-bg-table);
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #f1f5f9;
+}
+
+.stat-card label { display: block; font-size: 0.8rem; color: #64748b; margin-bottom: 4px; }
+.stat-card strong { font-size: 1.25rem; color: #0f172a; display: block; }
+
+.quality-good { color: #10b981 !important; }
+.quality-fair { color: #f59e0b !important; }
+.quality-weak { color: #ef4444 !important; }
+
+/* Empty State для правої колонки */
+.empty-detail-state {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #cbd5e1;
+}
+.select-prompt { text-align: center; }
+.select-prompt h3 { color: #94a3b8; font-weight: 500; margin-top: 16px; }
+
+/* Адаптивність */
+@media (max-width: 768px) {
+  .history-layout { flex-direction: column; padding: 10px; }
+  .history-list-column { flex: 1; height: 300px; }
+  .history-detail-column { flex: 1; }
+}
+
+/* --- SCAN DETAILS STYLES --- */
+
+.scan-stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.text-truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.section-title {
+  font-size: 0.95rem;
   color: #64748b;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
 }
 
-.empty-state-history {
-  text-align: center;
-  margin-top: 60px;
+.scan-networks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.network-history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--glass-tabs-background);
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid #f1f5f9;
+  transition: transform 0.1s;
+}
+
+.net-main-info {
+  display: flex;
+  flex-direction: column;
+  width: 35%;
+}
+
+.net-ssid {
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+}
+
+.net-bssid {
+  font-size: 0.75rem;
   color: #94a3b8;
+  font-family: monospace;
 }
 
-/* Drawer Styles */
+.net-tech-info {
+  display: flex;
+  gap: 8px;
+  width: 30%;
+  justify-content: center;
+}
+
+.net-badge {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #e2e8f0;
+  color: #475569;
+  font-weight: 500;
+}
+
+.net-badge.band {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
+.net-signal {
+  width: 25%;
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.signal-bar-mini {
+  width: 60px;
+  height: 4px;
+  background: #e2e8f0;
+  border-radius: 2px;
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.signal-bar-mini div {
+  height: 100%;
+  border-radius: 2px;
+}
+
+/* Мобільна адаптація для деталей */
+@media (max-width: 600px) {
+  .network-history-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .net-main-info, .net-tech-info, .net-signal {
+    width: 100%;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .signal-bar-mini {
+    width: 100%;
+  }
+}

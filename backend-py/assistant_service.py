@@ -23,8 +23,10 @@ def get_ai_response(user_message, level="simple"):
         if level == "expert":
             system_instruction = (
                 "You are a Network Engineer. User is an advanced user. "
-                "Use technical terminology, use a user language to answer."
-                "Be concise, professional, and focus on technical details and specific configuration steps."
+                "Use technical terminology. "
+                "CRITICAL: Detect the language of the user's message and RESPOND IN THE SAME LANGUAGE. "
+                "If the user writes in Ukrainian, you MUST answer in Ukrainian, "
+                "transliterating technical terms only if appropriate, otherwise keep terms in English but explanation in Ukrainian."
             )
         else:
             system_instruction = (
