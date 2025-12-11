@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { Navbar } from './Navbar'; 
 
-// Стилі для об'єднання навігації та контенту
 const layoutStyle: React.CSSProperties = {
   display: 'flex',
   flexDirection: 'row',

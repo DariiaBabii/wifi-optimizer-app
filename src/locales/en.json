@@ -94,6 +94,9 @@
     "export": "Export Report",
     "clear": "Clear History",
     "off": "Off",
+    "1h":"Every 1h",
+    "6h":"Every 6h",
+    "daily":"Daily",
     "tooltip_speedtest": "Sets the time interval for background speed tests to build historical performance data.",
     "tooltip_threshold": "Networks with signals weaker than this will be hidden from the scan list.",
     "tooltip_ai": "Controls the depth of AI advice: simplified steps or technical analysis."

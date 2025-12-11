@@ -4,6 +4,8 @@ import platform
 import math
 from manuf import manuf
 
+from triggers import check_scan_results
+
 try:
     p = manuf.MacParser(update=False)
 except Exception as e:
@@ -122,5 +124,11 @@ def scan_networks():
             "distance": calculate_distance(profile.signal, profile.freq),
             "vendor": get_vendor(profile.bssid)
         })
+
+
+    try:
+        check_scan_results(networks_list)
+    except Exception as e:
+        print(f"Error in notification triggers: {e}")
 
     return sorted(networks_list, key=lambda x: x['rssi'], reverse=True)

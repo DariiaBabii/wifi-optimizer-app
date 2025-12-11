@@ -24,7 +24,7 @@
   gap: 8px;
   padding: 10px 16px;
   background-color: var(--background-color-navigation); 
-  border: 1px solid #e2e8f0;
+  border: 1px solid #cadbf2;
   border-radius: 20px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -45,12 +45,4 @@
 .label {
   font-size: 0.9rem;
   color: var(--color-text-table);
-}
-
-:global(.dark-mode) .actionButton {
-  background-color: #1e293b;
-  border-color: #334155;
-}
-:global(.dark-mode) .label {
-  color: #e2e8f0;
 }

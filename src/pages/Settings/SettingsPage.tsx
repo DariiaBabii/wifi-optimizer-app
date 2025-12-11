@@ -75,9 +75,9 @@ export const SettingsPage = () => {
                 onChange={(e) => updateSettings({ scanInterval: e.target.value })}
               >
                 <option value="off">{t('settings.off')}</option>
-                <option value="1h">Every 1h</option>
-                <option value="6h">Every 6h</option>
-                <option value="24h">Daily</option>
+                <option value="1h">{t('settings.1h')}</option>
+                <option value="6h">{t('settings.6h')}</option>
+                <option value="24h">{t('settings.daily')}</option>
               </select>
             </div>
           </div>

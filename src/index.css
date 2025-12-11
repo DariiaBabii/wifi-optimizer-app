@@ -26,6 +26,10 @@
   --glass-bg-table: #f8fafc;
   --glass-border: rgb(190, 190, 190);
   --glass-tabs-background: rgb(255, 255, 255);
+  --glass-logs:#8590a5b4;
+  --glass-logs-header-row:#212327;
+  --glass-logs-cat-badge:#50565e;
+  --log-row-hover: #f1f6ff8a;
 
   --border-radius-small-color: #dee0e3;
   --background-color-hover: #e1e1e1;
@@ -61,6 +65,11 @@ body.dark {
   --glass-bg-table: rgba(255, 255, 255, 0.597); 
   --glass-border: rgba(255, 255, 255, 0.725);
   --glass-tabs-background: rgba(255, 255, 255, 0.075);
+  --glass-logs:#94a3b8;
+  --glass-logs-header-row:#cbd5e1;
+  --glass-logs-background:#94a3b8;
+  --glass-logs-cat-badge:#dee0e3;
+  --log-row-hover: #1e293b;
 
   --table-header-bg:rgba(255, 255, 255, 0.051); 
   --table-row-hover:rgba(102, 102, 102, 0.848);

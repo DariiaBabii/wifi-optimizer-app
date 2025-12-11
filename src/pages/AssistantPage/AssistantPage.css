@@ -12,8 +12,8 @@
   flex: 1;
   margin: 20px auto;
   width: 90%;
-  max-width: 800px;
-  background: #f7f7f7;
+  max-width: 900px;
+  background: var(--glass-bg);
   border-radius: 12px;
   padding: 16px;
   overflow-y: auto;
@@ -29,7 +29,7 @@ body.dark .assistant-window {
   font-style: italic;
   text-align: center;
   margin-top: 20px;
-  color: var(--background-tooltip);
+  /* color: var(--background-tooltip); */
 }
 
 .assistant-message {
@@ -88,12 +88,9 @@ body.dark .assistant-window {
   color: var(--color-text-primary);
 }
 
-.assistant-msg {
-  background: var(--glass-tabs-background);
-}
-
 body.dark .assistant-msg {
   color: var(--background-color-active);
+  background-color: var(--glass-logs-cat-badge);
 }
 
 @keyframes fadeIn {

@@ -122,7 +122,7 @@
 .toggle-capsule {
   position: relative;
   display: flex;
-  background: var(--background-color-hover); /* Фон контейнера */
+  background: var(--background-color-active);
   border-radius: 30px;
   padding: 3px;
   border: 1px solid var(--glass-border);
@@ -173,11 +173,12 @@
 /* 2. RANGE SLIDER З ЗАПОВНЕННЯМ (Filled Slider) */
 .glass-range {
   -webkit-appearance: none;
-  width: 140px;
-  height: 6px;
-  border-radius: 3px;
+  width: 150px;
+  height: 7px;
+  border-radius: 5px;
+  border-color:black;
   outline: none;
-  background-color: var(--glass-border); /* Сірий фон (незаповнена частина) */
+  background-color: var(--glass-border); 
   
   /* Градієнт для заповненої частини (динамічно змінюється через style в React) */
   background-image: linear-gradient(var(--color-accent), var(--color-accent));
@@ -206,14 +207,24 @@
 .glass-select {
   background: #fff;
   color: var(--color-accent);
-  font-size: 0.95rem;
+  backdrop-filter: blur(8px);
+  color: var(--color-accent);
+  font-size: 0.9rem;
   text-align: center;
   cursor: pointer;
-  padding-right: 20px;
+  padding: 5px 10px;
   outline: none;
-  border-radius: 10px;
-  height: 20px;
+
+  border: 1px solid rgba(0, 0, 0, 0.242);
+  border-radius: 12px;
+
+  height: 28px;
+  transition: all 0.35s ease;
+  opacity: 0;
+  transform: translateY(-5px);
+  animation: fadeIn 0.4s forwards ease;
 }
+
 
 /* 4. INPUT TEXT (Поле вводу API Key) */
 .input-wrapper {

@@ -6,12 +6,15 @@ import time
 from pydantic import BaseModel
 from speedtest_service import run_speedtest, get_history
 from assistant_service import get_ai_response
+from notification_service import load_notifications, mark_all_read, clear_notifications
 from history_service import load_history, save_history_entry, clear_history
 from pydantic import BaseModel
 from typing import Dict, Any, Optional
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from contextlib import asynccontextmanager
+from triggers import check_speedtest_result
+from notification_service import load_notifications, clear_notifications, mark_all_read
 
 scheduler = None
 JOB_ID = 'speedtest_job'
@@ -22,10 +25,21 @@ def scheduled_speedtest():
         result = run_speedtest()
         if result:
             print(f"--- [SCHEDULED JOB] Success: {result['download']} Mbps ---", flush=True)
-        else:
-            print("--- [SCHEDULED JOB] Failed ---", flush=True)
+            
+            try:
+                    check_speedtest_result(
+                        result['download'], 
+                        result['upload'], 
+                        result['ping']
+                    )
+            except Exception as e:
+                    print(f"--- [TRIGGER ERROR] Failed to check rules: {e} ---")
+                    
+            else:
+                print("--- [SCHEDULED JOB] Failed ---", flush=True)
+                
     except Exception as e:
-        print(f"--- [SCHEDULED JOB] Error: {e} ---", flush=True)
+            print(f"--- [SCHEDULED JOB] Error: {e} ---", flush=True)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -82,6 +96,16 @@ def execute_speedtest_task():
         
         if result:
             print(f"--- [MANUAL] Finished in {duration}s. Result saved. ---", flush=True)
+
+            try:
+                check_speedtest_result(
+                    result['download'], 
+                    result['upload'], 
+                    result['ping']
+                )
+            except Exception as e:
+                print(f"--- [TRIGGER ERROR] {e} ---")
+
         else:
             print("--- [MANUAL] Failed to get result ---", flush=True)
     except Exception as e:
@@ -92,6 +116,7 @@ def trigger_speedtest(background_tasks: BackgroundTasks):
     background_tasks.add_task(execute_speedtest_task)
     
     return {"success": True, "message": "Test started in background"}
+
 
 class PromptData(BaseModel):
     message: str
@@ -132,5 +157,21 @@ def delete_history_route():
     clear_history()
     return {"success": True, "message": "History cleared"}
 
+
+
+@app.get("/api/notifications")
+def get_notifications():
+    return {"success": True, "data": load_notifications()}
+
+@app.post("/api/notifications/read")
+def read_notifications():
+    mark_all_read()
+    return {"success": True}
+
+@app.delete("/api/notifications")
+def delete_notifications():
+    clear_notifications()
+    return {"success": True}
+    
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8000)
