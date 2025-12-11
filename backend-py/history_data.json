@@ -1,5 +1,72 @@
 [
   {
+    "id": "1765483496626",
+    "timestamp": "2025-12-11T22:04:56.626100",
+    "type": "scan",
+    "summary": "Scan: 21 networks found",
+    "details": {
+      "networks_count": 21,
+      "top_network": "Samsung Fridge_E50AJTRB085T",
+      "top_5_networks": [
+        {
+          "ssid": "Samsung Fridge_E50AJTRB085T",
+          "bssid": "1c:e8:9e:85:fa:e7:",
+          "rssi": -50,
+          "channel": 1,
+          "band": "2.4",
+          "security": "WPA2",
+          "quality": 100,
+          "distance": 0,
+          "vendor": "Unknown"
+        },
+        {
+          "ssid": "Ap.306_5G",
+          "bssid": "a8:6e:84:7d:86:47:",
+          "rssi": -54,
+          "channel": 36,
+          "band": "5",
+          "security": "WPA2",
+          "quality": 92,
+          "distance": 0,
+          "vendor": "Unknown"
+        },
+        {
+          "ssid": "Ap.306",
+          "bssid": "a8:6e:84:7d:86:48:",
+          "rssi": -55,
+          "channel": 3,
+          "band": "2.4",
+          "security": "WPA2",
+          "quality": 90,
+          "distance": 0.01,
+          "vendor": "Unknown"
+        },
+        {
+          "ssid": "AP_3107841812",
+          "bssid": "d0:27:87:51:3f:0e:",
+          "rssi": -84,
+          "channel": 4,
+          "band": "2.4",
+          "security": "WPA2",
+          "quality": 32,
+          "distance": 0.16,
+          "vendor": "Unknown"
+        },
+        {
+          "ssid": "Mazda-43f615",
+          "bssid": "f8:55:cd:c3:1d:73:",
+          "rssi": -86,
+          "channel": 6,
+          "band": "2.4",
+          "security": "WPA2",
+          "quality": 28,
+          "distance": 0.2,
+          "vendor": "Visteon"
+        }
+      ]
+    }
+  },
+  {
     "id": "1765357439874",
     "timestamp": "2025-12-10T11:03:59.874613",
     "type": "heatmap",

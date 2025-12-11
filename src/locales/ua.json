@@ -13,7 +13,7 @@
   "dashboard": {
     "greeting_morning": "Доброго ранку",
     "greeting_day": "Доброго дня",
-    "greeting_evening": "Доброго вечору",
+    "greeting_evening": "Доброго вечора",
     "status_no_data": "Даних немає. Запустіть сканування для аналізу.",
     "status_updated": "Дані актуальні. Оновлено:",
     "status_ago": "тому",
