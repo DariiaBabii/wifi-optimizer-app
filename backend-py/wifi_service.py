@@ -1,7 +1,9 @@
-import pywifi
-import time
-import platform
 import math
+import re
+import subprocess
+import time
+
+import pywifi
 from manuf import manuf
 
 from triggers import check_scan_results
@@ -132,3 +134,27 @@ def scan_networks():
         print(f"Error in notification triggers: {e}")
 
     return sorted(networks_list, key=lambda x: x['rssi'], reverse=True)
+
+    
+
+def get_current_wifi():
+    try:
+        output = subprocess.check_output(
+            "netsh wlan show interfaces",
+            shell=True,
+            encoding="cp866"  
+        )
+    except Exception as e:
+        print("Error:", e)
+        return None
+
+    ssid_match = re.search(r"SSID\s*:\s*(.+)", output)
+    bssid_match = re.search(r"BSSID\s*:\s*(.+)", output)
+
+    if not ssid_match:
+        return None
+
+    return {
+        "ssid": ssid_match.group(1).strip(),
+        "bssid": bssid_match.group(1).strip() if bssid_match else None
+    }

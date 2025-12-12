@@ -1,7 +1,5 @@
-import { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Header } from '../../components/Header/Header';
-import { QuickActions } from './QuickActions/QuickActions';
-import type { QuickAction } from './quickActionsConfig';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useTranslation } from 'react-i18next'; 
@@ -21,6 +19,7 @@ export const AssistantPage = () => {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   const { settings } = useSettings();
 
   const sendMessage = async (userText: string, actionType?: string) => {

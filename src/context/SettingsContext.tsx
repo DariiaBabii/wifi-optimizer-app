@@ -7,6 +7,7 @@ interface Settings {
   aiLevel: 'simple' | 'expert';
   theme: 'light' | 'dark';
   language: string; 
+  wifiDeviceModel: string;
 }
 
 interface SettingsContextType {
@@ -20,6 +21,7 @@ const defaultSettings: Settings = {
   aiLevel: 'simple',
   theme: 'light',
   language: 'en',
+  wifiDeviceModel: 'unknown',
 };
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
