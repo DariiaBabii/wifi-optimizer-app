@@ -3,7 +3,19 @@ import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
 import html2canvas from 'html2canvas';
 import { Widget } from '../../components/Widget/Widget';
-import { Upload, Save, Map as MapIcon, Plus, Play, Square, Loader2, Wifi, Info, Trash2 } from 'lucide-react';
+import { 
+  Upload, 
+  Save, 
+  Map as MapIcon, 
+  Plus, 
+  Play, 
+  Square, 
+  Loader2, 
+  Wifi, 
+  Info, 
+  Trash2,
+  MapPin 
+} from 'lucide-react';
 import { type WifiNetwork } from '../../context/WifiContext';
 import { ConfirmModal } from '../../components/Modal/ConfirmModal';
 import './HeatmapPage.css';
@@ -32,13 +44,17 @@ export const HeatmapPage = () => {
     return saved ? JSON.parse(saved) : [];
   });
 
+  // Новий стейт для згенерованої теплової карти (overlay)
+  const [heatmapImage, setHeatmapImage] = useState<string | null>(null);
+  const [isGeneratingHeatmap, setIsGeneratingHeatmap] = useState(false);
+
   const [isScanningMode, setIsScanningMode] = useState(false);
   const [selectedSsid, setSelectedSsid] = useState<string>('');
   const [isSaving, setIsSaving] = useState(false); 
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
 
-  // Стан для модального вікна
   const [modalConfig, setModalConfig] = useState<{
     isOpen: boolean;
     type: 'clear_map' | 'new_scan' | null;
@@ -63,6 +79,7 @@ export const HeatmapPage = () => {
      sessionStorage.removeItem(STORAGE_KEY_MAP);
      sessionStorage.removeItem(STORAGE_KEY_POINTS);
      setMapImage(null);
+     setHeatmapImage(null); 
      setPoints([]);
      setIsScanningMode(false);
      setSelectedSsid('');
@@ -70,6 +87,7 @@ export const HeatmapPage = () => {
 
   const startScan = () => {
       setPoints([]);
+      setHeatmapImage(null); 
       setSelectedSsid(''); 
       setIsScanningMode(true);
   };
@@ -203,6 +221,73 @@ export const HeatmapPage = () => {
       return { bg: '#10b981', border: '#fff', shadow: 'none' };
   };
 
+  // --- ГЕНЕРАЦІЯ HEATMAP ---
+  const generateHeatmap = async () => {
+    // Перевірки
+    if (!selectedSsid) {
+        toast.error("Please select a network first");
+        return;
+    }
+    const successPoints = points.filter(p => p.status === 'success');
+    if (successPoints.length < 3) {
+        toast.error("Need at least 3 points to generate heatmap");
+        return;
+    }
+    if (!imageRef.current) return;
+
+    setIsGeneratingHeatmap(true);
+    setHeatmapImage(null);
+
+    try {
+        const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+        
+        // Підготовка даних для бекенду
+        // Витягуємо RSSI для обраної мережі (selectedSsid) з кожної точки
+        const pointsPayload = successPoints.map(p => {
+            const net = p.data?.find(n => n.ssid === selectedSsid);
+            return {
+                x: Math.round(p.x), 
+                y: Math.round(p.y),
+                rssi: net ? net.rssi : -95 
+            };
+        });
+
+        const width = imageRef.current.clientWidth;
+        const height = imageRef.current.clientHeight;
+
+        const response = await fetch(`${API_URL}/api/generate_heatmap`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                ssid: selectedSsid,
+                points: pointsPayload,
+                width: Math.round(width),
+                height: Math.round(height),
+                all_points_json: sessionStorage.getItem(STORAGE_KEY_POINTS) || '[]'
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error(`Server error: ${response.status}`);
+        }
+
+        const result = await response.json();
+        if (result.heatmap_base64) {
+            setHeatmapImage(result.heatmap_base64);
+            toast.success("Heatmap generated!");
+        } else {
+            throw new Error("No image data returned");
+        }
+
+    } catch (error) {
+        console.error("Heatmap gen error:", error);
+        toast.error("Failed to generate heatmap");
+    } finally {
+        setIsGeneratingHeatmap(false);
+    }
+  };
+
+
   const saveHeatmapResult = async () => {
     if (!selectedSsid || points.length === 0) return;
     setIsSaving(true);
@@ -229,9 +314,9 @@ export const HeatmapPage = () => {
         const canvas = await html2canvas(mapElement, {
             useCORS: true,
             logging: false,
-            scale: 1 
+            scale: 1.5 
         });
-        snapshotBase64 = canvas.toDataURL('image/jpeg', 0.7);
+        snapshotBase64 = canvas.toDataURL('image/jpeg', 0.8);
       }
 
       const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
@@ -253,7 +338,6 @@ export const HeatmapPage = () => {
         })
       });
 
-      // 3. Успіх
       toast.success(t('heatmap.save_success') || "Heatmap saved successfully!");
 
     } catch (error) {
@@ -306,7 +390,7 @@ export const HeatmapPage = () => {
               <button 
                 className={`btn-scan-toggle ${isScanningMode ? 'active' : ''}`} 
                 onClick={toggleScanningMode}
-                disabled={isSaving}
+                disabled={isSaving || isGeneratingHeatmap}
               >
                 {isScanningMode ? (
                   <><Square size={18} fill="currentColor" /> {t('heatmap.scan_finish')}</>
@@ -316,11 +400,23 @@ export const HeatmapPage = () => {
               </button>
             )}
             
+            {mapImage && !isScanningMode && points.length >= 3 && selectedSsid && (
+                <button 
+                    className="btn-primary"
+                    onClick={generateHeatmap}
+                    disabled={isGeneratingHeatmap || isSaving}
+                    title="Generate Overlay"
+                >
+                    {isGeneratingHeatmap ? <Loader2 size={18} className="spin" /> : <MapPin size={18} />}
+                    {isGeneratingHeatmap ? 'Generating...' : 'Map Coverage'}
+                </button>
+            )}
+
             {mapImage && !isScanningMode && points.length > 0 && selectedSsid && (
               <button 
-                className="btn-primary" 
+                className="btn-secondary" 
                 onClick={saveHeatmapResult}
-                disabled={isSaving}
+                disabled={isSaving || isGeneratingHeatmap}
                 style={{display: 'flex', alignItems: 'center', gap: '8px'}}
               >
                 {isSaving ? <Loader2 size={18} className="spin" /> : <Save size={18} />}
@@ -335,8 +431,33 @@ export const HeatmapPage = () => {
         <Widget className="heatmap-workspace">
           {mapImage ? (
             <div className={`map-wrapper ${isScanningMode ? 'scanning-cursor' : ''}`} onClick={handleMapClick}>
-              <img src={mapImage} alt="Floor Plan" className="floor-plan-img" />
+              {/* Шар 1: План приміщення */}
+              <img 
+                ref={imageRef} 
+                src={mapImage} 
+                alt="Floor Plan" 
+                className="floor-plan-img" 
+              />
               
+              {/* Шар 2: Згенерована Heatmap*/}
+              {heatmapImage && (
+                <img 
+                    src={heatmapImage} 
+                    alt="Heatmap Overlay" 
+                    className="heatmap-overlay-img"
+                    style={{ 
+                        position: 'absolute', 
+                        top: 0, 
+                        left: 0, 
+                        width: '100%', 
+                        height: '100%', 
+                        opacity: 0.6, 
+                        pointerEvents: 'none' 
+                    }} 
+                />
+              )}
+
+              {/* Шар 3: Точки */}
               {points.map((point) => {
                 const style = getPointStyle(point);
                 const networkData = point.data?.find(n => n.ssid === selectedSsid);

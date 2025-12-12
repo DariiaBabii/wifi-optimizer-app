@@ -1,5 +1,239 @@
 [
   {
+    "id": "a94b9ad1-981f-475b-beec-ae1027b363cf",
+    "timestamp": "2025-12-12T18:21:44.329363",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 5 open networks nearby: uisp6, , Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "6e614a5d-359d-4973-9f1b-5eec705301ed",
+    "timestamp": "2025-12-12T18:21:41.321356",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 5 open networks nearby: uisp6, , Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "a079c26a-37a4-4fea-80ac-3bf0a796fed4",
+    "timestamp": "2025-12-12T18:21:38.314684",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 5 open networks nearby: uisp6, , Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "0e3044a0-4b65-4fe8-a775-348c5bf2a7fb",
+    "timestamp": "2025-12-12T18:21:35.308395",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 5 open networks nearby: uisp6, , Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "58a4df4b-52ab-4592-9a73-175dde753a14",
+    "timestamp": "2025-12-12T17:52:54.892361",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 5 open networks nearby: uisp6a, uisp6, Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "8a0cec53-fd8a-42f6-b646-b5cb598f34c2",
+    "timestamp": "2025-12-12T17:52:51.886516",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 5 open networks nearby: uisp6a, uisp6, Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "370571e7-4b3e-47e3-bd27-7b2b36ff08b1",
+    "timestamp": "2025-12-12T17:52:48.879973",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 5 open networks nearby: uisp6a, uisp6, Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "68031389-0871-4d94-ba3d-4e0878ec80a4",
+    "timestamp": "2025-12-12T17:52:45.872557",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 5 open networks nearby: uisp6a, uisp6, Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "d1b78078-7c66-4fec-b19c-1b1d80c156f8",
+    "timestamp": "2025-12-12T17:52:42.866020",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 5 open networks nearby: uisp6a, uisp6, Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "95ef5b14-546d-44af-8ceb-a8b5194b7940",
+    "timestamp": "2025-12-12T17:52:39.860624",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 5 open networks nearby: uisp6a, uisp6, Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "865d0956-8cd7-4fdd-bd7c-984f3725c7a5",
+    "timestamp": "2025-12-12T17:52:36.852669",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 5 open networks nearby: uisp6a, uisp6, Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "a1f972ff-408b-4611-b4a1-6a6db6bb7923",
+    "timestamp": "2025-12-12T17:52:33.846856",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 5 open networks nearby: uisp6a, uisp6, Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "d642fc62-bce3-4709-9f79-8d02312b55b3",
+    "timestamp": "2025-12-12T17:52:30.841505",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 5 open networks nearby: uisp6a, uisp6, Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "7869a214-5367-4393-b38e-7a97c8f8ac15",
+    "timestamp": "2025-12-12T17:47:07.392463",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 2 open networks nearby: UID Wi-Fi, Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "fb3f03c5-f01f-4c47-a7dd-eb6a89c0c25c",
+    "timestamp": "2025-12-12T17:47:04.387673",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 2 open networks nearby: UID Wi-Fi, Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "eef51a7f-26e9-4155-a028-159ee43707dd",
+    "timestamp": "2025-12-12T17:47:01.383086",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 2 open networks nearby: UID Wi-Fi, Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "4d400ed0-d269-4e42-90c8-77594f7a398e",
+    "timestamp": "2025-12-12T17:46:58.378254",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 2 open networks nearby: UID Wi-Fi, Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "43c48e40-3ac4-4334-81e3-aecbbc5a794e",
+    "timestamp": "2025-12-12T17:46:55.373525",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 2 open networks nearby: UID Wi-Fi, Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "8e80efb0-ba65-4827-be06-e366429c16f6",
+    "timestamp": "2025-12-12T17:46:52.368909",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 2 open networks nearby: UID Wi-Fi, Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "fc034420-43a2-4396-ac60-9500b9e860c3",
+    "timestamp": "2025-12-12T17:46:49.364796",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 2 open networks nearby: UID Wi-Fi, Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "6c644849-a53a-49c5-b4bf-00a8d9963e6c",
+    "timestamp": "2025-12-12T17:43:39.806383",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 3 open networks nearby: , Horizon Park, Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "4c211772-7290-4c01-b51c-4a193e674eb3",
+    "timestamp": "2025-12-12T17:43:36.801529",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 3 open networks nearby: , Horizon Park, Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "bec038f7-004b-434b-9437-72e7fcf2245e",
+    "timestamp": "2025-12-12T17:43:33.796717",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 3 open networks nearby: , Horizon Park, Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "c2dc0578-0831-4bf2-aa12-d298be4d5065",
+    "timestamp": "2025-12-12T17:43:30.792195",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 3 open networks nearby: , Horizon Park, Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "2cdf4574-0bf5-4039-9526-d6bd95445b40",
+    "timestamp": "2025-12-12T14:48:08.977830",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 6 open networks nearby: UID Wi-Fi, uisp6a, UID Wi-Fi. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
+    "id": "0ac4a556-86b4-4737-ab06-e1c66765b735",
+    "timestamp": "2025-12-12T14:42:08.890461",
+    "category": "Security",
+    "event": "Unsecured Network Detected",
+    "description": "Detected 4 open networks nearby: uisp6, Ciklum Kyiv, Horizon Park. Keep your devices secure.",
+    "severity": "warning",
+    "read": false
+  },
+  {
     "id": "8b9ade9b-ccb2-45d1-9a63-7e949198f63f",
     "timestamp": "2025-12-11T14:22:47.429919",
     "category": "Internet & WAN",

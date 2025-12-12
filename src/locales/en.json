@@ -56,6 +56,7 @@
     "no_floor": "No Floor Plan",
     "upload_image": "Upload Image",
     "scan": "Start Scan",
+    "save_success":"Saved",
     "scan_str": "Click on the map to measure signal at your current location.",
     "scan_finish": "Finish Scan",
     "scan_select": "Select Network to View",
@@ -74,10 +75,13 @@
 
   "assistant": {
     "assistant_input": "Enter your query...",
-    "assistant_placeholder": "I'm your AI assistant! Ask me any questions you're interested in..."
+    "assistant_placeholder": "I'm your AI assistant! Ask me any questions you're interested in...",
+    "assistant_think":"Thinking..."
   },
 
   "settings": {
+    "wifi_device":"General",
+    "wifi_device_model":"Wi-Fi Device Model",
     "scanner": "Scanner",
     "speedtest": "Auto-Speedtest Interval",
     "threshold": "Signal Threshold",
@@ -86,6 +90,7 @@
     "ai": "AI Model Level",
     "notifications": "Notifications",
     "alerts": "Push Alerts",
+    "saved":"Saved",
     "sound": "Sound",
     "appearance": "Appearance",
     "dark_mode": "Dark Mode",
@@ -97,6 +102,7 @@
     "1h":"Every 1h",
     "6h":"Every 6h",
     "daily":"Daily",
+    "tooltip_model": "Specify the model of your Wi-Fi adapter or router",
     "tooltip_speedtest": "Sets the time interval for background speed tests to build historical performance data.",
     "tooltip_threshold": "Networks with signals weaker than this will be hidden from the scan list.",
     "tooltip_ai": "Controls the depth of AI advice: simplified steps or technical analysis."

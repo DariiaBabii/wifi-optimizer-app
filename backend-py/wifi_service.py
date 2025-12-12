@@ -2,6 +2,8 @@ import math
 import re
 import subprocess
 import time
+import platform
+import shutil
 
 import pywifi
 from manuf import manuf
@@ -82,6 +84,93 @@ def get_wifi_details(freq_mhz: int):
     else:
         return 0, f"{freq} MHz"
 
+
+def get_current_wifi():
+
+
+    system = platform.system()
+    
+    if system == "Windows":
+        return _get_wifi_windows()
+    elif system == "Linux":
+        return _get_wifi_linux()
+    else:
+        print(f"Unsupported OS: {system}")
+        return None
+
+def _get_wifi_windows():
+    try:
+        output = subprocess.check_output(
+            "netsh wlan show interfaces",
+            shell=True,
+            encoding="cp866", 
+            errors="ignore"
+        )
+        ssid_match = re.search(r"SSID\s*:\s*(.+)", output)
+        bssid_match = re.search(r"BSSID\s*:\s*(.+)", output)
+        signal_match = re.search(r"Signal\s*:\s*(\d+)%", output)
+
+        if not ssid_match:
+            return None
+
+        return {
+            "ssid": ssid_match.group(1).strip(),
+            "bssid": bssid_match.group(1).strip() if bssid_match else "Unknown",
+            "signal": int(signal_match.group(1)) if signal_match else 0,
+            "platform": "Windows"
+        }
+    except Exception as e:
+        print("Windows Wi-Fi Error:", e)
+        return None
+
+def _get_wifi_linux():
+    try:
+        # Спосіб 1: iwconfig 
+        if shutil.which("iwconfig"):
+            output = subprocess.check_output(['iwconfig'], encoding='utf-8', errors='ignore')
+            
+            essid_match = re.search(r'ESSID:"([^"]+)"', output)
+            access_point_match = re.search(r'Access Point:\s*([0-9A-Fa-f:]+)', output)
+            
+            # якість лінку: Link Quality=XX/70
+            quality_match = re.search(r'Link Quality=(\d+)/(\d+)', output)
+            
+            signal_pct = 0
+            if quality_match:
+                current = int(quality_match.group(1))
+                total = int(quality_match.group(2))
+                signal_pct = int((current / total) * 100)
+            
+            if essid_match:
+                 return {
+                    "ssid": essid_match.group(1),
+                    "bssid": access_point_match.group(1) if access_point_match else "Unknown",
+                    "signal": signal_pct,
+                    "platform": "Linux (iwconfig)"
+                 }
+
+        # Спосіб 2: Якщо iwconfig немає - nmcli
+        if shutil.which("nmcli"):
+            ssid = subprocess.check_output(
+                ['nmcli', '-t', '-f', 'SSID', 'connection', 'show', '--active'], 
+                encoding='utf-8', errors='ignore'
+            ).strip().split('\n')[0]
+            
+            if ssid:
+                return {
+                    "ssid": ssid,
+                    "bssid": "Unknown", 
+                    "signal": 100,      # Заглушка, якщо не змогли визначити
+                    "platform": "Linux (nmcli)"
+                }
+
+        return None
+
+    except Exception as e:
+        print("Linux Wi-Fi Error:", e)
+        return None
+
+
 def scan_networks():
     wifi = pywifi.PyWiFi()
     
@@ -134,27 +223,3 @@ def scan_networks():
         print(f"Error in notification triggers: {e}")
 
     return sorted(networks_list, key=lambda x: x['rssi'], reverse=True)
-
-    
-
-def get_current_wifi():
-    try:
-        output = subprocess.check_output(
-            "netsh wlan show interfaces",
-            shell=True,
-            encoding="cp866"  
-        )
-    except Exception as e:
-        print("Error:", e)
-        return None
-
-    ssid_match = re.search(r"SSID\s*:\s*(.+)", output)
-    bssid_match = re.search(r"BSSID\s*:\s*(.+)", output)
-
-    if not ssid_match:
-        return None
-
-    return {
-        "ssid": ssid_match.group(1).strip(),
-        "bssid": bssid_match.group(1).strip() if bssid_match else None
-    }

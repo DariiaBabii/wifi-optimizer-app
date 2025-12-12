@@ -26,6 +26,11 @@ export const SettingsPage = () => {
     return { backgroundSize: `${((value - min) * 100) / (max - min)}% 100%` };
   };
 
+    
+  const [editWifi, setEditWifi] = useState(false);
+  const [localDeviceModel, setLocalDeviceModel] = useState(settings.wifiDeviceModel || '');
+
+
   // --- Handlers ---
   const handleClearHistory = () => {
     if (window.confirm(t('settings.confirm_clear'))) { 
@@ -48,13 +53,66 @@ export const SettingsPage = () => {
           setIsGenerating(false);
     }
   };
-
+  
+  const handleSaveWifi = () => {
+	updateSettings({ wifiDeviceModel: localDeviceModel.trim() });
+	setEditWifi(false);
+	toast.success(t('settings.saved'));
+  };
+  
   return (
     <div className="settings-page">
+	  
+      {/* --- GROUP 1: WiFi Device Model --- */}
+        <div className="settings-group-title">{t('settings.wifi_device')}</div>
+        <div className="settings-divider" />
+      
+        <div className="settings-container">
+      
+      {/* Row: WiFi Device Model */}
+      <div className="settings-row">
+        <div className="row-left">
+        <div className="row-info">
+          <span className="row-label">{t('settings.wifi_device_model') || 'Wi-Fi Device Model'}</span>
+          <InfoTooltip text={t('settings.tooltip_model')} />
+        </div>
+        </div>
 
-      <div className="settings-container">
+        <div className="row-right" style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: '70px' }}>
+          <input 
+          type="text"
+          className="glass-input"
+          value={localDeviceModel}
+          readOnly={!editWifi} 
+          onChange={(e) => setLocalDeviceModel(e.target.value)}
+          style={{
+            flex: 1,
+            background: editWifi ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.3)",
+            color: "#000",
+            border: "1px solid rgba(0,0,0,0.3)",
+            padding: "6px 10px",
+            borderRadius: "8px",
+            opacity: editWifi ? 1 : 0.6,
+            pointerEvents: editWifi ? "auto" : "none",
+          }}
+          />
+
+          <label className="toggle-switch">
+          <input 
+            type="checkbox"
+            checked={editWifi}
+            onChange={() => {
+            if (editWifi) handleSaveWifi();
+            setEditWifi(!editWifi);
+            }}
+          />
+          <span className="slider"></span>
+          </label>
+        </div>
+
+      </div>
         
-        {/* --- GROUP 1: SCANNER --- */}
+        {/* --- GROUP 2: SCANNER --- */}
         <div className="settings-group-title">{t('settings.scanner')}</div>
         <div className="settings-divider" />
 
@@ -104,7 +162,7 @@ export const SettingsPage = () => {
           </div>
         </div>
 
-        {/* --- GROUP 2: AI ASSISTANT --- */}
+        {/* --- GROUP 3: AI ASSISTANT --- */}
         <div className="settings-group-title">{t('settings.intelligence')}</div>
         <div className="settings-divider" />
 
@@ -155,7 +213,7 @@ export const SettingsPage = () => {
           </div>
         </div>
 
-        {/* --- GROUP 3: NOTIFICATIONS --- */}
+        {/* --- GROUP 4: NOTIFICATIONS --- */}
         <div className="settings-group-title">{t('settings.notifications')}</div>
         <div className="settings-divider" />
 
@@ -204,7 +262,7 @@ export const SettingsPage = () => {
           </div>
         </div>
 
-        {/* --- GROUP 4: INTERFACE --- */}
+        {/* --- GROUP 5: INTERFACE --- */}
         <div className="settings-group-title">{t('settings.appearance')}</div>
         <div className="settings-divider" />
 

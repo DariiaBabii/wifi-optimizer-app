@@ -12,9 +12,13 @@ def get_scan_json():
     return json.dumps(networks)
 
 
-# get stored heatmap data
 def get_heatmap_json():
-    # TODO: Save heatmap points into JSON and load it here
+    with open('heatmap_points.json', 'r') as f:
+        try:
+            return f.read()
+        except Exception as e:
+            print('Failed to load all heatmap points...')
+            print(str(e))
     return ''
 
 
@@ -24,19 +28,10 @@ def get_spectrum_json():
     return ''
 
 
-# get stored speedtests
 def get_speedtest_json():
     speedtest_history = load_history()
     return json.dumps(speedtest_history)
 
-
-# # get stored device info
-# def get_device_info_json():
-#     # TODO: Add device name to the settings tab, save result to JSON and load it here
-#     return ''
-
-
-# mapping data type to function or AI action_type
 data_mapping = {
     'scan': (get_scan_json, 'Scanned networks'),
     'heatmap': (get_heatmap_json, 'Heatmap points'),
